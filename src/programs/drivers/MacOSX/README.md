@@ -17,5 +17,6 @@
 
 
 
-Driver by ![adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver](https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver)
-Thank you ![@adrianmihalko](https://github.com/adrianmihalko)
+Driver taken from ![adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver](https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver)
+
+**Thank you ![@adrianmihalko](https://github.com/adrianmihalko)**
