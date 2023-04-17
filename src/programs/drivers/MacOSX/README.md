@@ -14,3 +14,8 @@
 	* `sudo rm -rf /Library/Extensions/usbserial.kext`
 1. Run "**![Driver.pkg](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/programs/drivers/MacOSX/Driver.pkg)**"
 1. Instead of rebooting, you can force quit Installer after it completes.
+
+
+
+Driver by ![adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver](https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver)
+Thank you ![@adrianmihalko](https://github.com/adrianmihalko)
