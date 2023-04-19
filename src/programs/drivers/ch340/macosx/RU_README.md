@@ -1,5 +1,5 @@
-[![ENGLISH SHIELD](https://img.shields.io/badge/-English-444?style=flat-square)](https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/programs/drivers/ch340/macosx/)
-[![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-08f?style=flat-square)](https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/programs/drivers/ch340/macosx/RU_README.md)
+[![ENGLISH SHIELD](https://img.shields.io/badge/-English-444?style=flat-square)]()
+[![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-08f?style=flat-square)](RU_README.md)
 # ИНСТРУКЦИЯ ПО УСТАНОВКЕ
 ## Вам нужно занать!
 - Этот драйвер нужен для **систем ниже MacOS X Mojave 10.14**

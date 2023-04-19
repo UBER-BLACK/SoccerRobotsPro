@@ -1,5 +1,5 @@
-[![ENGLISH SHIELD](https://img.shields.io/badge/-English-08f?style=flat-square)](https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/programs/drivers/ch340/windows/)
-[![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-444?style=flat-square)](https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/programs/drivers/ch340/windows/RU_README.md)
+[![ENGLISH SHIELD](https://img.shields.io/badge/-English-08f?style=flat-square)]()
+[![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-444?style=flat-square)](RU_README.md)
 # INSTALLATION MANUAL
 ## It's important to know!
 - The driver is needed for Windows 7 and higher systems
