@@ -2,7 +2,7 @@
 [![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-08f?style=flat-square)](https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/programs/drivers/ch340/windows/RU_README.md)
 # ИНСТРУКЦИЯ ПО УСТАНОВКЕ
 ## Вам нужно занать!
-- Этот драйвер нужен для **систем ниже MacOS X Mojave 10.14**
+- Этот драйвер нужен для **системы Windows 7 и выше**
 - Не следует устанавливать его не по порядку
 - Этот драйвер необходим для прошивки копий плат Arduino с **чипом ch340**
 ## Установка
