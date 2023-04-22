@@ -1,7 +1,3 @@
-#include <GyverMotor.h> //https://alexgyver.ru/gyvermotor/
-
-
-
 //SETTINGS
 #define PCBod 9600
 //MOTION
@@ -16,6 +12,12 @@
 #define Shaft_Mode FORWARD                // FORWARD AUTO BACKWARD BRAKE STOP
 #define Motor_MinPower 50                 // 0 255
 #define Shaft_MinPower 50                 // 0 255
+
+
+
+#include <GyverMotor.h> //https://alexgyver.ru/gyvermotor/
+
+
 
 //PINS
 #define GamePad_DAT 2
