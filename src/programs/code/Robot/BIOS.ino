@@ -49,34 +49,40 @@
 void setup() {
   setup_pc_monitor();
   setup_motor_driver();
+  Serial.println("SETUP: OK");
 }
 void setup_pc_monitor() {
   Serial.begin(PCBod);
   Serial.println("PC MONITOR: OK");
 }
 void setup_motor_driver() { //CHECK HIGH / LOW
+  Serial.println("GyverMotor: Initialization...");
   GMotor MotorA(DRIVER3WIRE, MotorA_PINA, MotorA_PINB, MotorA_PWM, (Driver_Type));
   GMotor MotorB(DRIVER3WIRE, MotorB_PINA, MotorB_PINB, MotorB_PWM, (Driver_Type));
   GMotor MotorC(DRIVER3WIRE, MotorC_PINA, MotorC_PINB, MotorC_PWM, (Driver_Type));
   GMotor Shaft(DRIVER3WIRE, Shaft_PINA, Shaft_PINB, Shaft_PWM, (Driver_Type));
-  
+
+  Serial.println("GyverMotor: Installing motor deadtime");
   MotorA.setDeadtime(Motor_Deadtime);
   MotorB.setDeadtime(Motor_Deadtime);
   MotorC.setDeadtime(Motor_Deadtime);
   Shaft.setDeadtime(Shaft_Deadtime);
-  
-  MotorA.setDirection(NORMAL);
-  MotorB.setDirection(NORMAL); 
-  MotorC.setDirection(NORMAL); 
-  Shaft.setDirection(NORMAL); 
 
+  Serial.println("GyverMotor: Installing motor direction");
+  MotorA.setDirection(NORMAL);
+  MotorB.setDirection(NORMAL);
+  MotorC.setDirection(NORMAL);
+  Shaft.setDirection(NORMAL);
+
+  Serial.println("GyverMotor: Installing motor mode");
   MotorA.setMode(Motor_Mode);
   MotorB.setMode(Motor_Mode);
   MotorC.setMode(Motor_Mode);
   Shaft.setMode(Shaft_Mode);
 
+  Serial.println("GyverMotor: Installing minimal power");
   MotorA.setMinDuty(Motor_MinPower);
   MotorB.setMinDuty(Motor_MinPower);
   MotorC.setMinDuty(Motor_MinPower);
-  Shaft.setMinDuty(Shaft_MinPower);
-  }
+  Serial.println("GyverMotor: OK");
+}
