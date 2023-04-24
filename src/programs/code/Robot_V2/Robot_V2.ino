@@ -29,6 +29,7 @@
 
 //CONNECTING LIBRARIES
 #include <GyverMotor.h> //https://alexgyver.ru/gyvermotor/#include
+#include <PS2X_lib.h>
 
 
 
