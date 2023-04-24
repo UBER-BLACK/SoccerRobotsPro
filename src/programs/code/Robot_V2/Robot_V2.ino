@@ -10,11 +10,11 @@
 
 //SETTINGS
 //PCMonitor
-#define PC_Monitor_Bod 9600     // BOD
+#define PC_Monitor_Bod 2400     // BOD
 //MotorDriver
 #define Driver_Type HIGH        // HIGH or LOW
-#define Motor_Deadtime 100      // MS 
-#define Shaft_Deadtime 0        // MS 
+#define Motor_Deadtime 70       // MS 
+#define Shaft_Deadtime 5        // MS 
 #define MotorA_Reverse NORMAL   // NORMAL / REVERSE
 #define MotorB_Reverse NORMAL   // NORMAL / REVERSE
 #define MotorC_Reverse NORMAL   // NORMAL / REVERSE
@@ -23,7 +23,8 @@
 #define Shaft_Mode FORWARD      // FORWARD AUTO BACKWARD BRAKE STOP
 #define Motor_MinPower 50       // 0 255
 #define Shaft_MinPower 50       // 0 255
-
+#define Motor_Acceleration 10   // 0 255
+#define Shaft_Acceleration 5    // 0 255
 
 
 //CONNECTING LIBRARIES
@@ -71,7 +72,9 @@ void setup() {
 }
 void setup_pc_monitor() {
   Serial.begin(PC_Monitor_Bod);
-  Serial.println("################################");
+  Serial.println("################################################################");
+  Serial.println("RAM: OK"); //PONT
+  Serial.println("ROM: OK"); //PONT
   Serial.println("PC MONITOR: OK");
 }
 void setup_motor_driver() { //CHECK HIGH / LOW
@@ -100,6 +103,13 @@ void setup_motor_driver() { //CHECK HIGH / LOW
   MotorA.setMinDuty(Motor_MinPower);
   MotorB.setMinDuty(Motor_MinPower);
   MotorC.setMinDuty(Motor_MinPower);
+  Shaft.setMinDuty(Shaft_MinPower);
+  //INSTALLING ACCELERATION
+  Serial.println("Motor_Driver: Installing acceleration");
+  MotorA.setSmoothSpeed(Motor_Acceleration);
+  MotorB.setSmoothSpeed(Motor_Acceleration);
+  MotorC.setSmoothSpeed(Motor_Acceleration);
+  Shaft.setSmoothSpeed(Shaft_Acceleration);
   //POWER AUTOSTART
   Serial.println("Motor_Driver: Power autostart");
   digitalWrite(MotorPower,HIGH);
