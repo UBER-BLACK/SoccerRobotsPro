@@ -29,6 +29,8 @@
 //CONNECTING LIBRARIES
 #include <GyverMotor.h> //https://alexgyver.ru/gyvermotor/#include
 
+
+
 //OUTPUTS SETTINGS
 //GamePad
 #define GamePad_DAT 2           //Data
