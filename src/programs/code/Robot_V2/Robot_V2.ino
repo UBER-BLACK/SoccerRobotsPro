@@ -27,6 +27,7 @@
 #define Shaft_Acceleration 5    // 0 255
 
 
+
 //CONNECTING LIBRARIES
 #include <GyverMotor.h> //https://alexgyver.ru/gyvermotor/#include
 #include <PS2X_lib.h>
@@ -58,17 +59,46 @@
 
 
 
-//MOTORS INITIALIZATION
+//CLASS CREATION
 GMotor MotorA(DRIVER3WIRE, MotorA_PINA, MotorA_PINB, MotorA_PWM, (Driver_Type)); //MotorA
 GMotor MotorB(DRIVER3WIRE, MotorB_PINA, MotorB_PINB, MotorB_PWM, (Driver_Type)); //MotorB
 GMotor MotorC(DRIVER3WIRE, MotorC_PINA, MotorC_PINB, MotorC_PWM, (Driver_Type)); //MotorC
 GMotor Shaft(DRIVER3WIRE, Shaft_PINA, Shaft_PINB, Shaft_PWM, (Driver_Type));     //Shaft
+PS2X GamePad;
 
 
+
+//CREATE GLOBAL VARIABLES
+//FOR LIB "PS2X_lib.h"
+int error = 0;
+byte type = 0;
+byte vibrate = 0;
+byte GamePad_NewState = false;
+byte GamePad_Key_Start = false;
+byte GamePad_Key_Select = false;
+byte GamePad_Pad_Up = false;
+byte GamePad_Pad_Right = false;
+byte GamePad_Pad_Left = false;
+byte GamePad_Pad_Down = false;
+byte GamePad_Key_Blue = false;
+byte GamePad_Key_Green = false;
+byte GamePad_Key_Red = false;
+byte GamePad_Key_Pink = false;
+byte GamePad_Trigger_L1 = false;
+byte GamePad_Trigger_L2= false;
+byte GamePad_Trigger_R1 = false;
+byte GamePad_Trigger_R2 = false;
+int Gamepad_Stick_Left_Y = 0;
+int Gamepad_Stick_Left_X = 0;
+int Gamepad_Stick_Right_Y = 0;
+int Gamepad_Stick_Right_X = 0;
+byte Gamepad_Stick_Left_Key = false;
+byte Gamepad_Stick_Right_Key = false;
 
 void setup() {
   setup_pc_monitor();
   setup_motor_driver();
+  setup_gamepad_driver();
   Serial.println("SETUP: OK");
 }
 void setup_pc_monitor() {
@@ -80,7 +110,7 @@ void setup_pc_monitor() {
 }
 void setup_motor_driver() {
   Serial.println("Motor_Driver: Initialization...");
-  pinMode(MotorPower,OUTPUT);
+  pinMode(MotorPower, OUTPUT);
   //INSTALLING MOTOR DEADTIME
   Serial.println("Motor_Driver: Installing motor deadtime");
   MotorA.setDeadtime(Motor_Deadtime);
@@ -113,15 +143,74 @@ void setup_motor_driver() {
   Shaft.setSmoothSpeed(Shaft_Acceleration);
   //POWER AUTOSTART
   Serial.println("Motor_Driver: Power autostart");
-  digitalWrite(MotorPower,HIGH);
+  digitalWrite(MotorPower, HIGH);
   Serial.println("Motor_Driver: OK");
+}
+void setup_gamepad_driver() {
+  Serial.println("GamePad_Driver: Initialization...");
+  error = GamePad.config_gamepad(GamePad_CLK, GamePad_CMD, GamePad_ATN, GamePad_DAT, true, true); //...Pressures?, Rumble?
+  if (error == 0) {
+    Serial.print("GamePad_Driver: Found Controller");
+    if (GamePad.readType() == 0) {
+      Serial.println(" Type: Unknown");
+    }
+    else if (GamePad.readType() == 1) {
+      Serial.println(" Type: DualShock (PS1/PS2)");
+    }
+  }
+  else if (error == 1) {
+    Serial.println("GamePad_Driver: No controller found");
+  }
+  else if (error == 2) {
+    Serial.println("GamePad_Driver: Found but not accepting commands");
+  }
+  else if (error == 3) {
+    Serial.println("GamePad_Driver: Controller refusing to enter Pressures mode");
+  }
+  if (error > 0) {
+    Serial.println("GamePad_Driver: ERROR");
+  }
+  else {
+    Serial.println("GamePad_Driver: OK");
+  }
 }
 
 
 
 void loop() {
+  gamepad_driver();
   MotorA.setSpeed(255);
   MotorB.setSpeed(255);
   MotorC.setSpeed(255);
   Shaft.setSpeed(255);
+  delay(10); //FOR STABILITY
+}
+
+
+
+//UTILITIES
+void gamepad_driver() {
+  GamePad.read_gamepad(false, vibrate);
+  GamePad_NewState = GamePad.NewButtonState();
+  GamePad_Key_Start =  GamePad.Button(PSB_START);
+  GamePad_Key_Select = GamePad.Button(PSB_SELECT);
+  GamePad_Pad_Up = GamePad.Button(PSB_PAD_UP);
+  GamePad_Pad_Right = GamePad.Button(PSB_PAD_RIGHT);
+  GamePad_Pad_Left = GamePad.Button(PSB_PAD_LEFT);
+  GamePad_Pad_Down = GamePad.Button(PSB_PAD_DOWN);
+  GamePad_Key_Red = GamePad.ButtonPressed(PSB_RED);
+  GamePad_Key_Pink = GamePad.ButtonReleased(PSB_PINK);
+  GamePad_Key_Blue = GamePad.ButtonReleased(PSB_BLUE);
+  GamePad_Key_Green = GamePad.ButtonReleased(PSB_GREEN);
+  Gamepad_Stick_Left_Y = (GamePad.Analog(PSS_LY), DEC);
+  Gamepad_Stick_Left_X = (GamePad.Analog(PSS_LX), DEC);
+  Gamepad_Stick_Right_Y = (GamePad.Analog(PSS_RY), DEC);
+  Gamepad_Stick_Right_X = (GamePad.Analog(PSS_RX), DEC);
+  Gamepad_Stick_Left_Key = GamePad.Button(PSB_L1);
+  Gamepad_Stick_Right_Key = GamePad.Button(PSB_R1);
+  GamePad_Trigger_L1 = GamePad.Button(PSB_L2);
+  GamePad_Trigger_L2 = GamePad.Button(PSB_L3);
+  GamePad_Trigger_R1 = GamePad.Button(PSB_R2);
+  GamePad_Trigger_R2 = GamePad.Button(PSB_R3);
+  vibrate = GamePad_Key_Blue;
 }
