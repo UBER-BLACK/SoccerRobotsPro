@@ -10,7 +10,7 @@
 
 //SETTINGS
 //PCMonitor
-#define PC_Monitor_Bod 2400     // BOD
+#define PC_Monitor_Bod 9600     // BOD
 //MotorDriver
 #define Driver_Type HIGH        // HIGH or LOW
 #define Motor_Deadtime 70       // MS 
@@ -120,6 +120,8 @@ void setup_motor_driver() { //CHECK HIGH / LOW
 
 
 void loop() {
-  MotorA.setSpeed(120);
-
+  MotorA.setSpeed(255);
+  MotorB.setSpeed(255);
+  MotorC.setSpeed(255);
+  Shaft.setSpeed(255);
 }
