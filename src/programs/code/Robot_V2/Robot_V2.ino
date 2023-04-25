@@ -78,7 +78,7 @@ void setup_pc_monitor() {
   Serial.println("ROM: OK"); //PONT
   Serial.println("PC MONITOR: OK");
 }
-void setup_motor_driver() { //CHECK HIGH / LOW
+void setup_motor_driver() {
   Serial.println("Motor_Driver: Initialization...");
   pinMode(MotorPower,OUTPUT);
   //INSTALLING MOTOR DEADTIME
