@@ -38,8 +38,8 @@
 
 //OUTPUTS SETTINGS
 //GamePad
-#define GamePad_Pressures false //hz
-#define GamePad_Rumble false    //hz
+#define GamePad_Pressures false //CHECK FOR ERROR
+#define GamePad_Rumble false    //CHECK FOR ERROR
 #define GamePad_DAT 2           //Data
 #define GamePad_CMD 3           //Command
 #define GamePad_CLK 4           //Clock
