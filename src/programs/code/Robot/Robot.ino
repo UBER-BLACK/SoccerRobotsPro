@@ -85,7 +85,7 @@ byte GamePad_Key_Green = false;
 byte GamePad_Key_Red = false;
 byte GamePad_Key_Pink = false;
 byte GamePad_Trigger_L1 = false;
-byte GamePad_Trigger_L2= false;
+byte GamePad_Trigger_L2 = false;
 byte GamePad_Trigger_R1 = false;
 byte GamePad_Trigger_R2 = false;
 int Gamepad_Stick_Left_Y = 0;
@@ -94,6 +94,8 @@ int Gamepad_Stick_Right_Y = 0;
 int Gamepad_Stick_Right_X = 0;
 byte Gamepad_Stick_Left_Key = false;
 byte Gamepad_Stick_Right_Key = false;
+byte Gamepad_Vibration = false;
+byte Gamepad_Vibration_Mode = false;
 
 void setup() {
   setup_pc_monitor();
@@ -183,6 +185,7 @@ void loop() {
   MotorB.setSpeed(255);
   MotorC.setSpeed(255);
   Shaft.setSpeed(255);
+  //gamepad_test();
   delay(10); //FOR STABILITY
 }
 
@@ -190,7 +193,7 @@ void loop() {
 
 //UTILITIES
 void gamepad_driver() {
-  GamePad.read_gamepad(false, vibrate);
+  GamePad.read_gamepad(Gamepad_Vibration_Mode, Gamepad_Vibration);
   GamePad_NewState = GamePad.NewButtonState();
   GamePad_Key_Start =  GamePad.Button(PSB_START);
   GamePad_Key_Select = GamePad.Button(PSB_SELECT);
@@ -212,5 +215,31 @@ void gamepad_driver() {
   GamePad_Trigger_L2 = GamePad.Button(PSB_L3);
   GamePad_Trigger_R1 = GamePad.Button(PSB_R2);
   GamePad_Trigger_R2 = GamePad.Button(PSB_R3);
-  vibrate = GamePad_Key_Blue;
+  Gamepad_Vibration = GamePad_Key_Blue;
 }
+/*
+void gamepad_test() {
+  Serial.print("GamePad_NewState: "); Serial.println(GamePad_NewState);
+  Serial.print("GamePad_Key_Start: "); Serial.println(GamePad_Key_Start);
+  Serial.print("GamePad_Key_Select: "); Serial.println(GamePad_Key_Select);
+  Serial.print("GamePad_Pad_Up: "); Serial.println(GamePad_Pad_Up);
+  Serial.print("GamePad_Pad_Right: "); Serial.println(GamePad_Pad_Right);
+  Serial.print("GamePad_Pad_Left: "); Serial.println(GamePad_Pad_Left);
+  Serial.print("GamePad_Pad_Down: "); Serial.println(GamePad_Pad_Down);
+  Serial.print("GamePad_Key_Red: "); Serial.println(GamePad_Key_Red);
+  Serial.print("GamePad_Key_Pink: "); Serial.println(GamePad_Key_Pink);
+  Serial.print("GamePad_Key_Blue: "); Serial.println(GamePad_Key_Blue);
+  Serial.print("GamePad_Key_Green: "); Serial.println(GamePad_Key_Green);
+  Serial.print("Gamepad_Stick_Left_Y: "); Serial.println(Gamepad_Stick_Left_Y);
+  Serial.print("Gamepad_Stick_Left_X: "); Serial.println(Gamepad_Stick_Left_X);
+  Serial.print("Gamepad_Stick_Right_Y: "); Serial.println(Gamepad_Stick_Right_Y);
+  Serial.print("Gamepad_Stick_Right_X: "); Serial.println(Gamepad_Stick_Right_X);
+  Serial.print("Gamepad_Stick_Left_Key: "); Serial.println(Gamepad_Stick_Left_Key);
+  Serial.print("Gamepad_Stick_Right_Key: "); Serial.println(Gamepad_Stick_Right_Key);
+  Serial.print("GamePad_Trigger_L1: "); Serial.println(GamePad_Trigger_L1);
+  Serial.print("GamePad_Trigger_L2: "); Serial.println(GamePad_Trigger_L2);
+  Serial.print("GamePad_Trigger_R1: "); Serial.println(GamePad_Trigger_R1);
+  Serial.print("GamePad_Trigger_R2: "); Serial.println(GamePad_Trigger_R2);
+  Serial.print("Gamepad_Vibration: "); Serial.println(Gamepad_Vibration);
+  Serial.print("Gamepad_Vibration_Mode: "); Serial.println(Gamepad_Vibration_Mode);
+}*/
