@@ -203,27 +203,6 @@ void loop() {
 //UTILITIES
 void gamepad_driver() {
   GamePad.read_gamepad(Gamepad_Vibration_Mode, Gamepad_Vibration);
-  /*GamePad_NewState = GamePad.NewButtonState();
-  GamePad_Key_Start = GamePad.Button(PSB_START);
-  GamePad_Key_Select = GamePad.Button(PSB_SELECT);
-  GamePad_Pad_Up = GamePad.Button(PSB_PAD_UP);
-  GamePad_Pad_Right = GamePad.Button(PSB_PAD_RIGHT);
-  GamePad_Pad_Left = GamePad.Button(PSB_PAD_LEFT);
-  GamePad_Pad_Down = GamePad.Button(PSB_PAD_DOWN);
-  GamePad_Key_Red = GamePad.ButtonPressed(PSB_RED);
-  GamePad_Key_Pink = GamePad.ButtonReleased(PSB_PINK);
-  GamePad_Key_Blue = GamePad.ButtonReleased(PSB_BLUE);
-  GamePad_Key_Green = GamePad.ButtonReleased(PSB_GREEN);
-  Gamepad_Stick_Left_Y = (GamePad.Analog(PSS_LY), DEC);
-  Gamepad_Stick_Left_X = (GamePad.Analog(PSS_LX), DEC);
-  Gamepad_Stick_Right_Y = (GamePad.Analog(PSS_RY), DEC);
-  Gamepad_Stick_Right_X = (GamePad.Analog(PSS_RX), DEC);
-  Gamepad_Stick_Left_Key = GamePad.Button(PSB_L1);
-  Gamepad_Stick_Right_Key = GamePad.Button(PSB_R1);
-  GamePad_Trigger_L1 = GamePad.Button(PSB_L2);
-  GamePad_Trigger_L2 = GamePad.Button(PSB_L3);
-  GamePad_Trigger_R1 = GamePad.Button(PSB_R2);
-  GamePad_Trigger_R2 = GamePad.Button(PSB_R3);*/
   Gamepad_Vibration = GamePad_Key_Select; //test connection / ping
 }
 /*void gamepad_monitor() {
