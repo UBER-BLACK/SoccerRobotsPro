@@ -188,7 +188,6 @@ void setup_gamepad_driver() {
 
 
 void loop() {
-  gamepad_driver();
   //gamepad_monitor();        //GamePad Tester
   MotorA.setSpeed(255);
   MotorB.setSpeed(255);
@@ -200,8 +199,6 @@ void loop() {
 
 
 //UTILITIES
-void gamepad_driver() {
-}
 void gamepad_monitor() {
   Serial.print("==============================REFRESH: ");Serial.println(Number);
   Serial.print("GamePad_Pressures        ");Serial.println(GamePad_Pressures);
