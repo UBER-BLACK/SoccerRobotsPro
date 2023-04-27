@@ -66,7 +66,7 @@
 //DEFINE
 //GamePad
 #define GamePad_NewState (GamePad.NewButtonState())
-#define GamePad_Key_Start (GamePad.Button(PSB_START)) 
+#define GamePad_Key_Start (GamePad.Button(PSB_START))
 #define GamePad_Key_Select (GamePad.Button(PSB_SELECT))
 #define GamePad_Pad_Up (GamePad.Button(PSB_PAD_UP))
 #define GamePad_Pad_Right (GamePad.Button(PSB_PAD_RIGHT))
@@ -112,10 +112,10 @@ void setup() {
   setup_pc_monitor();
   setup_motor_driver();
   setup_gamepad_driver();
-  if (setup_error==false){
+  if (setup_error == false) {
     Serial.print("[OK] ");
   }
-  else{
+  else {
     Serial.print("[ERROR] ");
   }
   Serial.print("SETUP");
@@ -158,7 +158,7 @@ void setup_motor_driver() {
 }
 void setup_gamepad_driver() {
   error = GamePad.config_gamepad(GamePad_CLK, GamePad_CMD, GamePad_ATN, GamePad_DAT, GamePad_Pressures, GamePad_Rumble); //...Pressures?, Rumble?
-    if (error > 0) {
+  if (error > 0) {
     Serial.print("[ERROR] ");
     setup_error = true;
   }
@@ -229,4 +229,4 @@ void gamepad_driver() {
   Serial.print("GamePad_Trigger_R2       ");Serial.println(GamePad_Trigger_R2);
   Number++;
   delay(1000);
-}*/
+  }*/
