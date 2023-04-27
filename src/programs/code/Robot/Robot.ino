@@ -189,7 +189,7 @@ void setup_gamepad_driver() {
 
 void loop() {
   gamepad_driver();
-  gamepad_monitor();        //GamePad Tester
+  //gamepad_monitor();        //GamePad Tester
   MotorA.setSpeed(255);
   MotorB.setSpeed(255);
   MotorC.setSpeed(255);
@@ -202,7 +202,7 @@ void loop() {
 //UTILITIES
 void gamepad_driver() {
 }
-/*void gamepad_monitor() {
+void gamepad_monitor() {
   Serial.print("==============================REFRESH: ");Serial.println(Number);
   Serial.print("GamePad_Pressures        ");Serial.println(GamePad_Pressures);
   Serial.print("GamePad_Rumble           ");Serial.println(GamePad_Rumble);
@@ -229,4 +229,4 @@ void gamepad_driver() {
   Serial.print("GamePad_Trigger_R2       ");Serial.println(GamePad_Trigger_R2);
   Number++;
   delay(1000);
-  }*/
+  }
