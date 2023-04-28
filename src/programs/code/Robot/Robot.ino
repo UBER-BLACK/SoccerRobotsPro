@@ -14,19 +14,19 @@
 //PCMonitor
 #define PC_Monitor_Bod 9600   // BOD 9600 - def 5000000 - debug
 //MotorDriver
-#define Driver_Type HIGH        // HIGH or LOW
+#define Driver_Type HIGH        // HIGH / LOW
 #define Motor_Deadtime 70       // MS 
 #define Shaft_Deadtime 5        // MS 
 #define MotorA_Reverse NORMAL   // NORMAL / REVERSE
 #define MotorB_Reverse NORMAL   // NORMAL / REVERSE
 #define MotorC_Reverse NORMAL   // NORMAL / REVERSE
 #define Shaft_Reverse NORMAL    // NORMAL / REVERSE
-#define Motor_Mode AUTO         // FORWARD AUTO BACKWARD BRAKE STOP
-#define Shaft_Mode FORWARD      // FORWARD AUTO BACKWARD BRAKE STOP
-#define Motor_MinPower 50       // 0 255
-#define Shaft_MinPower 50       // 0 255
-#define Motor_Acceleration 10   // 0 255
-#define Shaft_Acceleration 5    // 0 255
+#define Motor_Mode AUTO         // FORWARD / AUTO / BACKWARD / BRAKE / STOP
+#define Shaft_Mode FORWARD      // FORWARD / AUTO / BACKWARD / BRAKE / STOP
+#define Motor_MinPower 50       // 0-255
+#define Shaft_MinPower 50       // 0-255
+#define Motor_Acceleration 10   // MS
+#define Shaft_Acceleration 5    // MS
 
 
 
