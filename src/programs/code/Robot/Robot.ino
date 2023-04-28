@@ -211,7 +211,7 @@ void setup_gamepad_driver() {
 
 //MAIN CODE
 void loop() {
-  gamepad_monitor();        //GamePad Tester
+  //gamepad_monitor();        //GamePad Tester
   delay(10);                  //For Stability
 }
 
