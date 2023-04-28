@@ -110,7 +110,6 @@ byte setup_error = false;
 
 
 void setup() {
-  delay(1000);
   setup_pc_monitor();
   setup_motor_driver();
   setup_gamepad_driver();
@@ -121,7 +120,7 @@ void setup() {
     Serial.print("[ERROR] ");
   }
   Serial.print("SETUP");
-  delay(1000);
+  delay(2000);
 }
 void setup_pc_monitor() {
   Serial.begin(PC_Monitor_Bod);
