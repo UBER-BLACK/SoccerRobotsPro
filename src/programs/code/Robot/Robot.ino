@@ -9,7 +9,6 @@
 
 
 
-
 //SETTINGS
 //PCMonitor
 #define PC_Monitor_Bod 9600   // BOD 9600 - def 5000000 - debug
@@ -88,6 +87,7 @@
 #define GamePad_Stick_Right_Key (GamePad.Button(PSB_R1))
 
 
+
 //CLASS CREATION
 GMotor MotorA(DRIVER3WIRE, MotorA_PINA, MotorA_PINB, MotorA_PWM, (Driver_Type)); //MotorA
 GMotor MotorB(DRIVER3WIRE, MotorB_PINA, MotorB_PINB, MotorB_PWM, (Driver_Type)); //MotorB
@@ -106,6 +106,8 @@ byte vibrate = 0;
 byte Gamepad_Vibration_Mode = false;
 //Setup
 byte setup_error = false;
+
+
 
 void setup() {
   delay(1000);
@@ -244,3 +246,4 @@ void gamepad_monitor() {
   Number++;
   delay(1000);
 }
+//THE END?
