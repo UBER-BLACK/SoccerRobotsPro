@@ -14,18 +14,12 @@
 #define PC_Monitor_Bod 500000   // BOD 9600 - def 500000 - debug
 //MotorDriver
 #define Driver_Type HIGH        // HIGH / LOW
-#define Motor_Deadtime 70       // MS 
-#define Shaft_Deadtime 5        // MS 
 #define MotorA_Reverse NORMAL   // NORMAL / REVERSE
 #define MotorB_Reverse NORMAL   // NORMAL / REVERSE
 #define MotorC_Reverse NORMAL   // NORMAL / REVERSE
 #define Shaft_Reverse NORMAL    // NORMAL / REVERSE
 #define Motor_Mode AUTO         // FORWARD / AUTO / BACKWARD / BRAKE / STOP
 #define Shaft_Mode FORWARD      // FORWARD / AUTO / BACKWARD / BRAKE / STOP
-#define Motor_MinPower 50       // 0-255
-#define Shaft_MinPower 50       // 0-255
-#define Motor_Acceleration 10   // MS
-#define Shaft_Acceleration 5    // MS
 
 
 
@@ -128,11 +122,6 @@ void setup_pc_monitor() {
 }
 void setup_motor_driver() {
   pinMode(MotorPower, OUTPUT);
-  //INSTALLING MOTOR DEADTIME
-  MotorA.setDeadtime(Motor_Deadtime);
-  MotorB.setDeadtime(Motor_Deadtime);
-  MotorC.setDeadtime(Motor_Deadtime);
-  Shaft.setDeadtime(Shaft_Deadtime);
   //INSTALLING MOTOR DIRECTIONS
   MotorA.setDirection(NORMAL);
   MotorB.setDirection(NORMAL);
@@ -142,38 +131,27 @@ void setup_motor_driver() {
   MotorA.setMode(Motor_Mode);
   MotorB.setMode(Motor_Mode);
   MotorC.setMode(Motor_Mode);
-  Shaft.setMode(Shaft_Mode);
-  //INSTALLING MINIMAL POWER
-  MotorA.setMinDuty(Motor_MinPower);
-  MotorB.setMinDuty(Motor_MinPower);
-  MotorC.setMinDuty(Motor_MinPower);
-  Shaft.setMinDuty(Shaft_MinPower);
-  //INSTALLING ACCELERATION
-  MotorA.setSmoothSpeed(Motor_Acceleration);
-  MotorB.setSmoothSpeed(Motor_Acceleration);
-  MotorC.setSmoothSpeed(Motor_Acceleration);
-  Shaft.setSmoothSpeed(Shaft_Acceleration);
   //POWER ON
   digitalWrite(MotorPower, HIGH);
   //TEST MOTORS
-  MotorA.setSpeed(255);
+  MotorA.setSpeed(10);
   delay(100);
-  MotorA.setSpeed(-255);
+  MotorA.setSpeed(-10);
   delay(100);
   MotorA.setSpeed(0);
-  MotorB.setSpeed(255);
+  MotorB.setSpeed(10);
   delay(100);
-  MotorB.setSpeed(-255);
+  MotorB.setSpeed(-10);
   delay(100);
   MotorB.setSpeed(0);
-  MotorC.setSpeed(255);
+  MotorC.setSpeed(10);
   delay(100);
-  MotorC.setSpeed(-255);
+  MotorC.setSpeed(-10);
   delay(100);
   MotorC.setSpeed(0);
-  Shaft.setSpeed(255);
+  Shaft.setSpeed(10);
   delay(100);
-  Shaft.setSpeed(-255);
+  Shaft.setSpeed(-10);
   delay(100);
   Shaft.setSpeed(0);
   Serial.println("[OK] Motor_Driver");
@@ -250,6 +228,5 @@ void gamepad_monitor() {
   Serial.print("Gamepad_NewState         "); Serial.println(Gamepad_NewState);
   Serial.print("Gamepad_Type             "); Serial.println(Gamepad_Type);
   Number++;
-  delay(1000);
 }
 //THE END?
