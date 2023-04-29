@@ -11,15 +11,19 @@
 
 //SETTINGS
 //PCMonitor
-#define PC_Monitor_Bod 500000   // BOD 9600 - def 500000 - debug
+#define PC_Monitor_Bod 500000           // BOD 9600 - def 500000 - debug
+#define Gamepad_Monitor false           // True / False
+#define Gamepad_Monitor_Refresh 1000    // MS
 //MotorDriver
-#define Driver_Type HIGH        // HIGH / LOW
-#define MotorA_Reverse NORMAL   // NORMAL / REVERSE
-#define MotorB_Reverse NORMAL   // NORMAL / REVERSE
-#define MotorC_Reverse NORMAL   // NORMAL / REVERSE
-#define Shaft_Reverse NORMAL    // NORMAL / REVERSE
-#define Motor_Mode AUTO         // FORWARD / AUTO / BACKWARD / BRAKE / STOP
-#define Shaft_Mode FORWARD      // FORWARD / AUTO / BACKWARD / BRAKE / STOP
+#define Motor_Test_Speed 10             // 0 255
+#define Motor_Test true                 // True / False
+#define Driver_Type HIGH                // HIGH / LOW
+#define MotorA_Reverse NORMAL           // NORMAL / REVERSE
+#define MotorB_Reverse NORMAL           // NORMAL / REVERSE
+#define MotorC_Reverse NORMAL           // NORMAL / REVERSE
+#define Shaft_Reverse NORMAL            // NORMAL / REVERSE
+#define Motor_Mode AUTO                 // FORWARD / AUTO / BACKWARD / BRAKE / STOP
+#define Shaft_Mode FORWARD              // FORWARD / AUTO / BACKWARD / BRAKE / STOP
 
 
 
@@ -134,27 +138,21 @@ void setup_motor_driver() {
   //POWER ON
   digitalWrite(MotorPower, HIGH);
   //TEST MOTORS
-  MotorA.setSpeed(10);
-  delay(100);
-  MotorA.setSpeed(-10);
-  delay(100);
+  if (Motor_Test){
+  MotorA.setSpeed(Motor_Test_Speed);
+  delay(200);
   MotorA.setSpeed(0);
-  MotorB.setSpeed(10);
-  delay(100);
-  MotorB.setSpeed(-10);
-  delay(100);
+  MotorB.setSpeed(Motor_Test_Speed);
+  delay(200);
   MotorB.setSpeed(0);
-  MotorC.setSpeed(10);
-  delay(100);
-  MotorC.setSpeed(-10);
-  delay(100);
+  MotorC.setSpeed(Motor_Test_Speed);
+  delay(200);
   MotorC.setSpeed(0);
-  Shaft.setSpeed(10);
-  delay(100);
-  Shaft.setSpeed(-10);
-  delay(100);
+  Shaft.setSpeed(Motor_Test_Speed);
+  delay(200);
   Shaft.setSpeed(0);
   Serial.println("[OK] Motor_Driver");
+  }
 }
 void setup_gamepad_driver() {
   error = Gamepad.config_gamepad(Gamepad_CLK, Gamepad_CMD, Gamepad_ATN, Gamepad_DAT, Gamepad_Pressures, Gamepad_Rumble); //...Pressures?, Rumble?
@@ -188,8 +186,8 @@ void setup_gamepad_driver() {
 
 //MAIN CODE
 void loop() {
-  //gamepad_monitor();        //GamePad Tester
-  delay(10);                  //For Stability
+  if(Gamepad_Monitor){gamepad_monitor();}       //GamePad Tester
+  delay(10);                                    //For Stability
 }
 
 
@@ -228,5 +226,6 @@ void gamepad_monitor() {
   Serial.print("Gamepad_NewState         "); Serial.println(Gamepad_NewState);
   Serial.print("Gamepad_Type             "); Serial.println(Gamepad_Type);
   Number++;
+  delay(Gamepad_Monitor_Refresh);
 }
 //THE END?
