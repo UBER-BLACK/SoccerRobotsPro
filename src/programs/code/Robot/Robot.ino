@@ -12,7 +12,7 @@
 //SETTINGS
 //PCMonitor
 #define PC_Monitor_Bod 500000           // BOD 9600 - def 500000 - debug
-#define Gamepad_Monitor false           // True / False
+#define Gamepad_Monitor true           // True / False
 #define Gamepad_Monitor_Refresh 1000    // MS
 //MotorDriver
 #define Motor_Test_Speed 10             // 0 255
@@ -194,37 +194,37 @@ void loop() {
 
 //UTILITIES
 void gamepad_monitor() {
-  Serial.print("==============================REFRESH: "); Serial.println(Number);
+  Serial.print("GAMEPAD-MONITOR===========REFRESH: "); Serial.println(Number);
   Serial.println("* Settings:");
-  Serial.print("Gamepad_Pressures        "); Serial.println(Gamepad_Pressures);
-  Serial.print("Gamepad_Rumble           "); Serial.println(Gamepad_Rumble);
+  Serial.print("Pressures     "); Serial.println(Gamepad_Pressures);
+  Serial.print("Rumble        "); Serial.println(Gamepad_Rumble);
   Serial.println("* Pad:");
-  Serial.print("Gamepad_Pad_Up           "); Serial.println(Gamepad_Pad_Up);
-  Serial.print("Gamepad_Pad_Right        "); Serial.println(Gamepad_Pad_Right);
-  Serial.print("Gamepad_Pad_Left         "); Serial.println(Gamepad_Pad_Left);
-  Serial.print("Gamepad_Pad_Down         "); Serial.println(Gamepad_Pad_Down);
+  Serial.print("Up            "); Serial.println(Gamepad_Pad_Up);
+  Serial.print("Right         "); Serial.println(Gamepad_Pad_Right);
+  Serial.print("Left          "); Serial.println(Gamepad_Pad_Left);
+  Serial.print("Down          "); Serial.println(Gamepad_Pad_Down);
   Serial.println("* Keys:");
-  Serial.print("Gamepad_Key_Red          "); Serial.println(Gamepad_Key_Red);
-  Serial.print("Gamepad_Key_Pink         "); Serial.println(Gamepad_Key_Pink);
-  Serial.print("Gamepad_Key_Blue         "); Serial.println(Gamepad_Key_Blue);
-  Serial.print("Gamepad_Key_Green        "); Serial.println(Gamepad_Key_Green);
-  Serial.print("Gamepad_Key_Start        "); Serial.println(Gamepad_Key_Start);
-  Serial.print("Gamepad_Key_Select       "); Serial.println(Gamepad_Key_Select);
+  Serial.print("Red           "); Serial.println(Gamepad_Key_Red);
+  Serial.print("Pink          "); Serial.println(Gamepad_Key_Pink);
+  Serial.print("Blue          "); Serial.println(Gamepad_Key_Blue);
+  Serial.print("Green         "); Serial.println(Gamepad_Key_Green);
+  Serial.print("Start         "); Serial.println(Gamepad_Key_Start);
+  Serial.print("Select        "); Serial.println(Gamepad_Key_Select);
   Serial.println("* Sticks:");
-  Serial.print("Gamepad_Stick_Left_Y     "); Serial.println(Gamepad_Stick_Left_Y);
-  Serial.print("Gamepad_Stick_Left_X     "); Serial.println(Gamepad_Stick_Left_X);
-  Serial.print("Gamepad_Stick_Right_Y    "); Serial.println(Gamepad_Stick_Right_Y);
-  Serial.print("Gamepad_Stick_Right_X    "); Serial.println(Gamepad_Stick_Right_X);
-  Serial.print("Gamepad_Stick_Left_Key   "); Serial.println(Gamepad_Stick_Left_Key);
-  Serial.print("Gamepad_Stick_Right_Key  "); Serial.println(Gamepad_Stick_Right_Key);
+  Serial.print("Left Y        "); Serial.println(Gamepad_Stick_Left_Y);
+  Serial.print("Left X        "); Serial.println(Gamepad_Stick_Left_X);
+  Serial.print("Right Y       "); Serial.println(Gamepad_Stick_Right_Y);
+  Serial.print("Right X       "); Serial.println(Gamepad_Stick_Right_X);
+  Serial.print("Left Key      "); Serial.println(Gamepad_Stick_Left_Key);
+  Serial.print("Right Key     "); Serial.println(Gamepad_Stick_Right_Key);
   Serial.println("* Triggers:");
-  Serial.print("Gamepad_Trigger_L1       "); Serial.println(Gamepad_Trigger_L1);
-  Serial.print("Gamepad_Trigger_L2       "); Serial.println(Gamepad_Trigger_L2);
-  Serial.print("Gamepad_Trigger_R1       "); Serial.println(Gamepad_Trigger_R1);
-  Serial.print("Gamepad_Trigger_R2       "); Serial.println(Gamepad_Trigger_R2);
+  Serial.print("Left 1        "); Serial.println(Gamepad_Trigger_L1);
+  Serial.print("Left 2        "); Serial.println(Gamepad_Trigger_L2);
+  Serial.print("Right 1       "); Serial.println(Gamepad_Trigger_R1);
+  Serial.print("Right 2       "); Serial.println(Gamepad_Trigger_R2);
   Serial.println("* Other:");
-  Serial.print("Gamepad_NewState         "); Serial.println(Gamepad_NewState);
-  Serial.print("Gamepad_Type             "); Serial.println(Gamepad_Type);
+  Serial.print("New State     "); Serial.println(Gamepad_NewState);
+  Serial.print("Type          "); Serial.println(Gamepad_Type);
   Number++;
   delay(Gamepad_Monitor_Refresh);
 }
