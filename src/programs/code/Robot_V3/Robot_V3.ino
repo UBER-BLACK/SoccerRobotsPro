@@ -86,7 +86,21 @@ bool setup_motor_driver() {
   return true;
   delay(100);
 }
+bool setup_gamepad_driver() {
+  uint8_t error = 0;
+  error = Gamepad.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, Gamepad_Pressures, Gamepad_Rumble);
+  if (error == 0) {
+    Serial.print("Found Controller");
+    if (Gamepad.readType() == 0)Serial.println(" Type: Unknown");
+    else if (Gamepad.readType() == 1)Serial.println(" Type: Dualshock (PS1/PS2)");
+    else if (Gamepad.readType() == 2)Serial.println(" Type: GuitarHero");
+    return true;
+  }
+  else if (error == 1)Serial.println("No controller found");
+  else if (error == 2)Serial.println("Found but not accepting commands");
+  else if (error == 3)Serial.println("Controller refusing to enter Pressures mode");
 
+}
 
 
 void loop() {
