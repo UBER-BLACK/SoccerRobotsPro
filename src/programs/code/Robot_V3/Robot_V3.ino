@@ -13,7 +13,7 @@
 //SETTINGS
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //            NAME            //        VALUE       //                     DESCRIPTION              //
-#define PC_Console_Debug        true                //Debug mode
+#define PC_Console_Debug        false                //Debug mode
 #define PC_Console_Speed        500000              //Information exchange rate.
 #define Gamepad_Pressures       false               //!!!Check For Error!!!     
 #define Gamepad_Rumble          false               //!!!Check For Error!!!
@@ -64,6 +64,7 @@ PS2X Gamepad;
 void setup() {
   if (setup_pc_monitor() == true)Serial.println("[OK] PC Console");
   if (setup_motor_driver() == true)Serial.print("[OK]"); else Serial.print("[ERROR]"); Serial.println(" Motor");
+  if (setup_motor_driver() == true)Serial.print("[OK]"); else Serial.print("[ERROR]"); Serial.println(" Gamepad");
 }
 bool setup_pc_monitor() {
   Serial.begin(PC_Console_Speed);
@@ -89,18 +90,22 @@ bool setup_motor_driver() {
 bool setup_gamepad_driver() {
   uint8_t error = 0;
   error = Gamepad.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, Gamepad_Pressures, Gamepad_Rumble);
-  if (error == 0) {
-    Serial.print("Found Controller");
-    if (Gamepad.readType() == 0)Serial.println(" Type: Unknown");
-    else if (Gamepad.readType() == 1)Serial.println(" Type: Dualshock (PS1/PS2)");
-    else if (Gamepad.readType() == 2)Serial.println(" Type: GuitarHero");
-    return true;
+  if (PC_Console_Debug) {
+    Serial.print("[...] Gamepad: ");
+    if (error == 0) {
+      Serial.print("Found Controller");
+      if (Gamepad.readType() == 0)Serial.println(" Type: Unknown");
+      else if (Gamepad.readType() == 1)Serial.println(" Type: Dualshock (PS1/PS2)");
+      else if (Gamepad.readType() == 2)Serial.println(" Type: GuitarHero");
+    }
+    else if (error == 1)Serial.println("No controller found");
+    else if (error == 2)Serial.println("Found but not accepting commands");
+    else if (error == 3)Serial.println("Controller refusing to enter Pressures mode");
   }
-  else if (error == 1)Serial.println("No controller found");
-  else if (error == 2)Serial.println("Found but not accepting commands");
-  else if (error == 3)Serial.println("Controller refusing to enter Pressures mode");
-
+  if (error == 0)return true;
+  else return false;
 }
+
 
 
 void loop() {
