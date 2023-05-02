@@ -88,6 +88,28 @@ bool setup_motor_driver() {
   delay(100);
 }
 bool setup_gamepad_driver() {
+#define Gamepad_NewState        Gamepad.NewButtonState()
+#define Gamepad_Type            Gamepad.readType()
+#define Gamepad_Ke2y_Start      Gamepad.Button(PSB_START)
+#define Gamepad_Key_Select      Gamepad.Button(PSB_SELECT)
+#define Gamepad_Pad_Up          Gamepad.Button(PSB_PAD_UP)
+#define Gamepad_Pad_Right       Gamepad.Button(PSB_PAD_RIGHT)
+#define Gamepad_Pad_Left        Gamepad.Button(PSB_PAD_LEFT)
+#define Gamepad_Pad_Down        Gamepad.Button(PSB_PAD_DOWN)
+#define Gamepad_Key_Blue        Gamepad.ButtonPressed(PSB_BLUE)
+#define Gamepad_Key_Green       Gamepad.ButtonPressed(PSB_GREEN)
+#define Gamepad_Key_Red         Gamepad.ButtonPressed(PSB_RED)
+#define Gamepad_Key_Pink        Gamepad.ButtonPressed(PSB_PINK)
+#define Gamepad_Trigger_L1      Gamepad.Button(PSB_L2)
+#define Gamepad_Trigger_L2      Gamepad.Button(PSB_L3)
+#define Gamepad_Trigger_R1      Gamepad.Button(PSB_R2)
+#define Gamepad_Trigger_R2      Gamepad.Button(PSB_R3)
+#define Gamepad_Stick_Left_Y    Gamepad.Analog(PSS_LY)
+#define Gamepad_Stick_Left_X    Gamepad.Analog(PSS_LX)
+#define Gamepad_Stick_Right_Y   Gamepad.Analog(PSS_RY)
+#define Gamepad_Stick_Right_X   Gamepad.Analog(PSS_RX)
+#define Gamepad_Stick_Left_Key  Gamepad.Button(PSB_L1)
+#define Gamepad_Stick_Right_Key Gamepad.Button(PSB_R1)
   uint8_t error = 0;
   error = Gamepad.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, Gamepad_Pressures, Gamepad_Rumble);
   if (PC_Console_Debug) {
@@ -109,6 +131,7 @@ bool setup_gamepad_driver() {
 
 
 void loop() {
+  if(Gamepad_NewState)Serial.println("lol");
   //MotorR.setSpeed(255);
 }
 //UTILITES
