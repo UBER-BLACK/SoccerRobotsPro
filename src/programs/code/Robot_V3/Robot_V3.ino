@@ -135,7 +135,7 @@ bool setup_gamepad_driver() {
 
 
 void loop() {
-  if(Gamepad_NewState)Serial.println("lol");
+  if(Gamepad_NewState)Serial.println("Gamepad_NewState");
   //MotorR.setSpeed(255);
   //MotorL.setSpeed(255);
   //MotorB.setSpeed(255);
