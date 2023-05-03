@@ -73,6 +73,10 @@ bool setup_pc_monitor() {
 bool setup_motor_driver() {
   pinMode(Motor_Power, OUTPUT);
   digitalWrite(Motor_Power, HIGH);
+  MotorR.reverse(Motor_Right_Reverse);
+  MotorL.reverse(Motor_Left_Reverse);
+  MotorB.reverse(Motor_Back_Reverse);
+  Shaft.reverse(Shaft_Reverse);
   if (Motor_Test) {
     MotorR.setSpeed(50);
     MotorL.setSpeed(50);
@@ -133,6 +137,8 @@ bool setup_gamepad_driver() {
 void loop() {
   if(Gamepad_NewState)Serial.println("lol");
   //MotorR.setSpeed(255);
+  //MotorL.setSpeed(255);
+  //MotorB.setSpeed(255);
 }
 //UTILITES
 //APPS
