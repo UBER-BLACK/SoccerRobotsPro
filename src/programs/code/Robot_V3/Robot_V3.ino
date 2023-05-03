@@ -94,7 +94,7 @@ bool setup_motor_driver() {
 bool setup_gamepad_driver() {
 #define Gamepad_NewState        Gamepad.NewButtonState()
 #define Gamepad_Type            Gamepad.readType()
-#define Gamepad_Key_Start      Gamepad.Button(PSB_START)
+#define Gamepad_Key_Start       Gamepad.Button(PSB_START)
 #define Gamepad_Key_Select      Gamepad.Button(PSB_SELECT)
 #define Gamepad_Pad_Up          Gamepad.Button(PSB_PAD_UP)
 #define Gamepad_Pad_Right       Gamepad.Button(PSB_PAD_RIGHT)
