@@ -217,8 +217,8 @@ void loop() {
   MotorR.tick();
   MotorL.tick();
   MotorB.tick();
-  //MotionDriver.PS2XData(Gamepad_Trigger_L1, Gamepad_Trigger_L2);
-  MotionDriver.GamepadData(127, 127, 127, 127,  0, 0);
+  MotionDriver.PS2XData(Gamepad_Trigger_L1, Gamepad_Trigger_L2);
+  //MotionDriver.GamepadData(127, 127, 127, 127,  0, 0);
   MotorR.setSpeed(MotionDriver.GetMotorSpeed(0));
   MotorL.setSpeed(MotionDriver.GetMotorSpeed(1));
   MotorB.setSpeed(MotionDriver.GetMotorSpeed(2));
