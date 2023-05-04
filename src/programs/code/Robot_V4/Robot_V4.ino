@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //            NAME            //        VALUE       //                     DESCRIPTION              //
 #define PC_Console_Debug        false                //Debug mode
-#define PC_Console_Speed        500000              //Information exchange rate.
+#define PC_Console_Speed        9600              //Information exchange rate.
 #define Gamepad_DeadZone        15                  //--
 #define Gamepad_Pressures       false               //!!!Check For Error!!!     
 #define Gamepad_Rumble          false               //!!!Check For Error!!!
@@ -22,9 +22,9 @@
 #define Gamepad_Pin_Command     3                   //Gamepad Command Contact
 #define Gamepad_Pin_Clock       4                   //Gamepad Clock Contact
 #define Gamepad_Pin_Attention   5                   //Gamepad Attention Contact
-#define MotionDriver_Boost      1                   //--
+#define MotionDriver_Boost      0.9                 //--
 #define MotionDriver_Normal     0.5                 //--
-#define MotionDriver_Freeze     0.2                 //--
+#define MotionDriver_Freeze     0.1                 //--
 #define Motor_Type              HIGH                //Whatever works best for you
 #define Motor_Test              true                //--
 #define Motor_Power             8                   //Motor Driver Stendby Contact
@@ -87,17 +87,20 @@ class GamepadForControlOmniWheels {
       _Gamepad_Boost = Gamepad_Boost;
       _Gamepad_Freeze = Gamepad_Freeze;
     }
+    uint8_t GetMotorSpeed(uint8_t MotorNumber) {
+      return GetMotorSpeedData(MotorNumber);
+    }
+  private://private
     void Gearbox() {
       if (_Gamepad_Boost)_SpeedDuty = _SpeedBoost;
       else if (_Gamepad_Freeze)_SpeedDuty = _SpeedFreeze;
       else _SpeedDuty = _SpeedNormal;
     }
-    private://private
     float GetMotorSpeedData(uint8_t MotorNumber) {
       int16_t Motor[3];
       float RotationFactor;
       float SecretConstant = 0.82;
-      uint8_t Gamepad_CY = (_Gamepad_RY + _Gamepad_LY) / 2;
+      uint8_t Gamepad_CY = (_Gamepad_LY);
       _Gamepad_RX = (_Gamepad_RX - 128) / 128;
       _Gamepad_LX = (_Gamepad_LX - 128) * 2;
       Gamepad_CY = (Gamepad_CY - 128) * (-2);
@@ -109,7 +112,7 @@ class GamepadForControlOmniWheels {
       else RotationFactor = 0;
       if (_Gamepad_LX<_DeadZone and _Gamepad_LX>(-_DeadZone)) {
         Motor[2] = 0;
-        if (Gamepad_CY<_DeadZone and Gamepad_CY>(-_DeadZone)) {                                           //проверка нейтрального положения джойстика
+        if (Gamepad_CY<_DeadZone and Gamepad_CY>(-_DeadZone)) {                                       
           Motor[0] = 0; Motor[1] = 0; Motor[2] = 0;
         }
       }
@@ -119,10 +122,10 @@ class GamepadForControlOmniWheels {
       return (Motor[MotorNumber] * _SpeedDuty);
     }
     //Gamepad Data
-    uint8_t _Gamepad_LX;
-    uint8_t _Gamepad_LY;
-    uint8_t _Gamepad_RX;
-    uint8_t _Gamepad_RY;
+    float _Gamepad_LX;
+    float _Gamepad_LY;
+    float _Gamepad_RX;
+    float _Gamepad_RY;
     bool _Gamepad_Boost;
     bool _Gamepad_Freeze;
     //Values
@@ -147,7 +150,7 @@ bool setup_pc_monitor() {
 }
 bool setup_motor_driver() {
   pinMode(Motor_Power, OUTPUT);
-  digitalWrite(Motor_Power, HIGH);
+  //digitalWrite(Motor_Power, HIGH);
   MotorR.reverse(Motor_Right_Reverse);
   MotorL.reverse(Motor_Left_Reverse);
   MotorB.reverse(Motor_Back_Reverse);
@@ -211,12 +214,22 @@ bool setup_gamepad_driver() {
 
 
 void loop() {
-  MotionDriver.PS2XData(Gamepad_Trigger_L1, Gamepad_Trigger_L2);
-  if (Gamepad_NewState)Serial.println("Gamepad_NewState");
-  delay(2000);
-  //MotorR.setSpeed(255);
-  //MotorL.setSpeed(255);
-  //MotorB.setSpeed(255);
+  MotorR.tick();
+  MotorL.tick();
+  MotorB.tick();
+  //MotionDriver.PS2XData(Gamepad_Trigger_L1, Gamepad_Trigger_L2);
+  MotionDriver.GamepadData(127, 127, 127, 127,  0, 0);
+  MotorR.setSpeed(MotionDriver.GetMotorSpeed(0));
+  MotorL.setSpeed(MotionDriver.GetMotorSpeed(1));
+  MotorB.setSpeed(MotionDriver.GetMotorSpeed(2));
+  motor_monitor();
 }
 //UTILITES
+void motor_monitor(){
+  Serial.println("==================");
+  Serial.print("Motor1 ");Serial.println(MotionDriver.GetMotorSpeed(0));
+  Serial.print("Motor2 ");Serial.println(MotionDriver.GetMotorSpeed(1));
+  Serial.print("Motor3 ");Serial.println(MotionDriver.GetMotorSpeed(2));
+  delay(1000);
+}
 //APPS
