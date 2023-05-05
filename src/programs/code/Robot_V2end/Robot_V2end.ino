@@ -225,7 +225,5 @@ void gamepad_monitor() {
   Serial.println("* Other:");
   Serial.print("New State     "); Serial.println(Gamepad_NewState);
   Serial.print("Type          "); Serial.println(Gamepad_Type);
-  Number++;
-  delay(Gamepad_Monitor_Refresh);
 }
 //THE END?
