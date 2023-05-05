@@ -226,7 +226,7 @@ bool setup_gamepad_driver() {
 void loop() {
   Motor_Driver();
   Motor();
-  //MotionDriver.CustomGamepadData(127,127,127,127,1,0);            //CUSTOM
+  //MotionDriver.CustomGamepadData(127,160,255,127,1,0);            //CUSTOM
   MotionDriver.PS2XLibData(Gamepad_Trigger_R2, Gamepad_Trigger_L2); //PS2X and CUSTOM GEARBOX
   if (Motor_Debug)Motor_Monitor();
   if (MotionDriver_Debug)MotionDriver_Monitor();
