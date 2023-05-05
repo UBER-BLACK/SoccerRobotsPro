@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //            NAME            //        VALUE       //                     DESCRIPTION              //
 #define PC_Console_Speed        9600                //Information exchange rate.
-#define Gamepad_Debug           true                //--
+#define Gamepad_Debug           false               //--
 #define Gamepad_DeadZone        5                   //--
 #define Gamepad_Pressures       false               //!!!Check For Error!!!     
 #define Gamepad_Rumble          false               //!!!Check For Error!!!
@@ -22,11 +22,11 @@
 #define Gamepad_Pin_Command     3                   //Gamepad Command Contact
 #define Gamepad_Pin_Clock       4                   //Gamepad Clock Contact
 #define Gamepad_Pin_Attention   5                   //Gamepad Attention Contact
-#define MotionDriver_Debug      true                //--
+#define MotionDriver_Debug      false               //--
 #define MotionDriver_Boost      0.9                 //--
 #define MotionDriver_Normal     0.5                 //--
-#define MotionDriver_Freeze     0.1                 //--
-#define Motor_Debug             true                //--
+#define MotionDriver_Freeze     0.06                //--
+#define Motor_Debug             false               //--
 #define Motor_Type              HIGH                //Whatever works best for you
 #define Motor_Test              true                //--
 #define Motor_Power             8                   //Motor Driver Stendby Contact
@@ -91,6 +91,12 @@ GMotor2<DRIVER3WIRE> MotorB(Motor_Back_Pin_A,   Motor_Back_Pin_B,  Motor_Back_Po
 GMotor2<DRIVER3WIRE> Shaft(Shaft_Pin_A,         Shaft_Pin_B,       Shaft_Power);
 class GamepadForControlOmniWheels {
   public:
+    void set(float DeadZone, float SpeedBoost, float SpeedNormal, float SpeedFreeze) {
+      _DeadZone = DeadZone;
+      _SpeedBoost = SpeedBoost;
+      _SpeedNormal = SpeedNormal;
+      _SpeedFreeze = SpeedFreeze;
+    }
     void CustomGamepadData(uint8_t LX, uint8_t LY, uint8_t RX, uint8_t RY, bool Boost, bool Freeze) {
       _Gamepad_LX = LX;
       _Gamepad_LY = LY;
@@ -98,6 +104,7 @@ class GamepadForControlOmniWheels {
       _Gamepad_RY = RY;
       _Gamepad_Boost = Boost;
       _Gamepad_Freeze = Freeze;
+      GearBox();
     }
     void PS2XLibData(bool Boost, bool Freeze) {
       //BETA
@@ -107,6 +114,12 @@ class GamepadForControlOmniWheels {
       _Gamepad_RY = Gamepad_Stick_Right_Y;
       _Gamepad_Boost = Boost;
       _Gamepad_Freeze = Freeze;
+      GearBox();
+    }
+    float GearBox() {
+      if (_Gamepad_Boost)_SpeedDuty = _SpeedBoost;
+      else if (_Gamepad_Freeze)_SpeedDuty = _SpeedFreeze;
+      else _SpeedDuty = _SpeedNormal;
     }
     int16_t GetMotorData(uint8_t MotorNumber) {
       return Formula(MotorNumber);
@@ -148,22 +161,23 @@ class GamepadForControlOmniWheels {
     //Values
     float _DeadZone = 15;
     float _SpeedDuty = 0.3;
-    float _SpeedBoost = 0.9;
+    float _SpeedBoost = 1;
     float _SpeedNormal = 0.3;
-    float _SpeedFreeze = 0.1;
+    float _SpeedFreeze = 0.07;
 };
 GamepadForControlOmniWheels MotionDriver;
 
 
 //SETUPS
 void setup() {
-  if (setup_pc_monitor() == true)Serial.println("[OK] PC Console");
+  setup_pc_monitor();
   if (setup_motor_driver() == true)Serial.print("[OK]"); else Serial.print("[ERROR]"); Serial.println(" Motor");
   if (setup_gamepad_driver() == true)Serial.print("[OK]"); else Serial.print("[ERROR]"); Serial.println(" Gamepad");
+  if (setup_motion_driver() == true)Serial.print("[OK]"); else Serial.print("[ERROR]"); Serial.println(" Motion Driver");
+  delay(2000);
 }
-bool setup_pc_monitor() {
+void setup_pc_monitor() {
   Serial.begin(PC_Console_Speed);
-  return true;
 }
 bool setup_motor_driver() {
   pinMode(Motor_Power, OUTPUT);
@@ -186,6 +200,10 @@ bool setup_motor_driver() {
   return true;
   delay(100);
 }
+bool setup_motion_driver() {
+  MotionDriver.set(Gamepad_DeadZone, MotionDriver_Boost, MotionDriver_Normal, MotionDriver_Freeze);
+  return true;
+}
 bool setup_gamepad_driver() {
   uint8_t error = 0;
   error = Gamepad.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, Gamepad_Pressures, Gamepad_Rumble);
@@ -207,10 +225,9 @@ bool setup_gamepad_driver() {
 
 void loop() {
   Motor_Driver();
-  //MotorR.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(0)));
-  //MotorL.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(1)));
-  //MotorB.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(2)));
-  MotorR.setSpeed(MinSpeedControl(-19));
+  Motor();
+  //MotionDriver.CustomGamepadData(127,127,127,127,1,0);            //CUSTOM
+  MotionDriver.PS2XLibData(Gamepad_Trigger_R2, Gamepad_Trigger_L2); //PS2X and CUSTOM GEARBOX
   if (Motor_Debug)Motor_Monitor();
   if (MotionDriver_Debug)MotionDriver_Monitor();
   if (Gamepad_Debug)Gamepad_Monitor();
@@ -269,6 +286,11 @@ void Motor_Driver() {
   MotorB.tick();
 }
 int16_t MinSpeedControl(int16_t MotorSpeed) {
-  if (MotorSpeed >= Motor_MinSpeed or -Motor_MinSpeed >= MotorSpeed)return MotorSpeed;
+  if (MotorSpeed >= Motor_MinSpeed or - Motor_MinSpeed >= MotorSpeed)return MotorSpeed;
   else return 0;
+}
+void Motor() {
+  MotorR.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(0)));
+  MotorL.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(1)));
+  MotorB.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(2)));
 }
