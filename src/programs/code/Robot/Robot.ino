@@ -214,6 +214,8 @@ bool setup_gamepad_driver() {
     if (Gamepad.readType() == 0)Serial.println(" Type: Unknown");
     else if (Gamepad.readType() == 1)Serial.println(" Type: Dualshock (PS1/PS2)");
     else if (Gamepad.readType() == 2)Serial.println(" Type: GuitarHero");
+    else if (Gamepad.readType() == 3)Serial.println(" Type: Wireless Dualshock (PS1/PS2)");
+    else Serial.println(" Type: ERROR");
   }
   else if (error == 1)Serial.println("No controller found");
   else if (error == 2)Serial.println("Found but not accepting commands");
