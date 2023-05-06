@@ -159,7 +159,7 @@ class GamepadForControlOmniWheels {
     bool _Gamepad_Boost = false;
     bool _Gamepad_Freeze = false;
     //Values
-    float _DeadZone = 15;
+    uint8_t _DeadZone = 15;
     float _SpeedDuty = 0.3;
     float _SpeedBoost = 1;
     float _SpeedNormal = 0.3;
