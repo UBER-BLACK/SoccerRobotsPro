@@ -15,7 +15,7 @@
 //            NAME            //        VALUE       //                     DESCRIPTION              //
 #define PC_Console_Speed        9600                //Information exchange rate.
 #define Gamepad_Debug           false               //--
-#define Gamepad_DeadZone        5                   //--
+#define Gamepad_DeadZone        15                  //--
 #define Gamepad_Pressures       false               //!!!Check For Error!!!     
 #define Gamepad_Rumble          false               //!!!Check For Error!!!
 #define Gamepad_Pin_Data        2                   //Gamepad Data Contact
@@ -51,6 +51,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
 //DEFINE
 #define Gamepad_NewState        Gamepad.NewButtonState()
 #define Gamepad_Type            Gamepad.readType()
@@ -64,16 +65,16 @@
 #define Gamepad_Key_Green       Gamepad.ButtonPressed(PSB_GREEN)
 #define Gamepad_Key_Red         Gamepad.ButtonPressed(PSB_RED)
 #define Gamepad_Key_Pink        Gamepad.ButtonPressed(PSB_PINK)
-#define Gamepad_Trigger_L1      Gamepad.Button(PSB_L2)
-#define Gamepad_Trigger_L2      Gamepad.Button(PSB_L3)
-#define Gamepad_Trigger_R1      Gamepad.Button(PSB_R2)
-#define Gamepad_Trigger_R2      Gamepad.Button(PSB_R3)
+#define Gamepad_Trigger_L1      Gamepad.Button(PSB_L1)
+#define Gamepad_Trigger_L2      Gamepad.Button(PSB_L2)
+#define Gamepad_Trigger_R1      Gamepad.Button(PSB_R1)
+#define Gamepad_Trigger_R2      Gamepad.Button(PSB_R2)
 #define Gamepad_Stick_Left_Y    Gamepad.Analog(PSS_LY)
 #define Gamepad_Stick_Left_X    Gamepad.Analog(PSS_LX)
 #define Gamepad_Stick_Right_Y   Gamepad.Analog(PSS_RY)
 #define Gamepad_Stick_Right_X   Gamepad.Analog(PSS_RX)
-#define Gamepad_Stick_Left_Key  Gamepad.Button(PSB_L1)
-#define Gamepad_Stick_Right_Key Gamepad.Button(PSB_R1)
+#define Gamepad_Stick_Left_Key  Gamepad.Button(PSB_L3)
+#define Gamepad_Stick_Right_Key Gamepad.Button(PSB_R3)
 
 
 
@@ -82,6 +83,10 @@
 #include <GyverMotor2.h>  //By AlexGyver                      
 #include <math.h>         //By Arduino
 
+
+byte type = 0;
+uint8_t error = 0;
+byte vibrate = 0;
 
 //CLASES
 PS2X Gamepad;
@@ -201,7 +206,7 @@ bool setup_motion_driver() {
   return true;
 }
 bool setup_gamepad_driver() {
-  uint8_t error = 0;
+  type = Gamepad_Type;
   error = Gamepad.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, Gamepad_Pressures, Gamepad_Rumble);
   Serial.print("[..] Gamepad: ");
   if (error == 0) {
