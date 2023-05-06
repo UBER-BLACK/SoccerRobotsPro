@@ -131,25 +131,21 @@ class GamepadForControlOmniWheels {
       float px = _Gamepad_RX;
       float mid = _DeadZone;
       float spd = _SpeedDuty;
-      int mot[3]; float pov; float k = 0.9;
-      px = (px - 128) / 128; x = (x - 128) * 2; y = (y - 128) * (-2);
-      mot[0] = -((0.8 * y) + (0.4 * x)) * k; mot[1] = -((-0.8 * y) + (0.4 * x)) * k; mot[2] = x;
-      if (px > (mid / 256)) {
-        pov = -0.8 * (1 - spd) * ((255 * spd) - spd * fabs(fmin(mot[0], fmin(mot[1], mot[2]))));
-      }
-      else if (px < (-mid / 256)) {
-        pov = 0.8 * (1 - spd) * ((255 * spd) - spd * fabs(fmax(mot[0], fmax(mot[1], mot[2]))));
-      }
-      else {
+      uint8_t m = MotorNumber;
+      int mot[3]; float pov; float k = 0.7;                                //объявление массива и переменных функции
+      px = (px - 128) * 2; x = (x - 128) * 2; y = (y - 128) * (-2);                       //переход в новую систему координат
+      mot[0] = -((0.8 * y) + (0.4 * x)) * k; mot[1] = -((-0.8 * y) + (0.4 * x)) * k ; mot[2] = x ; //преобразование координат x,y в скорости моторов
+      if (px<mid and px> -mid) {
         pov = 0;
+      } else {
+        pov = -(0.2 * px + (px / fabs(px)) * 25 / (mot[1] - mot[0] + 1));
       }
       if (x<mid and x>(-mid)) {
         mot[2] = 0; if (y<mid and y>(-mid)) {
           mot[0] = 0; mot[1] = 0; mot[2] = 0;
         }
-      }
-      mot[0] = mot[0] + pov; mot[1] = mot[1] + pov; mot[2] = mot[2] + pov;
-      return (mot[MotorNumber] * spd);
+      } mot[2] = mot[2] + pov;
+      return (mot[m] * spd);
     }
     //Gamepad Data
     uint8_t _Gamepad_LX = 127;
@@ -224,6 +220,7 @@ bool setup_gamepad_driver() {
 
 
 void loop() {
+  Gamepad_Driver();
   Motor_Driver();
   Motor();
   //MotionDriver.CustomGamepadData(127,160,255,127,1,0);            //CUSTOM
@@ -293,4 +290,7 @@ void Motor() {
   MotorR.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(0)));
   MotorL.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(1)));
   MotorB.setSpeed(MinSpeedControl(MotionDriver.GetMotorData(2)));
+}
+void Gamepad_Driver() {
+  Gamepad.read_gamepad(0, 0);
 }
