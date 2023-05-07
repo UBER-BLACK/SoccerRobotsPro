@@ -23,23 +23,23 @@
 #define Gamepad_Pin_Clock       4                   //Gamepad Clock Contact
 #define Gamepad_Pin_Attention   5                   //Gamepad Attention Contact
 #define MotionDriver_Debug      false               //--
-#define MotionDriver_Boost      0.9                 //--
-#define MotionDriver_Normal     0.5                 //--
-#define MotionDriver_Freeze     0.06                //--
-#define Motor_Debug             false               //--
+#define MotionDriver_Boost      1                 //--
+#define MotionDriver_Normal     0.4                 //--
+#define MotionDriver_Freeze     0.2                //--
+#define Motor_Debug             false                //--
 #define Motor_Type              HIGH                //Whatever works best for you
 #define Motor_Test              true                //--
 #define Motor_Power             8                   //Motor Driver Stendby Contact
-#define Motor_MinSpeed          20                  //--
-#define Motor_Right_Reverse     false               //--
+#define Motor_MinSpeed          25                  //--
+#define Motor_Right_Reverse     true                //--
 #define Motor_Right_Power       6                   //--
 #define Motor_Right_Pin_A       A0                  //--
 #define Motor_Right_Pin_B       A1                  //--
-#define Motor_Left_Reverse      false               //--
+#define Motor_Left_Reverse      true                //--
 #define Motor_Left_Power        9                   //--
 #define Motor_Left_Pin_A        A2                  //--
 #define Motor_Left_Pin_B        A3                  //--
-#define Motor_Back_Reverse      false               //--
+#define Motor_Back_Reverse      true                //--
 #define Motor_Back_Power        10                  //--
 #define Motor_Back_Pin_A        A4                  //--
 #define Motor_Back_Pin_B        A5                  //--
@@ -137,9 +137,15 @@ class GamepadForControlOmniWheels {
       float mid = _DeadZone;
       float spd = _SpeedDuty;
       uint8_t m = MotorNumber;
-      int mot[3]; float pov; float k = 0.7;                                //объявление массива и переменных функции
-      px = (px - 128) * 2; x = (x - 128) * 2; y = (y - 128) * (-2);                       //переход в новую систему координат
-      mot[0] = -((0.8 * y) + (0.4 * x)) * k; mot[1] = -((-0.8 * y) + (0.4 * x)) * k ; mot[2] = x ; //преобразование координат x,y в скорости моторов
+      int mot[3];
+      float pov;
+      float k = 0.83;
+      px = (px - 128) * 2;
+      x = (x - 128) * 2;
+      y = (y - 128) * (-2);                      
+      mot[0] = -((0.8 * y) + (0.4 * x)) * k;
+      mot[1] = -((-0.8 * y) + (0.4 * x)) * k ;
+      mot[2] = x ;
       if (px<mid and px> -mid) {
         pov = 0;
       } else {
