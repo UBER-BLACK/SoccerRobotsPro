@@ -1,12 +1,4 @@
-//GitHub: https://GitHub.com/UBER-BLACK/SoccerRobotsPro/
-//LICENSE: https://raw.githubusercontent.com/UBER-BLACK/SoccerRobotsPro/main/LICENSE
-//██╗░░░██╗██████╗░███████╗██████╗░░░░░░░██████╗░██╗░░░░░░█████╗░░█████╗░██╗░░██╗
-//██║░░░██║██╔══██╗██╔════╝██╔══██╗░░░░░░██╔══██╗██║░░░░░██╔══██╗██╔══██╗██║░██╔╝
-//██║░░░██║██████╦╝█████╗░░██████╔╝█████╗██████╦╝██║░░░░░███████║██║░░╚═╝█████═╝░
-//██║░░░██║██╔══██╗██╔══╝░░██╔══██╗╚════╝██╔══██╗██║░░░░░██╔══██║██║░░██╗██╔═██╗░
-//╚██████╔╝██████╦╝███████╗██║░░██║░░░░░░██████╦╝███████╗██║░░██║╚█████╔╝██║░╚██╗
-//░╚═════╝░╚═════╝░╚══════╝╚═╝░░╚═╝░░░░░░╚═════╝░╚══════╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝
-//by THEBIGMISHA & MR_Prepod
+
 
 
 
@@ -84,9 +76,6 @@
 #include <math.h>         //By Arduino
 
 
-byte type = 0;
-uint8_t error = 0;
-byte vibrate = 0;
 
 //CLASES
 PS2X Gamepad;
@@ -102,67 +91,32 @@ class GamepadForControlOmniWheels {
       _SpeedNormal = SpeedNormal;
       _SpeedFreeze = SpeedFreeze;
     }
-    void CustomGamepadData(uint8_t LX, uint8_t LY, uint8_t RX, uint8_t RY, bool Boost, bool Freeze) {
+    void CustomGamepadData(uint8_t LX, uint8_t LY, uint8_t RX, uint8_t RY) {
       _Gamepad_LX = LX;
       _Gamepad_LY = LY;
       _Gamepad_RX = RX;
       _Gamepad_RY = RY;
-      _Gamepad_Boost = Boost;
-      _Gamepad_Freeze = Freeze;
-      GearBox();
     }
-    void PS2XLibData(bool Boost, bool Freeze) {
-      //BETA
-      _Gamepad_LX = Gamepad_Stick_Left_X;
-      _Gamepad_LY = Gamepad_Stick_Left_Y;
-      _Gamepad_RX = Gamepad_Stick_Right_X;
-      _Gamepad_RY = Gamepad_Stick_Right_Y;
-      _Gamepad_Boost = Boost;
-      _Gamepad_Freeze = Freeze;
-      GearBox();
+    void PS2XLibData() {
+      _Gamepad_LX = Gamepad.Analog(PSS_LX);
+      _Gamepad_LY = Gamepad.Analog(PSS_LY);
+      _Gamepad_RX = Gamepad.Analog(PSS_RX);
+      _Gamepad_RY = Gamepad.Analog(PSS_RY);
     }
-    float GearBox() {
-      if (_Gamepad_Boost)_SpeedDuty = _SpeedBoost;
-      else if (_Gamepad_Freeze)_SpeedDuty = _SpeedFreeze;
-      else _SpeedDuty = _SpeedNormal;
+    float GearBox(bool GearUP, bool GearDown) {
+     if (millis() - _Timer0 >= 1000; _Timer0=millis()) {
+      Serial.println(1);
+     }
     }
     int16_t GetMotorData(uint8_t MotorNumber) {
-      return Formula(MotorNumber);
+
     }
   private://private
-    float Formula(int MotorNumber) {
-      float x = _Gamepad_LX;
-      float y = _Gamepad_LY;
-      float px = _Gamepad_RX;
-      float mid = _DeadZone;
-      float spd = _SpeedDuty;
-      uint8_t m = MotorNumber;
-      int mot[3];
-      float pov;
-      float k = 0.83;
-      px = (px - 128) * 2;
-      x = (x - 128) * 2;
-      y = (y - 128) * (-2);                      
-      mot[0] = -((0.8 * y) + (0.4 * x)) * k;
-      mot[1] = -((-0.8 * y) + (0.4 * x)) * k ;
-      mot[2] = x ;
-      if (px<mid and px> -mid) {
-        pov = 0;
-      } else {
-        pov = -(0.2 * px + (px / fabs(px)) * 25 / (mot[1] - mot[0] + 1));
-      }
-      if (x<mid and x>(-mid)) {
-        mot[2] = 0; if (y<mid and y>(-mid)) {
-          mot[0] = 0; mot[1] = 0; mot[2] = 0;
-        }
-      } mot[2] = mot[2] + pov;
-      return (mot[m] * spd);
-    }
     //Gamepad Data
-    uint8_t _Gamepad_LX = 127;
-    uint8_t _Gamepad_LY = 127;
-    uint8_t _Gamepad_RX = 127;
-    uint8_t _Gamepad_RY = 127;
+    uint8_t _Gamepad_LX = 128;
+    uint8_t _Gamepad_LY = 128;
+    uint8_t _Gamepad_RX = 128;
+    uint8_t _Gamepad_RY = 128;
     bool _Gamepad_Boost = false;
     bool _Gamepad_Freeze = false;
     //Values
@@ -171,6 +125,10 @@ class GamepadForControlOmniWheels {
     float _SpeedBoost = 1;
     float _SpeedNormal = 0.3;
     float _SpeedFreeze = 0.07;
+    //Timers
+    uint32_t _Timer0;
+    uint32_t _Timer1;
+    uint32_t _Timer2;
 };
 GamepadForControlOmniWheels MotionDriver;
 
@@ -212,7 +170,7 @@ bool setup_motion_driver() {
   return true;
 }
 bool setup_gamepad_driver() {
-  type = Gamepad_Type;
+  uint8_t error = 0;
   error = Gamepad.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, Gamepad_Pressures, Gamepad_Rumble);
   Serial.print("[..] Gamepad: ");
   if (error == 0) {
@@ -236,12 +194,12 @@ void loop() {
   Gamepad_Driver();
   Motor_Driver();
   Motor();
-  //MotionDriver.CustomGamepadData(127,160,255,127,1,0);            //CUSTOM
-  MotionDriver.PS2XLibData(Gamepad_Trigger_R2, Gamepad_Trigger_L2); //PS2X and CUSTOM GEARBOX
+  //MotionDriver.CustomGamepadData(127,160,255,127,1,0);
+  MotionDriver.PS2XLibData();
   if (Motor_Debug)Motor_Monitor();
   if (MotionDriver_Debug)MotionDriver_Monitor();
   if (Gamepad_Debug)Gamepad_Monitor();
-  delay(10);
+  GearBox(1,1);
 }
 void MotionDriver_Monitor() {
   Serial.println("MOTION_DRIVER-MONITOR=====+++");
