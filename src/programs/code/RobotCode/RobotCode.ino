@@ -33,15 +33,52 @@
 
 //INCLUDE LIBS
 #include <PS2X_lib.h>     //By (NONAME)
-#include <GyverMotor2.h>  //By AlexGyver 
+#include <GyverMotor2.h>  //By AlexGyver
+PS2X PS2X;
+
+
+
+
+//DEFINE
+#define Gamepad_NewState        Gamepad.NewButtonState()
+#define Gamepad_Type            Gamepad.readType()
+#define Gamepad_Pad_Up          Gamepad.Button(PSB_PAD_UP)
+#define Gamepad_Pad_Right       Gamepad.Button(PSB_PAD_RIGHT)
+#define Gamepad_Pad_Left        Gamepad.Button(PSB_PAD_LEFT)
+#define Gamepad_Pad_Down        Gamepad.Button(PSB_PAD_DOWN)
+#define Gamepad_Key_Start       Gamepad.Button(PSB_START)
+#define Gamepad_Key_Select      Gamepad.Button(PSB_SELECT)
+#define Gamepad_Key_Blue        Gamepad.ButtonPressed(PSB_BLUE)
+#define Gamepad_Key_Green       Gamepad.ButtonPressed(PSB_GREEN)
+#define Gamepad_Key_Red         Gamepad.ButtonPressed(PSB_RED)
+#define Gamepad_Key_Pink        Gamepad.ButtonPressed(PSB_PINK)
+#define Gamepad_Trigger_L1      Gamepad.Button(PSB_L1)
+#define Gamepad_Trigger_L2      Gamepad.Button(PSB_L2)
+#define Gamepad_Trigger_R1      Gamepad.Button(PSB_R1)
+#define Gamepad_Trigger_R2      Gamepad.Button(PSB_R2)
+#define Gamepad_Stick_Left_Y    Gamepad.Analog(PSS_LY)
+#define Gamepad_Stick_Left_X    Gamepad.Analog(PSS_LX)
+#define Gamepad_Stick_Left_Key  Gamepad.Button(PSB_L3)
+#define Gamepad_Stick_Right_Y   Gamepad.Analog(PSS_RY)
+#define Gamepad_Stick_Right_X   Gamepad.Analog(PSS_RX)
+#define Gamepad_Stick_Right_Key Gamepad.Button(PSB_R3)
 
 
 
 class Gearbox {
   public:
     //MainFunc
-    void GearShifter(bool ShifterUP, bool ShifterDOWN) { //LOOP
-      if (ShifterUP) {
+    void GearShifterPS2X() {
+      GearShifterManual(PS2X.Button(PSB_R1), PS2X.Button(PSB_L1));
+    }
+    void GearShifterManual(bool ShifterUP, bool ShifterDOWN) { //LOOP
+      if (ShifterUP and ShifterDOWN) {
+        if (millis() - _Timer0 >= 250) {
+          _Timer0 = millis();
+          _DutyStage = _MaxStage;
+        }
+      }
+      else if (ShifterUP) {
         if (millis() - _Timer0 >= 250) {
           _Timer0 = millis();
           if (_DutyStage >= _MaxStage)_DutyStage = _MaxStage;
@@ -56,18 +93,17 @@ class Gearbox {
         }
       }
     }
-    void GearUP() {
+    void UP() {
       if (_DutyStage >= _MaxStage)_DutyStage = _MaxStage;
       else _DutyStage++;
     }
-    void GearDOWN() {
+    void DOWN() {
       if (_DutyStage <= 0)_DutyStage = 0;
       else _DutyStage--;
     }
     //OtherFunc
-    float GetSpeed() {
-      ShiftingGears();
-      return _DutySpeed;
+    float GetDutySpeed() {
+      return (_DutyStage - 0) * (_MaxSpeed - _MinSpeed) / (_MaxStage - 0) + _MinSpeed;
     }
     float GetMinSpeed() {
       return _MinSpeed;
@@ -78,8 +114,11 @@ class Gearbox {
     float GetMaxStage() {
       return _MaxStage;
     }
-    void SetSpeed (float Speed) {
-      _DutySpeed = Speed;
+    float GetDutyStage() {
+      return _DutyStage;
+    }
+    void SetDutySpeed (float DutySpeed) {
+      _DutySpeed = DutySpeed;
     }
     void SetMinSpeed (float MinSpeed) {
       _MinSpeed = MinSpeed;
@@ -90,31 +129,31 @@ class Gearbox {
     void SetMaxStage(uint8_t MaxStage) {
       _MaxStage = MaxStage;
     }
-  private:
-    void ShiftingGears() {
-      _DutySpeed = (_DutyStage - 0) * (_MaxSpeed - _MinSpeed) / (_MaxStage - 0) + _MinSpeed;
+    void SetDutyStage(uint8_t DutyStage) {
+      _DutyStage = DutyStage;
     }
+  private:
     //Values
     float _DutySpeed = 0.5;
     float _MaxSpeed = 1;
     float _MinSpeed = 0.3;
     uint8_t _DutyStage = 0;
-    uint8_t _MaxStage = 5;
+    uint8_t _MaxStage = 2;
+    uint16_t _GearDelay = 200;
     //Timers
     uint32_t _Timer0 = 0;
 };
 Gearbox Gearbox;
-PS2X Gamepad;
 void setup() {
   uint8_t error = 0;
-  error = Gamepad.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
+  error = PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
 
   Serial.begin(9600);
 }
 
 void loop() {
-  Gamepad.read_gamepad(0, 0);
-  Serial.println(Gearbox.GetSpeed());
-  Gearbox.GearShifter(Gamepad.Button(PSB_R1),Gamepad.Button(PSB_L1));
+  PS2X.read_gamepad(0, 0);
+  Serial.println(Gearbox.GetDutySpeed());
+  Gearbox.GearShifterPS2X();
 
 }
