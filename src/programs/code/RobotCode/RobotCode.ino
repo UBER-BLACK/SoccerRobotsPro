@@ -23,10 +23,11 @@
 //
 #define MotionDLib_Monitor      false               //--
 //
-#define GearBox_Monitor         false               //--
-#define GearBox_MaxSpeed        1                   //--
-#define GearBox_MinSpeed        0.2                 //--
-#define GearBox_MaxStage        5                   //--
+#define Gearbox_Monitor         false               //--
+#define Gearbox_MaxSpeed        1                   //--
+#define Gearbox_MinSpeed        0.2                 //--
+#define Gearbox_MaxStage        5                   //--
+#define Gearbox_Delay           250                 //--
 //
 
 
@@ -64,29 +65,38 @@ PS2X PS2X;
 #define Gamepad_Stick_Right_Key Gamepad.Button(PSB_R3)
 
 
-
+class Gamepad {
+  public:
+  private:
+};
 class Gearbox {
   public:
     //MainFunc
+    void Setup(float MaxSpeed, float MinSpeed, uint8_t MaxStage, uint16_t Delay) {
+      _MaxSpeed = MaxSpeed;
+      _MinSpeed = MinSpeed;
+      _MaxStage = MaxStage;
+      _Delay = Delay;
+    }
     void GearShifterPS2X() {
       GearShifterManual(PS2X.Button(PSB_R1), PS2X.Button(PSB_L1));
     }
     void GearShifterManual(bool ShifterUP, bool ShifterDOWN) { //LOOP
       if (ShifterUP and ShifterDOWN) {
-        if (millis() - _Timer0 >= 250) {
+        if (millis() - _Timer0 >= _Delay) {
           _Timer0 = millis();
           _DutyStage = _MaxStage;
         }
       }
       else if (ShifterUP) {
-        if (millis() - _Timer0 >= 250) {
+        if (millis() - _Timer0 >= _Delay) {
           _Timer0 = millis();
           if (_DutyStage >= _MaxStage)_DutyStage = _MaxStage;
           else _DutyStage++;
         }
       }
       else if (ShifterDOWN) {
-        if (millis() - _Timer0 >= 250) {
+        if (millis() - _Timer0 >= _Delay) {
           _Timer0 = millis();
           if (_DutyStage <= 0)_DutyStage = 0;
           else _DutyStage--;
@@ -117,8 +127,8 @@ class Gearbox {
     float GetDutyStage() {
       return _DutyStage;
     }
-    void SetDutySpeed (float DutySpeed) {
-      _DutySpeed = DutySpeed;
+    uint16_t GetDelay() {
+      return _Delay;
     }
     void SetMinSpeed (float MinSpeed) {
       _MinSpeed = MinSpeed;
@@ -132,19 +142,22 @@ class Gearbox {
     void SetDutyStage(uint8_t DutyStage) {
       _DutyStage = DutyStage;
     }
+    void SetDelay(uint16_t Delay) {
+      _Delay = Delay;
+    }
   private:
     //Values
-    float _DutySpeed = 0.5;
-    float _MaxSpeed = 1;
-    float _MinSpeed = 0.3;
-    uint8_t _DutyStage = 0;
-    uint8_t _MaxStage = 2;
-    uint16_t _GearDelay = 200;
+    float _MaxSpeed;
+    float _MinSpeed;
+    uint8_t _DutyStage;
+    uint8_t _MaxStage;
+    uint16_t _Delay;
     //Timers
-    uint32_t _Timer0 = 0;
+    uint32_t _Timer0;
 };
 Gearbox Gearbox;
 void setup() {
+  Gearbox.Setup(Gearbox_MaxSpeed, Gearbox_MinSpeed, Gearbox_MaxStage, Gearbox_Delay);
   uint8_t error = 0;
   error = PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
 
