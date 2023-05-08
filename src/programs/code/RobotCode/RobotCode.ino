@@ -28,6 +28,29 @@
 #define Gearbox_MinSpeed        0.2                 //--
 #define Gearbox_MaxStage        5                   //--
 #define Gearbox_Delay           250                 //--
+//
+#define Motor_Monitor           false               //--
+#define Motor_Monitor_Delay     2000                //--
+#define Motor_Test              true                //--
+#define Motor_Standby           8                   //--
+#define MotorR_Reverse          false               //--
+#define MotorR_Pin_Power        6                   //--
+#define MotorR_Pin_Plus         A0                  //--
+#define MotorR_Pin_Minus        A1                  //--
+#define MotorL_Reverse          false               //--
+#define MotorL_Pin_Power        9                   //--
+#define MotorL_Pin_Plus         A2                  //--
+#define MotorL_Pin_Minus        A3                  //--
+#define MotorB_Reverse          false               //--
+#define MotorB_Pin_Power        10                  //--
+#define MotorB_Pin_Plus         A4                  //--
+#define MotorB_Pin_Minus        A5                  //--
+#define MotorF_Reverse          false               //--
+#define MotorF_Pin_Power        11                  //--
+#define MotorF_Pin_Plus         12                  //--
+#define MotorF_Pin_Minus        13                  //--
+//
+#define Solinoid_Pin            7                   //--
 
 
 
@@ -37,12 +60,20 @@ uint32_t Timer0;
 #if (Gamepad_Monitor)
 uint32_t Timer1;
 #endif
+#if (Motor_Monitor)
+uint32_t Timer2;
+#endif
+
 
 
 //INCLUDE LIBS
 #include <PS2X_lib.h>     //By (NONAME)
 #include <GyverMotor2.h>  //By AlexGyver
 PS2X PS2X;
+GMotor2<DRIVER3WIRE> MotorR(MotorR_Pin_Plus, MotorR_Pin_Minus, MotorR_Pin_Power);
+GMotor2<DRIVER3WIRE> MotorL(MotorL_Pin_Plus, MotorL_Pin_Minus, MotorL_Pin_Power);
+GMotor2<DRIVER3WIRE> MotorB(MotorB_Pin_Plus, MotorB_Pin_Minus, MotorB_Pin_Power);
+GMotor2<DRIVER3WIRE> MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 
 
@@ -190,6 +221,16 @@ void Monitors() {
     Serial.print("KEY  R        "); Serial.println(PS2X.Button(PSB_R3));
     Serial.println("*Others     ");
     Serial.print("NEW STATE     "); Serial.println(PS2X.NewButtonState());
+  }
+#endif
+#if (Motor_Monitor)
+  if (millis() - Timer2 >= Motor_Monitor_Delay) {
+    Timer2 = millis();
+    Serial.println("MOTOR-MONITOR=============+++");
+    Serial.print("Right     "); Serial.println(MotorR.getState());
+    Serial.print("Left      "); Serial.println(MotorL.getState());
+    Serial.print("Back      "); Serial.println(MotorB.getState());
+    Serial.print("Front     "); Serial.println(MotorF.getState());
   }
 #endif
 }
