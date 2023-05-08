@@ -22,8 +22,6 @@
 #define Gamepad_Pin_Clock       4                   //--
 #define Gamepad_Pin_Attention   5                   //--
 //
-#define MotionDLib_Monitor      false               //--
-//
 #define Gearbox_Monitor         false               //--
 #define Gearbox_Monitor_Delay   2000                //--
 #define Gearbox_MaxSpeed        1                   //--
@@ -136,10 +134,9 @@ class Gearbox {
 };
 Gearbox Gearbox;
 void setup() {
+  Serial.begin(Monitor_Speed);
   Gearbox.Setup(Gearbox_MaxSpeed, Gearbox_MinSpeed, Gearbox_MaxStage, Gearbox_Delay);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
-
-  Serial.begin(9600);
 }
 
 void loop() {
