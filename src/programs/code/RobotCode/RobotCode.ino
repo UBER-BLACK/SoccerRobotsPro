@@ -24,19 +24,12 @@
 #define MotionDLib_Monitor      false               //--
 //
 #define Gearbox_Monitor         false               //--
+#define Gearbox_Monitor_Delay   2000                //--
 #define Gearbox_MaxSpeed        1                   //--
 #define Gearbox_MinSpeed        0.2                 //--
 #define Gearbox_MaxStage        5                   //--
 #define Gearbox_Delay           250                 //--
 //
-
-
-
-//INCLUDE LIBS
-#include <PS2X_lib.h>     //By (NONAME)
-#include <GyverMotor2.h>  //By AlexGyver
-PS2X PS2X;
-
 
 
 
@@ -63,6 +56,18 @@ PS2X PS2X;
 #define Gamepad_Stick_Right_Y   Gamepad.Analog(PSS_RY)
 #define Gamepad_Stick_Right_X   Gamepad.Analog(PSS_RX)
 #define Gamepad_Stick_Right_Key Gamepad.Button(PSB_R3)
+
+
+#if (Gearbox_Monitor == true)
+uint32_t Timer0;
+#endif
+
+
+//INCLUDE LIBS
+#include <PS2X_lib.h>     //By (NONAME)
+#include <GyverMotor2.h>  //By AlexGyver
+PS2X PS2X;
+
 
 
 class Gamepad {
@@ -165,8 +170,24 @@ void setup() {
 }
 
 void loop() {
-  PS2X.read_gamepad(0, 0);
-  Serial.println(Gearbox.GetDutySpeed());
+  Drivers();
+  Monitors();
   Gearbox.GearShifterPS2X();
-
+}
+void Monitors() {
+#if (Gearbox_Monitor == true)
+  if (millis() - Timer0 >= Gearbox_Monitor_Delay) {
+    Timer0 = millis();
+    Serial.println("GEARBOX-MONITOR===========+++");
+    Serial.print("DutySpeed     "); Serial.println(Gearbox.GetDutySpeed());
+    Serial.print("MaxSpeed      "); Serial.println(Gearbox.GetMaxSpeed());
+    Serial.print("MinSpeed      "); Serial.println(Gearbox.GetMinSpeed());
+    Serial.print("DutyStage     "); Serial.println(Gearbox.GetDutyStage());
+    Serial.print("MaxStage      "); Serial.println(Gearbox.GetMaxStage());
+    Serial.print("Delay         "); Serial.println(Gearbox.GetDelay());
+  }
+#endif
+}
+void Drivers() {
+  PS2X.read_gamepad(0, 0);
 }
