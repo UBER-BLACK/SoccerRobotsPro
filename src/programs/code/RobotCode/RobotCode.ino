@@ -26,13 +26,14 @@
 #define Gearbox_Monitor_Delay   2000                //--
 #define Gearbox_MaxSpeed        1                   //--
 #define Gearbox_MinSpeed        0.2                 //--
-#define Gearbox_MaxStage        5                   //--
-#define Gearbox_Delay           250                 //--
+#define Gearbox_MaxStage        2                   //--
+#define Gearbox_Delay           200                 //--
 //
 #define Motor_Monitor           false               //--
 #define Motor_Monitor_Delay     2000                //--
 #define Motor_Test              true                //--
-#define Motor_Standby           8                   //--
+#define Motor_Power             true                //--
+#define Motor_Pin_Standby       8                   //--
 #define MotorR_Reverse          false               //--
 #define MotorR_Pin_Power        6                   //--
 #define MotorR_Pin_Plus         A0                  //--
@@ -70,10 +71,10 @@ uint32_t Timer2;
 #include <PS2X_lib.h>     //By (NONAME)
 #include <GyverMotor2.h>  //By AlexGyver
 PS2X PS2X;
-GMotor2<DRIVER3WIRE> MotorR(MotorR_Pin_Plus, MotorR_Pin_Minus, MotorR_Pin_Power);
-GMotor2<DRIVER3WIRE> MotorL(MotorL_Pin_Plus, MotorL_Pin_Minus, MotorL_Pin_Power);
-GMotor2<DRIVER3WIRE> MotorB(MotorB_Pin_Plus, MotorB_Pin_Minus, MotorB_Pin_Power);
-GMotor2<DRIVER3WIRE> MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
+GMotor2<DRIVER3WIRE>MotorR(MotorR_Pin_Plus, MotorR_Pin_Minus, MotorR_Pin_Power);
+GMotor2<DRIVER3WIRE>MotorL(MotorL_Pin_Plus, MotorL_Pin_Minus, MotorL_Pin_Power);
+GMotor2<DRIVER3WIRE>MotorB(MotorB_Pin_Plus, MotorB_Pin_Minus, MotorB_Pin_Power);
+GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 
 
@@ -112,12 +113,18 @@ class Gearbox {
       }
     }
     void UP() {
-      if (_DutyStage >= _MaxStage)_DutyStage = _MaxStage;
-      else _DutyStage++;
+      if (millis() - _Timer0 >= _Delay) {
+        _Timer0 = millis();
+        if (_DutyStage >= _MaxStage)_DutyStage = _MaxStage;
+        else _DutyStage++;
+      }
     }
     void DOWN() {
-      if (_DutyStage <= 0)_DutyStage = 0;
-      else _DutyStage--;
+      if (millis() - _Timer0 >= _Delay) {
+        _Timer0 = millis();
+        if (_DutyStage <= 0)_DutyStage = 0;
+        else _DutyStage--;
+      }
     }
     //OtherFunc
     float GetDutySpeed() {
@@ -227,13 +234,19 @@ void Monitors() {
   if (millis() - Timer2 >= Motor_Monitor_Delay) {
     Timer2 = millis();
     Serial.println("MOTOR-MONITOR=============+++");
-    Serial.print("Right     "); Serial.println(MotorR.getState());
-    Serial.print("Left      "); Serial.println(MotorL.getState());
-    Serial.print("Back      "); Serial.println(MotorB.getState());
-    Serial.print("Front     "); Serial.println(MotorF.getState());
+    Serial.print("Right     "); Serial.println(MotorR.getSpeed());
+    Serial.print("Left      "); Serial.println(MotorL.getSpeed());
+    Serial.print("Back      "); Serial.println(MotorB.getSpeed());
+    Serial.print("Front     "); Serial.println(MotorF.getSpeed());
   }
 #endif
 }
 void Drivers() {
+  //Gamepad
   PS2X.read_gamepad(0, 0);
+  //Motor
+  MotorR.tick();
+  MotorL.tick();
+  MotorB.tick();
+  MotorF.tick();
 }
