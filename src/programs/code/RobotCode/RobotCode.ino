@@ -24,10 +24,12 @@
 //
 #define Gearbox_Monitor         false               //--
 #define Gearbox_Monitor_Delay   2000                //--
-#define Gearbox_MaxSpeed        1                   //--
-#define Gearbox_MinSpeed        0.2                 //--
-#define Gearbox_MaxStage        2                   //--
-#define Gearbox_Delay           200                 //--
+#define Gearbox_MaxGearSpeed    1                   //--
+#define Gearbox_MinGearSpeed    0.2                 //--
+#define Gearbox_DefaultGear     0                   //--
+#define Gearbox_MaxGear         5                   //--
+#define Gearbox_GearDelay       250                 //--
+
 //
 #define Motor_Monitor           false               //--
 #define Motor_Monitor_Delay     2000                //--
@@ -51,7 +53,13 @@
 #define MotorF_Pin_Plus         12                  //--
 #define MotorF_Pin_Minus        13                  //--
 //
-#define Solinoid_Pin            7                   //--
+#define ShockPanel_Monitor      false               //--
+#define ShockPanel_Reloading    1000                //--
+#define ShockPanel_Overheat     3000                //--
+#define ShockPanel_ShotSpeed    255                 //--
+#define ShockPanel_SuctionSpeed 120                 //--
+#define ShockPanel_Pin_Solinoid 7                   //--
+//
 
 
 
@@ -64,10 +72,13 @@ uint32_t Timer1;
 #if (Motor_Monitor)
 uint32_t Timer2;
 #endif
+#if (ShockPanel_Monitor)
+uint32_t Timer3;
+#endif
 
 
 
-//INCLUDE LIBS
+//LIBS
 #include <PS2X_lib.h>     //By (NONAME)
 #include <GyverMotor2.h>  //By AlexGyver
 PS2X PS2X;
@@ -78,102 +89,134 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 
 
+class Shockpanel {
+  public:
+    Setup(uint8_t Solinoid_Pin, uint16_t Reloading, uint16_t Overheat) {
+      _Solinoid_Pin = Solinoid_Pin;
+      _Reloading = Reloading;
+      _Overheat = Overheat;
+      pinMode(_Solinoid_Pin, OUTPUT);
+    }
+    void Solinoid(bool Power) {
+      if (Power) {
+        if (millis() - _Timer0 >= _Reloading) {
+          _Timer0 = millis();
+          digitalWrite(_Solinoid_Pin, HIGH);
+        }
+      }
+      else {
+        digitalWrite(_Solinoid_Pin, LOW);
+        _Timer1 = millis();
+      }
+      if (millis() - _Timer1 >= _Overheat) {
+        digitalWrite(_Solinoid_Pin, LOW);
+      }
+    }
+
+    void MiniGun(bool run) {
+      if (run) {
+        bool flag;
+        if (millis() - _Timer2 >= 25) {
+          flag = !flag;
+          digitalWrite(_Solinoid_Pin, flag);
+          _Timer2 =  millis();
+
+        }
+      }
+    }
+  private:
+    //Values
+    uint8_t _Solinoid_Pin;
+    uint16_t _Reloading;
+    uint16_t _Overheat;
+    //Timers
+    uint32_t _Timer0;
+    uint32_t _Timer1;
+    uint32_t _Timer2;
+};
 class Gearbox {
   public:
     //MainFunc
-    void Setup(float MaxSpeed, float MinSpeed, uint8_t MaxStage, uint16_t Delay) {
-      _MaxSpeed = MaxSpeed;
-      _MinSpeed = MinSpeed;
-      _MaxStage = MaxStage;
-      _Delay = Delay;
+    Setup(float MaxGearSpeed, float MinGearSpeed, uint8_t MaxGear, uint8_t DefaultGear, uint16_t GearDelay) {
+      _MaxGearSpeed = MaxGearSpeed;
+      _MinGearSpeed = MinGearSpeed;
+      _DutyGear = DefaultGear;
+      _MaxGear = MaxGear;
+      _GearDelay = GearDelay;
     }
     void GearShifterPS2X() {
       GearShifterManual(PS2X.Button(PSB_R1), PS2X.Button(PSB_L1));
     }
-    void GearShifterManual(bool ShifterUP, bool ShifterDOWN) { //LOOP
-      if (ShifterUP and ShifterDOWN) {
-        if (millis() - _Timer0 >= _Delay) {
-          _Timer0 = millis();
-          _DutyStage = _MaxStage;
-        }
-      }
-      else if (ShifterUP) {
-        if (millis() - _Timer0 >= _Delay) {
-          _Timer0 = millis();
-          if (_DutyStage >= _MaxStage)_DutyStage = _MaxStage;
-          else _DutyStage++;
-        }
-      }
-      else if (ShifterDOWN) {
-        if (millis() - _Timer0 >= _Delay) {
-          _Timer0 = millis();
-          if (_DutyStage <= 0)_DutyStage = 0;
-          else _DutyStage--;
-        }
-      }
+    void GearShifterManual(bool ShifterUP, bool ShifterDOWN) {
+      if (ShifterUP and ShifterDOWN)BOOST();
+      else if (ShifterUP)UP();
+      else if (ShifterDOWN)DOWN();
     }
     void UP() {
-      if (millis() - _Timer0 >= _Delay) {
+      if (millis() - _Timer0 >= _GearDelay) {
         _Timer0 = millis();
-        if (_DutyStage >= _MaxStage)_DutyStage = _MaxStage;
-        else _DutyStage++;
+        if (_DutyGear >= _MaxGear)_DutyGear = _MaxGear;
+        else _DutyGear++;
       }
     }
     void DOWN() {
-      if (millis() - _Timer0 >= _Delay) {
+      if (millis() - _Timer0 >= _GearDelay) {
         _Timer0 = millis();
-        if (_DutyStage <= 0)_DutyStage = 0;
-        else _DutyStage--;
+        if (_DutyGear <= 0)_DutyGear = 0;
+        else _DutyGear--;
       }
     }
-    //OtherFunc
-    float GetDutySpeed() {
-      return (_DutyStage - 0) * (_MaxSpeed - _MinSpeed) / (_MaxStage - 0) + _MinSpeed;
+    void BOOST() {
+      _DutyGear = _MaxGear;
     }
-    float GetMinSpeed() {
-      return _MinSpeed;
+    void FREEZE() {
+      _DutyGear = 0;
     }
-    float GetMaxSpeed() {
-      return _MaxSpeed;
+    int16_t GetSpeed (int16_t OriginalSpeed) {
+      return OriginalSpeed * GetDutySpeedFactor();
     }
-    float GetMaxStage() {
-      return _MaxStage;
+    //OtherFuncs
+    float GetDutySpeedFactor() {
+      return (_DutyGear - 0) * (_MaxGearSpeed - _MinGearSpeed) / (_MaxGear - 0) + _MinGearSpeed;
     }
-    float GetDutyStage() {
-      return _DutyStage;
+    float GetMaxSpeedFactor() {
+      return _MaxGearSpeed;
     }
-    uint16_t GetDelay() {
-      return _Delay;
+    float GetMinSpeedFactor() {
+      return _MinGearSpeed;
     }
-    void SetMinSpeed (float MinSpeed) {
-      _MinSpeed = MinSpeed;
+    uint8_t GetDutyGear() {
+      return _MaxGearSpeed;
     }
-    void SetMaxSpeed (float MaxSpeed) {
-      _MinSpeed = MaxSpeed;
+    uint8_t GetMaxGear() {
+      return _MaxGear;
     }
-    void SetMaxStage(uint8_t MaxStage) {
-      _MaxStage = MaxStage;
+    uint8_t GetMinGear() {
+      return 0;
     }
-    void SetDutyStage(uint8_t DutyStage) {
-      _DutyStage = DutyStage;
-    }
-    void SetDelay(uint16_t Delay) {
-      _Delay = Delay;
+    uint16_t GetGearDelay() {
+      return _GearDelay;
     }
   private:
     //Values
-    float _MaxSpeed;
-    float _MinSpeed;
-    uint8_t _DutyStage;
-    uint8_t _MaxStage;
-    uint16_t _Delay;
+    float _MaxGearSpeed;
+    float _MinGearSpeed;
+    float _DutyGear;
+    float _MaxGear;
+    uint16_t _GearDelay;
     //Timers
     uint32_t _Timer0;
 };
 Gearbox Gearbox;
+Shockpanel Shockpanel;
 void setup() {
+  PWM_Overclock();
+  pinMode(Motor_Pin_Standby, OUTPUT);
+  digitalWrite(Motor_Pin_Standby, Motor_Power);
   Serial.begin(Monitor_Speed);
-  Gearbox.Setup(Gearbox_MaxSpeed, Gearbox_MinSpeed, Gearbox_MaxStage, Gearbox_Delay);
+  Shockpanel.Setup(ShockPanel_Pin_Solinoid, ShockPanel_Reloading, ShockPanel_Overheat);
+  Gearbox.Setup(Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
+  //MotorF.setSpeed(255);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
 }
 
@@ -183,6 +226,24 @@ void loop() {
   Drivers();
   Monitors();
   Gearbox.GearShifterPS2X();
+  MotorB.setSpeed(Gearbox.GetSpeed(255));
+  Serial.println(Gearbox.GetMaxSpeedFactor());
+  Shockpanel.Solinoid(PS2X.Button(PSB_R2));
+  Shockpanel.MiniGun(PS2X.Button(PSB_PAD_UP));
+}
+
+
+
+//FUNC
+void Drivers() {
+  //Gamepad
+  PS2X.read_gamepad(0, 0);
+  //Motor
+  MotorR.tick();
+  MotorL.tick();
+  MotorB.tick();
+  MotorF.tick();
+  //ShockPanel
 }
 void Monitors() {
 #if (Gearbox_Monitor)
@@ -241,12 +302,16 @@ void Monitors() {
   }
 #endif
 }
-void Drivers() {
-  //Gamepad
-  PS2X.read_gamepad(0, 0);
-  //Motor
-  MotorR.tick();
-  MotorL.tick();
-  MotorB.tick();
-  MotorF.tick();
+void PWM_Overclock() {
+  /*DONT TOUCH!
+    //D5 * D6
+    TCCR0B = 0b00000001;  // x1
+    TCCR0A = 0b00000011;  // fast pwm
+  */
+  //D9 & D10
+  TCCR1A = 0b00000001;  // 8bit
+  TCCR1B = 0b00001001;  // x1 fast pwm
+  //D3 & D11
+  TCCR2B = 0b00000001;  // x1
+  TCCR2A = 0b00000011;  // fast pwm
 }
