@@ -124,11 +124,18 @@ class Shockpanel {
         }
       }
     }
+    void Motor(uint16_t MotorSpeed) {
+      _MotorSpeed = MotorSpeed;
+    }
+    uint16_t GetMotorSpeed() {
+      return _MotorSpeed;
+    }
   private:
     //Values
     uint8_t _Solinoid_Pin;
     uint16_t _Reloading;
     uint16_t _Overheat;
+    uint16_t _MotorSpeed;
     //Timers
     uint32_t _Timer0;
     uint32_t _Timer1;
@@ -197,6 +204,18 @@ class Gearbox {
     uint16_t GetGearDelay() {
       return _GearDelay;
     }
+    void SetMaxSpeedFactor(float MaxGearSpeed) {
+      _MaxGearSpeed = MaxGearSpeed;
+    }
+    void SetMinSpeedFactor(float MinGearSpeed) {
+      _MinGearSpeed = MinGearSpeed;
+    }
+    void SetMaxGear(uint8_t MaxGear) {
+      _MaxGear = MaxGear;
+    }
+    void SetGearDelay(uint16_t GearDelay) {
+      _GearDelay = GearDelay;
+    }
   private:
     //Values
     float _MaxGearSpeed;
@@ -210,13 +229,11 @@ class Gearbox {
 Gearbox Gearbox;
 Shockpanel Shockpanel;
 void setup() {
+  PinMode();
   PWM_Overclock();
-  pinMode(Motor_Pin_Standby, OUTPUT);
-  digitalWrite(Motor_Pin_Standby, Motor_Power);
-  Serial.begin(Monitor_Speed);
+  Console();
   Shockpanel.Setup(ShockPanel_Pin_Solinoid, ShockPanel_Reloading, ShockPanel_Overheat);
   Gearbox.Setup(Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
-  //MotorF.setSpeed(255);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
 }
 
@@ -225,16 +242,19 @@ void setup() {
 void loop() {
   Drivers();
   Monitors();
+  Emotions();
   Gearbox.GearShifterPS2X();
   MotorB.setSpeed(Gearbox.GetSpeed(255));
-  Serial.println(Gearbox.GetMaxSpeedFactor());
   Shockpanel.Solinoid(PS2X.Button(PSB_R2));
-  Shockpanel.MiniGun(PS2X.Button(PSB_PAD_UP));
+  MotorF.setSpeed(Shockpanel.GetMotorSpeed());
 }
 
 
 
 //FUNC
+void Emotions() {
+  Shockpanel.MiniGun(PS2X.Button(PSB_PAD_UP));
+}
 void Drivers() {
   //Gamepad
   PS2X.read_gamepad(0, 0);
@@ -250,55 +270,56 @@ void Monitors() {
   if (millis() - Timer0 >= Gearbox_Monitor_Delay) {
     Timer0 = millis();
     Serial.println("GEARBOX-MONITOR===========+++");
-    Serial.print("DutySpeed     "); Serial.println(Gearbox.GetDutySpeed());
-    Serial.print("MaxSpeed      "); Serial.println(Gearbox.GetMaxSpeed());
-    Serial.print("MinSpeed      "); Serial.println(Gearbox.GetMinSpeed());
-    Serial.print("DutyStage     "); Serial.println(Gearbox.GetDutyStage());
-    Serial.print("MaxStage      "); Serial.println(Gearbox.GetMaxStage());
-    Serial.print("Delay         "); Serial.println(Gearbox.GetDelay());
+    Serial.print("DutySpeedFactor "); Serial.println(GetDutySpeedFactor());
+    Serial.print("MaxSpeedFactor  "); Serial.println(GetMaxSpeedFactorr());
+    Serial.print("MinSpeedFactor  "); Serial.println(GetMinSpeedFactorr());
+    Serial.print("DutyGear        "); Serial.println(GetDutyGear());
+    Serial.print("MaxGear         "); Serial.println(GetMaxGear());
+    Serial.print("MinGear         "); Serial.println(GetMaxGear());
+    Serial.print("GearDelay       "); Serial.println(GetGearDelay());
   }
 #endif
 #if (Gamepad_Monitor)
   if (millis() - Timer1 >= Gamepad_Monitor_Delay) {
     Timer1 = millis();
     Serial.println("GAMEPAD-MONITOR===========+++");
-    Serial.println("*Pads       ");
-    Serial.print("UP            "); Serial.println(PS2X.Button(PSB_PAD_UP));
-    Serial.print("RIGHT         "); Serial.println(PS2X.Button(PSB_PAD_RIGHT));
-    Serial.print("LEFT          "); Serial.println(PS2X.Button(PSB_PAD_LEFT));
-    Serial.print("DOWN          "); Serial.println(PS2X.Button(PSB_PAD_DOWN));
-    Serial.println("*FastKeys   ");
-    Serial.print("Start         "); Serial.println(PS2X.Button(PSB_START));
-    Serial.print("Select        "); Serial.println(PS2X.Button(PSB_SELECT));
-    Serial.println("*Keys       ");
-    Serial.print("BLUE          "); Serial.println(PS2X.ButtonPressed(PSB_BLUE));
-    Serial.print("GREEN         "); Serial.println(PS2X.ButtonPressed(PSB_GREEN));
-    Serial.print("RED           "); Serial.println(PS2X.ButtonPressed(PSB_RED));
-    Serial.print("PINK          "); Serial.println(PS2X.ButtonPressed(PSB_PINK));
-    Serial.println("*Triggers   ");
-    Serial.print("L1            "); Serial.println(PS2X.Button(PSB_L1));
-    Serial.print("L2            "); Serial.println(PS2X.Button(PSB_L2));
-    Serial.print("R1            "); Serial.println(PS2X.Button(PSB_R1));
-    Serial.print("R2            "); Serial.println(PS2X.Button(PSB_R2));
-    Serial.println("*Sticks     ");
-    Serial.print("AXIS LY       "); Serial.println(PS2X.Analog(PSS_LY));
-    Serial.print("AXIS LX       "); Serial.println(PS2X.Analog(PSS_LX));
-    Serial.print("KEY  L        "); Serial.println(PS2X.Button(PSB_L3));
-    Serial.print("AXIS RY       "); Serial.println(PS2X.Analog(PSS_RY));
-    Serial.print("AXIS RX       "); Serial.println(PS2X.Analog(PSS_RX));
-    Serial.print("KEY  R        "); Serial.println(PS2X.Button(PSB_R3));
-    Serial.println("*Others     ");
-    Serial.print("NEW STATE     "); Serial.println(PS2X.NewButtonState());
+    Serial.println("*Pads     ");
+    Serial.print("UP          "); Serial.println(PS2X.Button(PSB_PAD_UP));
+    Serial.print("RIGHT       "); Serial.println(PS2X.Button(PSB_PAD_RIGHT));
+    Serial.print("LEFT        "); Serial.println(PS2X.Button(PSB_PAD_LEFT));
+    Serial.print("DOWN        "); Serial.println(PS2X.Button(PSB_PAD_DOWN));
+    Serial.println("*FastKeys ");
+    Serial.print("Start       "); Serial.println(PS2X.Button(PSB_START));
+    Serial.print("Select      "); Serial.println(PS2X.Button(PSB_SELECT));
+    Serial.println("*Keys     ");
+    Serial.print("BLUE        "); Serial.println(PS2X.ButtonPressed(PSB_BLUE));
+    Serial.print("GREEN       "); Serial.println(PS2X.ButtonPressed(PSB_GREEN));
+    Serial.print("RED         "); Serial.println(PS2X.ButtonPressed(PSB_RED));
+    Serial.print("PINK        "); Serial.println(PS2X.ButtonPressed(PSB_PINK));
+    Serial.println("*Triggers ");
+    Serial.print("L1          "); Serial.println(PS2X.Button(PSB_L1));
+    Serial.print("L2          "); Serial.println(PS2X.Button(PSB_L2));
+    Serial.print("R1          "); Serial.println(PS2X.Button(PSB_R1));
+    Serial.print("R2          "); Serial.println(PS2X.Button(PSB_R2));
+    Serial.println("*Sticks   ");
+    Serial.print("AXIS LY     "); Serial.println(PS2X.Analog(PSS_LY));
+    Serial.print("AXIS LX     "); Serial.println(PS2X.Analog(PSS_LX));
+    Serial.print("KEY  L      "); Serial.println(PS2X.Button(PSB_L3));
+    Serial.print("AXIS RY     "); Serial.println(PS2X.Analog(PSS_RY));
+    Serial.print("AXIS RX     "); Serial.println(PS2X.Analog(PSS_RX));
+    Serial.print("KEY  R      "); Serial.println(PS2X.Button(PSB_R3));
+    Serial.println("*Others   ");
+    Serial.print("NEW STATE   "); Serial.println(PS2X.NewButtonState());
   }
 #endif
 #if (Motor_Monitor)
   if (millis() - Timer2 >= Motor_Monitor_Delay) {
     Timer2 = millis();
     Serial.println("MOTOR-MONITOR=============+++");
-    Serial.print("Right     "); Serial.println(MotorR.getSpeed());
-    Serial.print("Left      "); Serial.println(MotorL.getSpeed());
-    Serial.print("Back      "); Serial.println(MotorB.getSpeed());
-    Serial.print("Front     "); Serial.println(MotorF.getSpeed());
+    Serial.print("Right "); Serial.println(MotorR.getSpeed());
+    Serial.print("Left  "); Serial.println(MotorL.getSpeed());
+    Serial.print("Back  "); Serial.println(MotorB.getSpeed());
+    Serial.print("Front "); Serial.println(MotorF.getSpeed());
   }
 #endif
 }
@@ -314,4 +335,12 @@ void PWM_Overclock() {
   //D3 & D11
   TCCR2B = 0b00000001;  // x1
   TCCR2A = 0b00000011;  // fast pwm
+}
+void Console() {
+  Serial.begin(Monitor_Speed);
+  Serial.println("It works.");
+}
+void PinMode() {
+  pinMode(Motor_Pin_Standby, OUTPUT);
+  digitalWrite(Motor_Pin_Standby, Motor_Power);
 }
