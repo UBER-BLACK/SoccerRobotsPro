@@ -10,53 +10,55 @@
 
 
 //SETTINGS
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//            NAME            //        VALUE       //                     DESCRIPTION              //
-#define Monitor_Speed           9600                //--
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+//            NAME              //        VALUE       //                     DESCRIPTION              //
+#define Monitor_Speed             9600                //--
 //
-#define Gamepad_Monitor         false               //--
-#define Gamepad_Monitor_Delay   2000                //--
-#define Gamepad_DeadZone        20                  //--
-#define Gamepad_Pin_Data        2                   //--
-#define Gamepad_Pin_Command     3                   //--
-#define Gamepad_Pin_Clock       4                   //--
-#define Gamepad_Pin_Attention   5                   //--
+#define Gamepad_Monitor           false               //--
+#define Gamepad_Monitor_Delay     2000                //--
+#define Gamepad_DeadZone          20                  //--
+#define Gamepad_Pin_Data          2                   //--
+#define Gamepad_Pin_Command       3                   //--
+#define Gamepad_Pin_Clock         4                   //--
+#define Gamepad_Pin_Attention     5                   //--
 //
-#define Gearbox_Monitor         false               //--
-#define Gearbox_Monitor_Delay   2000                //--
-#define Gearbox_MaxGearSpeed    1                   //--
-#define Gearbox_MinGearSpeed    0.2                 //--
-#define Gearbox_DefaultGear     0                   //--
-#define Gearbox_MaxGear         5                   //--
-#define Gearbox_GearDelay       250                 //--
+#define Gearbox_Monitor           false               //--
+#define Gearbox_Monitor_Delay     2000                //--
+#define Gearbox_MaxGearSpeed      1                   //--
+#define Gearbox_MinGearSpeed      0.2                 //--
+#define Gearbox_DefaultGear       0                   //--
+#define Gearbox_MaxGear           5                   //--
+#define Gearbox_GearDelay         250                 //--
 
 //
-#define Motor_Monitor           false               //--
-#define Motor_Monitor_Delay     2000                //--
-#define Motor_Test              true                //--
-#define Motor_Power             true                //--
-#define Motor_Pin_Standby       8                   //--
-#define MotorR_Reverse          false               //--
-#define MotorR_Pin_Power        6                   //--
-#define MotorR_Pin_Plus         A0                  //--
-#define MotorR_Pin_Minus        A1                  //--
-#define MotorL_Reverse          false               //--
-#define MotorL_Pin_Power        9                   //--
-#define MotorL_Pin_Plus         A2                  //--
-#define MotorL_Pin_Minus        A3                  //--
-#define MotorB_Reverse          false               //--
-#define MotorB_Pin_Power        10                  //--
-#define MotorB_Pin_Plus         A4                  //--
-#define MotorB_Pin_Minus        A5                  //--
-#define MotorF_Reverse          false               //--
-#define MotorF_Pin_Power        11                  //--
-#define MotorF_Pin_Plus         12                  //--
-#define MotorF_Pin_Minus        13                  //--
+#define Motor_Monitor             false               //--
+#define Motor_Monitor_Delay       2000                //--
+#define Motor_Test                true                //--
+#define Motor_Power               true                //--
+#define Motor_Pin_Standby         8                   //--
+#define MotorR_Reverse            false               //--
+#define MotorR_Pin_Power          6                   //--
+#define MotorR_Pin_Plus           A0                  //--
+#define MotorR_Pin_Minus          A1                  //--
+#define MotorL_Reverse            false               //--
+#define MotorL_Pin_Power          9                   //--
+#define MotorL_Pin_Plus           A2                  //--
+#define MotorL_Pin_Minus          A3                  //--
+#define MotorB_Reverse            false               //--
+#define MotorB_Pin_Power          10                  //--
+#define MotorB_Pin_Plus           A4                  //--
+#define MotorB_Pin_Minus          A5                  //--
+#define MotorF_Reverse            false               //--
+#define MotorF_Pin_Power          11                  //--
+#define MotorF_Pin_Plus           12                  //--
+#define MotorF_Pin_Minus          13                  //--
 //
-#define ShockPanel_Monitor      false               //--
-#define ShockPanel_ShotSpeed    255                 //--
-#define ShockPanel_SuctionSpeed 150                 //--
-#define ShockPanel_Pin_Solinoid 7                   //--
+#define Shockpanel_Monitor        false               //--
+#define Shockpanel_Monitor_Delay  2000                //--
+#define Shockpanel_ShotSpeed      255                 //--
+#define Shockpanel_SuctionSpeed   150                 //--
+#define Shockpanel_SolinoidPin    7                   //--
+#define Shockpanel_SolinoidSpeed  20                  //--
 //
 
 
@@ -70,7 +72,7 @@ uint32_t Timer1;
 #if (Motor_Monitor)
 uint32_t Timer2;
 #endif
-#if (ShockPanel_Monitor)
+#if (Shockpanel_Monitor)
 uint32_t Timer3;
 #endif
 
@@ -86,17 +88,18 @@ GMotor2<DRIVER3WIRE>MotorB(MotorB_Pin_Plus, MotorB_Pin_Minus, MotorB_Pin_Power);
 GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 
-class Motion{
+class Motion {
   public:
   private:
 };
 class Shockpanel {
   public:
-    Setup(uint8_t Solinoid_Pin, int16_t ShotMotorSpeed, int16_t SuctionMotorSpeed) {
-      _Solinoid_Pin = Solinoid_Pin;
+    Setup(uint8_t SolinoidPin, uint8_t SolinoidSpeed, int16_t ShotMotorSpeed, int16_t SuctionMotorSpeed) {
+      _SolinoidPin = SolinoidPin;
+      _SolinoidSpeed = SolinoidSpeed;
       _ShotMotorSpeed = ShotMotorSpeed * -1;
       _SuctionMotorSpeed = SuctionMotorSpeed;
-      pinMode(_Solinoid_Pin, OUTPUT);
+      pinMode(_SolinoidPin, OUTPUT);
       ShotManual(true);
       ShotManual(false);
     }
@@ -116,13 +119,13 @@ class Shockpanel {
 
     }
     void Solinoid(bool Power) {
-      digitalWrite(_Solinoid_Pin, Power);
+      digitalWrite(_SolinoidPin, Power);
     }
     void MiniGun(bool run) {
       if (run) {
         _flag0 = false;
         MotorMode(true);
-        if (millis() - _Timer2 >= 20 * 2) {
+        if (millis() - _Timer2 >= _SolinoidSpeed * 2) {
           _flag1 = !_flag1;
           Solinoid(_flag1);
           _Timer2 =  millis();
@@ -154,27 +157,34 @@ class Shockpanel {
     int16_t GetSuctionMotorSpeed() {
       return _SuctionMotorSpeed;
     }
-    uint16_t GetSolinoidPin() {
-      return _Solinoid_Pin;
+    uint8_t GetSolinoidPin() {
+      return _SolinoidPin;
+    }
+    uint8_t GetSolinoidSpeed() {
+      return _SolinoidSpeed;
     }
     bool GetSuction() {
       return _Suction;
     }
-    void SetShotMotorSpeed(uint16_t ShotMotorSpeed) {
+    void SetShotMotorSpeed(int16_t ShotMotorSpeed) {
       _ShotMotorSpeed = ShotMotorSpeed;
     }
-    void SetSuctionMotorSpeed(uint16_t SuctionMotorSpeed) {
+    void SetSuctionMotorSpeed(int16_t SuctionMotorSpeed) {
       _SuctionMotorSpeed = SuctionMotorSpeed;
     }
-    void SetSolinoidPin(uint16_t Solinoid_Pin) {
-      _Solinoid_Pin = Solinoid_Pin;
+    void SetSolinoidPin(uint8_t SolinoidPin) {
+      _SolinoidPin = SolinoidPin;
+    }
+    void SetSolinoidSpeed(uint8_t SolinoidSpeed) {
+      _SolinoidSpeed = SolinoidSpeed;
     }
     void SetSuction(bool Suction) {
       _Suction = Suction;
     }
   private:
     //Values
-    uint8_t _Solinoid_Pin;
+    uint8_t _SolinoidSpeed;
+    uint8_t _SolinoidPin;
     int16_t _DutyMotorSpeed;
     int16_t _ShotMotorSpeed;
     int16_t _SuctionMotorSpeed;
@@ -280,7 +290,7 @@ void setup() {
   digitalWrite(Motor_Pin_Standby, Motor_Power);
   PWM_Overclock();
   Console();
-  Shockpanel.Setup(ShockPanel_Pin_Solinoid, ShockPanel_ShotSpeed, ShockPanel_SuctionSpeed);
+  Shockpanel.Setup(Shockpanel_SolinoidPin, Shockpanel_SolinoidSpeed, Shockpanel_ShotSpeed, Shockpanel_SuctionSpeed);
   Gearbox.Setup(Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
 }
@@ -293,8 +303,8 @@ void loop() {
   Emotions();
   Gearbox.ShifterPS2X();
   Shockpanel.ShotPS2X();
+  //Shockpanel.SetSuction(false);
   MotorF.setSpeed(Shockpanel.GetDutyMotorSpeed());
-  Serial.println(Shockpanel.GetShotMotorSpeed());
 }
 
 
@@ -317,63 +327,71 @@ void Monitors() {
   if (millis() - Timer0 >= Gearbox_Monitor_Delay) {
     Timer0 = millis();
     Serial.println("GEARBOX-MONITOR===========+++");
-    Serial.print("DutySpeedFactor "); Serial.println(GetDutySpeedFactor());
-    Serial.print("MaxSpeedFactor  "); Serial.println(GetMaxSpeedFactorr());
-    Serial.print("MinSpeedFactor  "); Serial.println(GetMinSpeedFactorr());
-    Serial.print("DutyGear        "); Serial.println(GetDutyGear());
-    Serial.print("MaxGear         "); Serial.println(GetMaxGear());
-    Serial.print("MinGear         "); Serial.println(GetMaxGear());
-    Serial.print("GearDelay       "); Serial.println(GetGearDelay());
+    Serial.print("DutySpeedFactor     "); Serial.println(GetDutySpeedFactor());
+    Serial.print("MaxSpeedFactor      "); Serial.println(GetMaxSpeedFactorr());
+    Serial.print("MinSpeedFactor      "); Serial.println(GetMinSpeedFactorr());
+    Serial.print("DutyGear            "); Serial.println(GetDutyGear());
+    Serial.print("MaxGear             "); Serial.println(GetMaxGear());
+    Serial.print("MinGear             "); Serial.println(GetMaxGear());
+    Serial.print("GearDelay           "); Serial.println(GetGearDelay());
   }
 #endif
 #if (Gamepad_Monitor)
   if (millis() - Timer1 >= Gamepad_Monitor_Delay) {
     Timer1 = millis();
     Serial.println("GAMEPAD-MONITOR===========+++");
-    Serial.println("*Pads     ");
-    Serial.print("UP          "); Serial.println(PS2X.Button(PSB_PAD_UP));
-    Serial.print("RIGHT       "); Serial.println(PS2X.Button(PSB_PAD_RIGHT));
-    Serial.print("LEFT        "); Serial.println(PS2X.Button(PSB_PAD_LEFT));
-    Serial.print("DOWN        "); Serial.println(PS2X.Button(PSB_PAD_DOWN));
-    Serial.println("*FastKeys ");
-    Serial.print("Start       "); Serial.println(PS2X.Button(PSB_START));
-    Serial.print("Select      "); Serial.println(PS2X.Button(PSB_SELECT));
-    Serial.println("*Keys     ");
-    Serial.print("BLUE        "); Serial.println(PS2X.ButtonPressed(PSB_BLUE));
-    Serial.print("GREEN       "); Serial.println(PS2X.ButtonPressed(PSB_GREEN));
-    Serial.print("RED         "); Serial.println(PS2X.ButtonPressed(PSB_RED));
-    Serial.print("PINK        "); Serial.println(PS2X.ButtonPressed(PSB_PINK));
-    Serial.println("*Triggers ");
-    Serial.print("L1          "); Serial.println(PS2X.Button(PSB_L1));
-    Serial.print("L2          "); Serial.println(PS2X.Button(PSB_L2));
-    Serial.print("R1          "); Serial.println(PS2X.Button(PSB_R1));
-    Serial.print("R2          "); Serial.println(PS2X.Button(PSB_R2));
-    Serial.println("*Sticks   ");
-    Serial.print("AXIS LY     "); Serial.println(PS2X.Analog(PSS_LY));
-    Serial.print("AXIS LX     "); Serial.println(PS2X.Analog(PSS_LX));
-    Serial.print("KEY  L      "); Serial.println(PS2X.Button(PSB_L3));
-    Serial.print("AXIS RY     "); Serial.println(PS2X.Analog(PSS_RY));
-    Serial.print("AXIS RX     "); Serial.println(PS2X.Analog(PSS_RX));
-    Serial.print("KEY  R      "); Serial.println(PS2X.Button(PSB_R3));
-    Serial.println("*Others   ");
-    Serial.print("NEW STATE   "); Serial.println(PS2X.NewButtonState());
+    Serial.println("*Pads         ");
+    Serial.print("UP              "); Serial.println(PS2X.Button(PSB_PAD_UP));
+    Serial.print("RIGHT           "); Serial.println(PS2X.Button(PSB_PAD_RIGHT));
+    Serial.print("LEFT            "); Serial.println(PS2X.Button(PSB_PAD_LEFT));
+    Serial.print("DOWN            "); Serial.println(PS2X.Button(PSB_PAD_DOWN));
+    Serial.println("*FastKeys     ");
+    Serial.print("Start           "); Serial.println(PS2X.Button(PSB_START));
+    Serial.print("Select          "); Serial.println(PS2X.Button(PSB_SELECT));
+    Serial.println("*Keys         ");
+    Serial.print("BLUE            "); Serial.println(PS2X.ButtonPressed(PSB_BLUE));
+    Serial.print("GREEN           "); Serial.println(PS2X.ButtonPressed(PSB_GREEN));
+    Serial.print("RED             "); Serial.println(PS2X.ButtonPressed(PSB_RED));
+    Serial.print("PINK            "); Serial.println(PS2X.ButtonPressed(PSB_PINK));
+    Serial.println("*Triggers     ");
+    Serial.print("L1              "); Serial.println(PS2X.Button(PSB_L1));
+    Serial.print("L2              "); Serial.println(PS2X.Button(PSB_L2));
+    Serial.print("R1              "); Serial.println(PS2X.Button(PSB_R1));
+    Serial.print("R2              "); Serial.println(PS2X.Button(PSB_R2));
+    Serial.println("*Sticks       ");
+    Serial.print("AXIS LY         "); Serial.println(PS2X.Analog(PSS_LY));
+    Serial.print("AXIS LX         "); Serial.println(PS2X.Analog(PSS_LX));
+    Serial.print("KEY  L          "); Serial.println(PS2X.Button(PSB_L3));
+    Serial.print("AXIS RY         "); Serial.println(PS2X.Analog(PSS_RY));
+    Serial.print("AXIS RX         "); Serial.println(PS2X.Analog(PSS_RX));
+    Serial.print("KEY  R          "); Serial.println(PS2X.Button(PSB_R3));
+    Serial.println("*Others       ");
+    Serial.print("NEW STATE       "); Serial.println(PS2X.NewButtonState());
   }
 #endif
 #if (Motor_Monitor)
   if (millis() - Timer2 >= Motor_Monitor_Delay) {
     Timer2 = millis();
     Serial.println("MOTOR-MONITOR=============+++");
-    Serial.print("Right "); Serial.println(MotorR.getSpeed());
-    Serial.print("Left  "); Serial.println(MotorL.getSpeed());
-    Serial.print("Back  "); Serial.println(MotorB.getSpeed());
-    Serial.print("Front "); Serial.println(MotorF.getSpeed());
+    Serial.print("Right     "); Serial.println(MotorR.getSpeed());
+    Serial.print("Left      "); Serial.println(MotorL.getSpeed());
+    Serial.print("Back      "); Serial.println(MotorB.getSpeed());
+    Serial.print("Front     "); Serial.println(MotorF.getSpeed());
   }
 #endif
-#if (ShockPanel_Monitor)
-  if (millis() - Timer3 >= Motor_Monitor_Delay) {
+#if (Shockpanel_Monitor)
+  if (millis() - Timer3 >= Shockpanel_Monitor_Delay) {
     Timer3 = millis();
     Serial.println("SCHOCKPANEL-MONITOR=======+++");
-    Serial.print("Right "); Serial.println(MotorR.getSpeed());
+    Serial.println("*Motors             ");
+    Serial.print("DutyMotorSpeed        "); Serial.println(Shockpanel.GetDutyMotorSpeed());
+    Serial.print("ShotMotorSpeed        "); Serial.println(Shockpanel.GetShotMotorSpeed());
+    Serial.print("SuctionMotorSpeed     "); Serial.println(Shockpanel.GetSuctionMotorSpeed());
+    Serial.println("*Solinoid           ");
+    Serial.print("SolinoidPin           "); Serial.println(Shockpanel.GetSolinoidPin());
+    Serial.print("SolinoidSpeed         "); Serial.println(Shockpanel.GetSolinoidSpeed());
+    Serial.println("*Other              ");
+    Serial.print("Suction               "); Serial.println(Shockpanel.GetSuction());
 
   }
 #endif
