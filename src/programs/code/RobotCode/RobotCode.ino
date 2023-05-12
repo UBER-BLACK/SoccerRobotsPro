@@ -54,7 +54,7 @@
 #define MotorF_Pin_Minus        13                  //--
 //
 #define ShockPanel_Monitor      false               //--
-#define ShockPanel_Reloading    1000                //--
+#define ShockPanel_Reloading    250                 //--
 #define ShockPanel_Overheat     3000                //--
 #define ShockPanel_ShotSpeed    255                 //--
 #define ShockPanel_SuctionSpeed 120                 //--
@@ -91,51 +91,91 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 class Shockpanel {
   public:
-    Setup(uint8_t Solinoid_Pin, uint16_t Reloading, uint16_t Overheat) {
+    Setup(uint8_t Solinoid_Pin, uint16_t Reloading, uint16_t Overheat, uint8_t ShotMotorSpeed, uint8_t SuctionMotorSpeed) {
       _Solinoid_Pin = Solinoid_Pin;
       _Reloading = Reloading;
       _Overheat = Overheat;
+      _ShotMotorSpeed = ShotMotorSpeed;
+      _SuctionMotorSpeed = !SuctionMotorSpeed;
       pinMode(_Solinoid_Pin, OUTPUT);
     }
-    void Solinoid(bool Power) {
-      if (Power) {
-        if (millis() - _Timer0 >= _Reloading) {
+    void ShotPS2X() {
+      ShotManual(PS2X.Button(PSB_R2));
+    }
+    void ShotManual(bool Shot) {
+      if (Shot == true) {
+        if (millis() - _Timer1 >= _Overheat) {
+          Solinoid(false);
+        }
+        else if (millis() - _Timer0 >= _Reloading) {
           _Timer0 = millis();
-          digitalWrite(_Solinoid_Pin, HIGH);
+          Solinoid(true);
+          MotorMode(true);
         }
       }
       else {
-        digitalWrite(_Solinoid_Pin, LOW);
+        Solinoid(false);
+        MotorMode(false);
         _Timer1 = millis();
       }
-      if (millis() - _Timer1 >= _Overheat) {
-        digitalWrite(_Solinoid_Pin, LOW);
-      }
     }
-
+    void Solinoid(bool Power) {
+      digitalWrite(_Solinoid_Pin, Power);
+    }
     void MiniGun(bool run) {
       if (run) {
+        uint32_t Timer0;
         bool flag;
-        if (millis() - _Timer2 >= 25) {
-          flag = !flag;
-          digitalWrite(_Solinoid_Pin, flag);
-          _Timer2 =  millis();
-
+        for (int i = 0; i < 500; i++) {
+          delay(1);
+          if (millis() - Timer0 >= 50) {
+            flag = !flag;
+            Solinoid(flag);
+            Timer0 =  millis();
+          }
         }
       }
     }
-    void Motor(uint16_t MotorSpeed) {
-      _MotorSpeed = MotorSpeed;
+    void MotorMode(uint8_t Mode) {
+      if (Mode == false)Motor(_ShotMotorSpeed);
+      else if (Mode == true) {
+        if (_Suction == true)Motor(_SuctionMotorSpeed);
+        else Motor(0);
+      }
     }
-    uint16_t GetMotorSpeed() {
-      return _MotorSpeed;
+    void Motor(uint16_t DutyMotorSpeed) {
+      _DutyMotorSpeed = DutyMotorSpeed;
+    }
+    uint16_t GetDutyMotorSpeed() {
+      return _DutyMotorSpeed;
+    }
+    uint16_t GetShotMotorSpeed() {
+      return _ShotMotorSpeed;
+    }
+    uint16_t GetSuctionMotorSpeed() {
+      return _SuctionMotorSpeed;
+    }
+    uint16_t GetOverheat() {
+      return _Overheat;
+    }
+    uint16_t GetReloading() {
+      return _Reloading;
+    }
+    uint16_t GetSolinoidPin() {
+      return _Solinoid_Pin;
+    }
+    bool GetSuction() {
+      return _Suction;
     }
   private:
     //Values
     uint8_t _Solinoid_Pin;
     uint16_t _Reloading;
     uint16_t _Overheat;
-    uint16_t _MotorSpeed;
+    uint16_t _DutyMotorSpeed;
+    uint16_t _ShotMotorSpeed;
+    uint16_t _SuctionMotorSpeed;
+    bool _Suction = true;
     //Timers
     uint32_t _Timer0;
     uint32_t _Timer1;
@@ -151,10 +191,10 @@ class Gearbox {
       _MaxGear = MaxGear;
       _GearDelay = GearDelay;
     }
-    void GearShifterPS2X() {
-      GearShifterManual(PS2X.Button(PSB_R1), PS2X.Button(PSB_L1));
+    void ShifterPS2X() {
+      ShifterManual(PS2X.Button(PSB_R1), PS2X.Button(PSB_L1));
     }
-    void GearShifterManual(bool ShifterUP, bool ShifterDOWN) {
+    void ShifterManual(bool ShifterUP, bool ShifterDOWN) {
       if (ShifterUP and ShifterDOWN)BOOST();
       else if (ShifterUP)UP();
       else if (ShifterDOWN)DOWN();
@@ -232,7 +272,7 @@ void setup() {
   PinMode();
   PWM_Overclock();
   Console();
-  Shockpanel.Setup(ShockPanel_Pin_Solinoid, ShockPanel_Reloading, ShockPanel_Overheat);
+  Shockpanel.Setup(ShockPanel_Pin_Solinoid, ShockPanel_Reloading, ShockPanel_Overheat, ShockPanel_ShotSpeed, ShockPanel_SuctionSpeed);
   Gearbox.Setup(Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
 }
@@ -243,10 +283,9 @@ void loop() {
   Drivers();
   Monitors();
   Emotions();
-  Gearbox.GearShifterPS2X();
-  MotorB.setSpeed(Gearbox.GetSpeed(255));
-  Shockpanel.Solinoid(PS2X.Button(PSB_R2));
-  MotorF.setSpeed(Shockpanel.GetMotorSpeed());
+  Gearbox.ShifterPS2X();
+  Shockpanel.ShotPS2X();
+  MotorF.setSpeed(Shockpanel.GetDutyMotorSpeed());
 }
 
 
