@@ -54,10 +54,8 @@
 #define MotorF_Pin_Minus        13                  //--
 //
 #define ShockPanel_Monitor      false               //--
-#define ShockPanel_Reloading    250                 //--
-#define ShockPanel_Overheat     3000                //--
 #define ShockPanel_ShotSpeed    255                 //--
-#define ShockPanel_SuctionSpeed 120                 //--
+#define ShockPanel_SuctionSpeed 150                 //--
 #define ShockPanel_Pin_Solinoid 7                   //--
 //
 
@@ -88,78 +86,73 @@ GMotor2<DRIVER3WIRE>MotorB(MotorB_Pin_Plus, MotorB_Pin_Minus, MotorB_Pin_Power);
 GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 
-
+class Motion{
+  public:
+  private:
+};
 class Shockpanel {
   public:
-    Setup(uint8_t Solinoid_Pin, uint16_t Reloading, uint16_t Overheat, uint8_t ShotMotorSpeed, uint8_t SuctionMotorSpeed) {
+    Setup(uint8_t Solinoid_Pin, int16_t ShotMotorSpeed, int16_t SuctionMotorSpeed) {
       _Solinoid_Pin = Solinoid_Pin;
-      _Reloading = Reloading;
-      _Overheat = Overheat;
-      _ShotMotorSpeed = ShotMotorSpeed;
-      _SuctionMotorSpeed = !SuctionMotorSpeed;
+      _ShotMotorSpeed = ShotMotorSpeed * -1;
+      _SuctionMotorSpeed = SuctionMotorSpeed;
       pinMode(_Solinoid_Pin, OUTPUT);
+      ShotManual(true);
+      ShotManual(false);
     }
     void ShotPS2X() {
       ShotManual(PS2X.Button(PSB_R2));
     }
     void ShotManual(bool Shot) {
-      if (Shot == true) {
-        if (millis() - _Timer1 >= _Overheat) {
-          Solinoid(false);
-        }
-        else if (millis() - _Timer0 >= _Reloading) {
-          _Timer0 = millis();
+      if (_flag0)
+        if (Shot == true) {
           Solinoid(true);
           MotorMode(true);
         }
-      }
-      else {
-        Solinoid(false);
-        MotorMode(false);
-        _Timer1 = millis();
-      }
+        else {
+          Solinoid(false);
+          MotorMode(false);
+        }
+
     }
     void Solinoid(bool Power) {
       digitalWrite(_Solinoid_Pin, Power);
     }
     void MiniGun(bool run) {
       if (run) {
-        uint32_t Timer0;
-        bool flag;
-        for (int i = 0; i < 500; i++) {
-          delay(1);
-          if (millis() - Timer0 >= 50) {
-            flag = !flag;
-            Solinoid(flag);
-            Timer0 =  millis();
-          }
+        _flag0 = false;
+        MotorMode(true);
+        if (millis() - _Timer2 >= 20 * 2) {
+          _flag1 = !_flag1;
+          Solinoid(_flag1);
+          _Timer2 =  millis();
         }
       }
-    }
-    void MotorMode(uint8_t Mode) {
-      if (Mode == false)Motor(_ShotMotorSpeed);
-      else if (Mode == true) {
-        if (_Suction == true)Motor(_SuctionMotorSpeed);
-        else Motor(0);
+      else {
+        Solinoid(false);
+        _flag0 = true;
+        MotorMode(false);
       }
     }
-    void Motor(uint16_t DutyMotorSpeed) {
+    void MotorMode(bool Mode) {
+      if (Mode)Motor(_ShotMotorSpeed);
+      else if (_Suction)Motor(_SuctionMotorSpeed);
+      else Motor(0);
+    }
+    void Motor(int16_t DutyMotorSpeed) {
       _DutyMotorSpeed = DutyMotorSpeed;
     }
-    uint16_t GetDutyMotorSpeed() {
+    void Suction(bool Suction) {
+      _Suction = Suction;
+    }
+    int16_t GetDutyMotorSpeed() {
       return _DutyMotorSpeed;
     }
-    uint16_t GetShotMotorSpeed() {
+    int16_t GetShotMotorSpeed() {
       return _ShotMotorSpeed;
     }
-    uint16_t GetSuctionMotorSpeed() {
+    int16_t GetSuctionMotorSpeed() {
       return _SuctionMotorSpeed;
-    }
-    uint16_t GetOverheat() {
-      return _Overheat;
-    }
-    uint16_t GetReloading() {
-      return _Reloading;
     }
     uint16_t GetSolinoidPin() {
       return _Solinoid_Pin;
@@ -167,19 +160,33 @@ class Shockpanel {
     bool GetSuction() {
       return _Suction;
     }
+    void SetShotMotorSpeed(uint16_t ShotMotorSpeed) {
+      _ShotMotorSpeed = ShotMotorSpeed;
+    }
+    void SetSuctionMotorSpeed(uint16_t SuctionMotorSpeed) {
+      _SuctionMotorSpeed = SuctionMotorSpeed;
+    }
+    void SetSolinoidPin(uint16_t Solinoid_Pin) {
+      _Solinoid_Pin = Solinoid_Pin;
+    }
+    void SetSuction(bool Suction) {
+      _Suction = Suction;
+    }
   private:
     //Values
     uint8_t _Solinoid_Pin;
-    uint16_t _Reloading;
-    uint16_t _Overheat;
-    uint16_t _DutyMotorSpeed;
-    uint16_t _ShotMotorSpeed;
-    uint16_t _SuctionMotorSpeed;
+    int16_t _DutyMotorSpeed;
+    int16_t _ShotMotorSpeed;
+    int16_t _SuctionMotorSpeed;
     bool _Suction = true;
     //Timers
     uint32_t _Timer0;
     uint32_t _Timer1;
     uint32_t _Timer2;
+    //Flags
+    bool _flag0;
+    bool _flag1;
+
 };
 class Gearbox {
   public:
@@ -269,10 +276,11 @@ class Gearbox {
 Gearbox Gearbox;
 Shockpanel Shockpanel;
 void setup() {
-  PinMode();
+  pinMode(Motor_Pin_Standby, OUTPUT);
+  digitalWrite(Motor_Pin_Standby, Motor_Power);
   PWM_Overclock();
   Console();
-  Shockpanel.Setup(ShockPanel_Pin_Solinoid, ShockPanel_Reloading, ShockPanel_Overheat, ShockPanel_ShotSpeed, ShockPanel_SuctionSpeed);
+  Shockpanel.Setup(ShockPanel_Pin_Solinoid, ShockPanel_ShotSpeed, ShockPanel_SuctionSpeed);
   Gearbox.Setup(Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
 }
@@ -286,8 +294,8 @@ void loop() {
   Gearbox.ShifterPS2X();
   Shockpanel.ShotPS2X();
   MotorF.setSpeed(Shockpanel.GetDutyMotorSpeed());
+  Serial.println(Shockpanel.GetShotMotorSpeed());
 }
-
 
 
 //FUNC
@@ -361,6 +369,14 @@ void Monitors() {
     Serial.print("Front "); Serial.println(MotorF.getSpeed());
   }
 #endif
+#if (ShockPanel_Monitor)
+  if (millis() - Timer3 >= Motor_Monitor_Delay) {
+    Timer3 = millis();
+    Serial.println("SCHOCKPANEL-MONITOR=======+++");
+    Serial.print("Right "); Serial.println(MotorR.getSpeed());
+
+  }
+#endif
 }
 void PWM_Overclock() {
   /*DONT TOUCH!
@@ -378,8 +394,4 @@ void PWM_Overclock() {
 void Console() {
   Serial.begin(Monitor_Speed);
   Serial.println("It works.");
-}
-void PinMode() {
-  pinMode(Motor_Pin_Standby, OUTPUT);
-  digitalWrite(Motor_Pin_Standby, Motor_Power);
 }
