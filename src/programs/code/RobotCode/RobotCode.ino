@@ -60,7 +60,7 @@
 #define Shockpanel_SolinoidPin    7                   //--
 #define Shockpanel_SolinoidSpeed  20                  //--
 //
-#define Motion_        0
+#define Motion_ControlSens        0.4
 
 
 #if (Gearbox_Monitor)
@@ -90,6 +90,9 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 class Motion {
   public:
+    void Setup(float ControlSens){
+      _ControlSens = ControlSens;
+    }
     void MotionPS2X(){
       uint8_t LY = PS2X.Analog(PSS_LY);
       uint8_t LX = PS2X.Analog(PSS_LX);
@@ -130,14 +133,19 @@ class Motion {
       MotorR = (MotorR + Gamepad_CY());
       MotorL = (MotorL + Gamepad_CY() * -1);
       //Rotate
-      MotorR = (MotorR + _Gamepad_LX * -1 * 0.4);
-      MotorL = (MotorL + _Gamepad_LX * -1 * 0.4);
-      MotorB = (MotorB + _Gamepad_LX * -1 * 0.4);
+      MotorR = (MotorR + _Gamepad_LX * -1 * _ControlSens);
+      MotorL = (MotorL + _Gamepad_LX * -1 * _ControlSens);
+      MotorB = (MotorB + _Gamepad_LX * -1 * _ControlSens);
+      //Drift
+      MotorR = (MotorR + _Gamepad_RX *-1  *0.65);
+      MotorL = (MotorL + _Gamepad_RX *-1 *0.65);
+      MotorB = (MotorB + _Gamepad_RX *1  *1);
       _MotorSpeed[0] = MotorR;
       _MotorSpeed[1] = MotorL;
       _MotorSpeed[2] = MotorB;
       Serial.println(GetMotorSpeed(1));
     }
+    float _ControlSens;
     int16_t _Gamepad_LY;
     int16_t _Gamepad_LX;
     int16_t _Gamepad_RY;
@@ -343,7 +351,7 @@ void setup() {
   digitalWrite(Motor_Pin_Standby, Motor_Power);
   PWM_Overclock();
   Console();
-  Motion.Setup();
+  Motion.Setup(Motion_ControlSens);
   Shockpanel.Setup(Shockpanel_SolinoidPin, Shockpanel_SolinoidSpeed, Shockpanel_ShotSpeed, Shockpanel_SuctionSpeed);
   Gearbox.Setup(Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
