@@ -60,7 +60,7 @@
 #define Shockpanel_SolinoidPin    7                   //--
 #define Shockpanel_SolinoidSpeed  20                  //--
 //
-
+#define Motion_        0
 
 
 #if (Gearbox_Monitor)
@@ -90,7 +90,53 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 class Motion {
   public:
+    void MotionPS2X(){
+      uint8_t LY = PS2X.Analog(PSS_LY);
+      uint8_t LX = PS2X.Analog(PSS_LX);
+      uint8_t RY = PS2X.Analog(PSS_RY);
+      uint8_t RX = PS2X.Analog(PSS_RX);
+      MotionManual(LY,LX,RY,RX);
+    }
+    void MotionManual(uint8_t LY, uint8_t LX, uint8_t RY, uint8_t RX){
+      _Gamepad_LY = map(LY, 0, 255, 255, -255);
+      _Gamepad_LX = map(LX, 0, 255, -255, 255);
+      _Gamepad_RY = map(RY, 0, 255, 255, -255);
+      _Gamepad_RX = map(RX, 0, 255, -255, 255);
+      Formula();
+    }
+    int16_t Gamepad_CY(){
+      if (abs(_Gamepad_LY) >= abs(_Gamepad_RY)){
+        return _Gamepad_LY;
+      }
+      else if ((abs(_Gamepad_LY) < abs(_Gamepad_RY))){
+        return _Gamepad_RY;
+      }
+    }
+    int16_t GetMotorSpeed(uint8_t MotorNumber){
+      return _MotorSpeed[MotorNumber];
+    }
   private:
+    void Formula(){
+      int16_t MotorR = 0;
+      int16_t MotorL = 0;
+      int16_t MotorB = 0;
+      //Forward and backward
+      MotorR = (MotorR + Gamepad_CY());
+      MotorL = (MotorL + Gamepad_CY() * -1);
+      //Rotate
+      MotorR = (MotorR + _Gamepad_LX * -1 * 0.6);
+      MotorL = (MotorL + _Gamepad_LX * -1 * 0.6);
+      MotorB = (MotorB + _Gamepad_LX * -1 * 0.6);
+      _MotorSpeed[0] = MotorR;
+      _MotorSpeed[1] = MotorL;
+      _MotorSpeed[2] = MotorB;
+      Serial.println(GetMotorSpeed(1));
+    }
+    int16_t _Gamepad_LY;
+    int16_t _Gamepad_LX;
+    int16_t _Gamepad_RY;
+    int16_t _Gamepad_RX;
+    int16_t _MotorSpeed[2];
 };
 class Shockpanel {
   public:
@@ -283,6 +329,7 @@ class Gearbox {
     //Timers
     uint32_t _Timer0;
 };
+Motion Motion;
 Gearbox Gearbox;
 Shockpanel Shockpanel;
 void setup() {
@@ -303,7 +350,11 @@ void loop() {
   Emotions();
   Gearbox.ShifterPS2X();
   Shockpanel.ShotPS2X();
+  Motion.MotionPS2X();
   //Shockpanel.SetSuction(false);
+  MotorR.setSpeed(Motion.GetMotorSpeed(0));
+  MotorL.setSpeed(Motion.GetMotorSpeed(1));
+  MotorB.setSpeed(Motion.GetMotorSpeed(2));
   MotorF.setSpeed(Shockpanel.GetDutyMotorSpeed());
 }
 
