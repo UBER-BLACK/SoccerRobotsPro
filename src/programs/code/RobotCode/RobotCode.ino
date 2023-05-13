@@ -24,10 +24,11 @@
 //
 #define Gearbox_Monitor           false               //--
 #define Gearbox_Monitor_Delay     2000                //--
+#define Gearbox_MinMotorSpeed     20                  //--
 #define Gearbox_MaxGearSpeed      1                   //--
-#define Gearbox_MinGearSpeed      0.2                 //--
+#define Gearbox_MinGearSpeed      0.3                 //--
 #define Gearbox_DefaultGear       0                   //--
-#define Gearbox_MaxGear           5                   //--
+#define Gearbox_MaxGear           4                   //--
 #define Gearbox_GearDelay         250                 //--
 
 //
@@ -56,11 +57,14 @@
 #define Shockpanel_Monitor        false               //--
 #define Shockpanel_Monitor_Delay  2000                //--
 #define Shockpanel_ShotSpeed      255                 //--
-#define Shockpanel_SuctionSpeed   150                 //--
+#define Shockpanel_SuctionSpeed   100                 //--
 #define Shockpanel_SolinoidPin    7                   //--
 #define Shockpanel_SolinoidSpeed  20                  //--
 //
-#define Motion_        0
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of a74d15f (Update RobotCode.ino)
 
 
 #if (Gearbox_Monitor)
@@ -90,53 +94,7 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 class Motion {
   public:
-    void MotionPS2X(){
-      uint8_t LY = PS2X.Analog(PSS_LY);
-      uint8_t LX = PS2X.Analog(PSS_LX);
-      uint8_t RY = PS2X.Analog(PSS_RY);
-      uint8_t RX = PS2X.Analog(PSS_RX);
-      MotionManual(LY,LX,RY,RX);
-    }
-    void MotionManual(uint8_t LY, uint8_t LX, uint8_t RY, uint8_t RX){
-      _Gamepad_LY = map(LY, 0, 255, 255, -255);
-      _Gamepad_LX = map(LX, 0, 255, -255, 255);
-      _Gamepad_RY = map(RY, 0, 255, 255, -255);
-      _Gamepad_RX = map(RX, 0, 255, -255, 255);
-      Formula();
-    }
-    int16_t Gamepad_CY(){
-      if (abs(_Gamepad_LY) >= abs(_Gamepad_RY)){
-        return _Gamepad_LY;
-      }
-      else if ((abs(_Gamepad_LY) < abs(_Gamepad_RY))){
-        return _Gamepad_RY;
-      }
-    }
-    int16_t GetMotorSpeed(uint8_t MotorNumber){
-      return _MotorSpeed[MotorNumber];
-    }
   private:
-    void Formula(){
-      int16_t MotorR = 0;
-      int16_t MotorL = 0;
-      int16_t MotorB = 0;
-      //Forward and backward
-      MotorR = (MotorR + Gamepad_CY());
-      MotorL = (MotorL + Gamepad_CY() * -1);
-      //Rotate
-      MotorR = (MotorR + _Gamepad_LX * -1 * 0.6);
-      MotorL = (MotorL + _Gamepad_LX * -1 * 0.6);
-      MotorB = (MotorB + _Gamepad_LX * -1 * 0.6);
-      _MotorSpeed[0] = MotorR;
-      _MotorSpeed[1] = MotorL;
-      _MotorSpeed[2] = MotorB;
-      Serial.println(GetMotorSpeed(1));
-    }
-    int16_t _Gamepad_LY;
-    int16_t _Gamepad_LX;
-    int16_t _Gamepad_RY;
-    int16_t _Gamepad_RX;
-    int16_t _MotorSpeed[2];
 };
 class Shockpanel {
   public:
@@ -247,7 +205,8 @@ class Shockpanel {
 class Gearbox {
   public:
     //MainFunc
-    Setup(float MaxGearSpeed, float MinGearSpeed, uint8_t MaxGear, uint8_t DefaultGear, uint16_t GearDelay) {
+    Setup(uint8_t MinMotorSpeed, float MaxGearSpeed, float MinGearSpeed, uint8_t MaxGear, uint8_t DefaultGear, uint16_t GearDelay) {
+      _MinMotorSpeed = MinMotorSpeed;
       _MaxGearSpeed = MaxGearSpeed;
       _MinGearSpeed = MinGearSpeed;
       _DutyGear = DefaultGear;
@@ -283,7 +242,10 @@ class Gearbox {
       _DutyGear = 0;
     }
     int16_t GetSpeed (int16_t OriginalSpeed) {
+      if (abs(OriginalSpeed) >= abs(_MinMotorSpeed)){
       return OriginalSpeed * GetDutySpeedFactor();
+      }
+      else return 0;
     }
     //OtherFuncs
     float GetDutySpeedFactor() {
@@ -321,6 +283,7 @@ class Gearbox {
     }
   private:
     //Values
+    uint8_t _MinMotorSpeed;
     float _MaxGearSpeed;
     float _MinGearSpeed;
     float _DutyGear;
@@ -329,7 +292,6 @@ class Gearbox {
     //Timers
     uint32_t _Timer0;
 };
-Motion Motion;
 Gearbox Gearbox;
 Shockpanel Shockpanel;
 void setup() {
@@ -338,7 +300,7 @@ void setup() {
   PWM_Overclock();
   Console();
   Shockpanel.Setup(Shockpanel_SolinoidPin, Shockpanel_SolinoidSpeed, Shockpanel_ShotSpeed, Shockpanel_SuctionSpeed);
-  Gearbox.Setup(Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
+  Gearbox.Setup(Gearbox_MinMotorSpeed, Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
 }
 
@@ -350,12 +312,15 @@ void loop() {
   Emotions();
   Gearbox.ShifterPS2X();
   Shockpanel.ShotPS2X();
-  Motion.MotionPS2X();
   //Shockpanel.SetSuction(false);
-  MotorR.setSpeed(Motion.GetMotorSpeed(0));
-  MotorL.setSpeed(Motion.GetMotorSpeed(1));
-  MotorB.setSpeed(Motion.GetMotorSpeed(2));
+<<<<<<< HEAD
+  MotorR.setSpeed(Gearbox.GetSpeed(Motion.GetMotorSpeed(0)));
+  MotorL.setSpeed(Gearbox.GetSpeed(Motion.GetMotorSpeed(1)));
+  MotorB.setSpeed(Motion.GetMotorSpeed(3));
+  //MotorF.setSpeed(Shockpanel.GetDutyMotorSpeed());
+=======
   MotorF.setSpeed(Shockpanel.GetDutyMotorSpeed());
+>>>>>>> parent of a74d15f (Update RobotCode.ino)
 }
 
 
@@ -366,11 +331,6 @@ void Emotions() {
 void Drivers() {
   //Gamepad
   PS2X.read_gamepad(0, 0);
-  //Motor
-  MotorR.tick();
-  MotorL.tick();
-  MotorB.tick();
-  MotorF.tick();
   //ShockPanel
 }
 void Monitors() {
