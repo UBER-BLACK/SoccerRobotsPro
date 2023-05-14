@@ -60,7 +60,10 @@
 #define Shockpanel_SolinoidPin    7                   //--
 #define Shockpanel_SolinoidSpeed  20                  //--
 //
-#define Motion_ControlSens        0.4
+#define Motion_ControlSens        0.25                //--
+#define Motion_DriftRSens         0.58                //--
+#define Motion_DriftLSens         0.58                //--
+#define Motion_DriftBSens         0.98                //--
 
 
 #if (Gearbox_Monitor)
@@ -90,8 +93,11 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Pin_Plus, MotorF_Pin_Minus, MotorF_Pin_Power);
 
 class Motion {
   public:
-    void Setup(float ControlSens){
+void Setup(float ControlSens, float DriftRSens, float DriftLSens, float DriftBSens){
       _ControlSens = ControlSens;
+      _DriftRSens = DriftRSens;
+      _DriftLSens = DriftLSens;
+      _DriftBSens = DriftBSens;
     }
     void MotionPS2X(){
       uint8_t LY = PS2X.Analog(PSS_LY);
@@ -101,10 +107,14 @@ class Motion {
       MotionManual(LY,LX,RY,RX);
     }
     void MotionManual(uint8_t LY, uint8_t LX, uint8_t RY, uint8_t RX){
-      _Gamepad_LY = map(LY, 0, 255, 255, -255);
-      _Gamepad_LX = map(LX, 0, 255, -255, 255);
-      _Gamepad_RY = map(RY, 0, 255, 255, -255);
-      _Gamepad_RX = map(RX, 0, 255, -255, 255);
+      _Gamepad_LY = map(LY, 0, 255, 200, -200);
+      _Gamepad_LX = map(LX, 0, 255, -200, 200);
+      _Gamepad_RY = map(RY, 0, 255, 200, -200);
+      _Gamepad_RX = map(RX, 0, 255, -200, 200);
+      _Gamepad_LY = constrain(_Gamepad_LY, -255, 255);
+      _Gamepad_LX = constrain(_Gamepad_LX, -255, 255);
+      _Gamepad_RY = constrain(_Gamepad_RY, -255, 255);
+      _Gamepad_RX = constrain(_Gamepad_RX, -255, 255);
       Formula();
     }
     int16_t Gamepad_CY(){
@@ -137,15 +147,19 @@ class Motion {
       MotorL = (MotorL + _Gamepad_LX * -1 * _ControlSens);
       MotorB = (MotorB + _Gamepad_LX * -1 * _ControlSens);
       //Drift
-      MotorR = (MotorR + _Gamepad_RX *-1  *0.65);
-      MotorL = (MotorL + _Gamepad_RX *-1 *0.65);
-      MotorB = (MotorB + _Gamepad_RX *1  *1);
+      MotorR = (MotorR + _Gamepad_RX *-1  *_DriftRSens);
+      MotorL = (MotorL + _Gamepad_RX *-1  *_DriftLSens);
+      MotorB = (MotorB + _Gamepad_RX *1   *_DriftBSens);
       _MotorSpeed[0] = MotorR;
       _MotorSpeed[1] = MotorL;
       _MotorSpeed[2] = MotorB;
       Serial.println(GetMotorSpeed(1));
+      
     }
-    float _ControlSens;
+    float _ControlSens; 
+    float _DriftRSens;
+    float _DriftLSens;
+    float _DriftBSens;
     int16_t _Gamepad_LY;
     int16_t _Gamepad_LX;
     int16_t _Gamepad_RY;
@@ -351,7 +365,7 @@ void setup() {
   digitalWrite(Motor_Pin_Standby, Motor_Power);
   PWM_Overclock();
   Console();
-  Motion.Setup(Motion_ControlSens);
+  Motion.Setup(Motion_ControlSens, Motion_DriftRSens, Motion_DriftLSens, Motion_DriftBSens);
   Shockpanel.Setup(Shockpanel_SolinoidPin, Shockpanel_SolinoidSpeed, Shockpanel_ShotSpeed, Shockpanel_SuctionSpeed);
   Gearbox.Setup(Gearbox_MaxGearSpeed, Gearbox_MinGearSpeed, Gearbox_MaxGear, Gearbox_DefaultGear, Gearbox_GearDelay);
   PS2X.config_gamepad(Gamepad_Pin_Clock, Gamepad_Pin_Command, Gamepad_Pin_Attention, Gamepad_Pin_Data, 0, 0);
@@ -360,18 +374,19 @@ void setup() {
 
 
 void loop() {
+  //Func
   Drivers();
   Monitors();
   Emotions();
+  //Class
   Gearbox.ShifterPS2X();
   Shockpanel.ShotPS2X();
   Motion.MotionPS2X();
-  Shockpanel.SetSuction(!(Motion.GetForwardTrigger()));
+  //
   MotorR.setSpeed(Gearbox.GetSpeed(Motion.GetMotorSpeed(0)));
   MotorL.setSpeed(Gearbox.GetSpeed(Motion.GetMotorSpeed(1)));
   MotorB.setSpeed(Gearbox.GetSpeed(Motion.GetMotorSpeed(2)));
   MotorF.setSpeed(Shockpanel.GetDutyMotorSpeed());
-  delay(50);
 }
 
 
@@ -387,7 +402,6 @@ void Drivers() {
   MotorL.tick();
   MotorB.tick();
   MotorF.tick();
-  //ShockPanel
 }
 void Monitors() {
 #if (Gearbox_Monitor)
