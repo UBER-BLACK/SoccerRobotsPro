@@ -83,13 +83,29 @@
 
 
 //LIBS
-#include <PS2X_lib.h>     //By (NONAME)
-#include <GyverMotor2.h>  //By @AlexGyver 
+#include <PS2X_lib.h>     //By @madsci1016 (Bill Porter) GitHub:https://github.com/madsci1016/Arduino-PS2X LICENSE: NO FOUND!
+#include <GyverMotor2.h>  //By @GyverLibs (AlexGyver) GitHub:https://github.com/GyverLibs/GyverMotor LICENSE:https://raw.githubusercontent.com/GyverLibs/GyverMotor/main/LICENSE
 PS2X PS2X;
-GMotor2<DRIVER3WIRE>MotorR(MotorR_Plus, MotorR_Minus, MotorR_Power);
-GMotor2<DRIVER3WIRE>MotorL(MotorL_Plus, MotorL_Minus, MotorL_Power);
-GMotor2<DRIVER3WIRE>MotorB(MotorB_Plus, MotorB_Minus, MotorB_Power);
-GMotor2<DRIVER3WIRE>MotorF(MotorF_Plus, MotorF_Minus, MotorF_Power);
+GMotor2<DRIVER3WIRE>MotorR(MotorR_Plus,MotorR_Minus,MotorR_Power);
+GMotor2<DRIVER3WIRE>MotorL(MotorL_Plus,MotorL_Minus,MotorL_Power);
+GMotor2<DRIVER3WIRE>MotorB(MotorB_Plus,MotorB_Minus,MotorB_Power);
+GMotor2<DRIVER3WIRE>MotorF(MotorF_Plus,MotorF_Minus,MotorF_Power);
+
+
+
+//MONITOR OPTIMIZATION
+#if (Gearbox_Monitor)//Creating a delay variable
+uint32_t Timer0 = Gearbox_MonitorDelay;
+#endif
+#if (Gamepad_Monitor)//Creating a delay variable
+uint32_t Timer1 = Gamepad_MonitorDelay;
+#endif
+#if (Motor_Monitor)//Creating a delay variable
+uint32_t Timer2 = Motor_MonitorDelay;
+#endif
+#if (Shockpanel_Monitor)//Creating a delay variable
+uint32_t Timer3 = Shockpanel_MonitorDelay;
+#endif
 
 
 
@@ -104,23 +120,23 @@ class Motion{
       _DriftSens        = constrain(DriftSens,0,1);
       _DriftRFactor     = constrain(DriftRFactor,0,1);
       _DriftLFactor     = constrain(DriftLFactor,0,1);
-      _DriftBFactor     = constrain(DriftBFactor,0,1); }
+      _DriftBFactor     = constrain(DriftBFactor,0,1);}
     gamepadPS2X(){
       int16_t LY = PS2X.Analog(PSS_LY);
       int16_t LX = PS2X.Analog(PSS_LX);
       int16_t RY = PS2X.Analog(PSS_RY);
       int16_t RX = PS2X.Analog(PSS_RX);
-      gamepadManual(LY, LX, RY, RX, 0, 255); }
+      gamepadManual(LY, LX, RY, RX, 0, 255);}
     gamepadManual(int16_t LY, int16_t LX, int16_t RY, int16_t RX, int16_t MaxIn, int16_t MinIn){
       _Gamepad_LY = constrain(MegaMap(LY, MinIn, MaxIn, _Gamepad_Min, _Gamepad_Max), _Gamepad_Min, _Gamepad_Max);
       _Gamepad_LX = constrain(MegaMap(LX, MinIn, MaxIn, _Gamepad_Max, _Gamepad_Min), _Gamepad_Min, _Gamepad_Max);
       _Gamepad_RY = constrain(MegaMap(RY, MinIn, MaxIn, _Gamepad_Min, _Gamepad_Max), _Gamepad_Min, _Gamepad_Max);
-      _Gamepad_RX = constrain(MegaMap(RX, MinIn, MaxIn, _Gamepad_Max, _Gamepad_Min), _Gamepad_Min, _Gamepad_Max); }
+      _Gamepad_RX = constrain(MegaMap(RX, MinIn, MaxIn, _Gamepad_Max, _Gamepad_Min), _Gamepad_Min, _Gamepad_Max);}
     int16_t API_OUT_SHOCKPANEL(){
-      return _Gamepad_CY(); }
+      return _Gamepad_CY();}
     int16_t GetMotor(uint8_t Number){
       formula();
-      return _Motor[Number]; }
+      return _Motor[Number];}
     double GetData(uint8_t Number){
       switch (Number) {
         case 1: //GET CONTROL SENS
@@ -163,8 +179,49 @@ class Motion{
           return _Gamepad_CY();
           break;
         default:
-          return 0;
-          break; } }
+          return -1;
+          break;}}
+    SetData(uint8_t Number, double Value){
+      switch (Number) {
+        case 1: //SET CONTROL SENS
+          _ControlSens = Value;
+          break;
+        case 2: //SET CONTROL SENS (RIGHT)
+          _ControlRSens = Value;
+          break;
+        case 3: //SET CONTROL SENS (LEFT)
+          _ControlLSens = Value;
+          break;
+        case 4: //SET CONTROL SENS (BACK)
+          _ControlBSens = Value;
+          break;
+        case 5: //SET DRIFT SENS
+          _DriftSens = Value;
+          break;
+        case 6: //SET DRIFT FACTOR (RIGHT)
+          _DriftRFactor = Value;
+          break;
+        case 7: //SET DRIFT FACTOR (LEFT)
+          _DriftLFactor = Value;
+          break;
+        case 8: //SET DRIFT FACTOR (BACK)
+          _DriftBFactor = Value;
+          break;
+        case 9: //SET GAMEPAD ASIX LY
+          _Gamepad_LY = Value;
+          break;
+        case 10://SET GAMEPAD ASIX LX
+          _Gamepad_LX = Value;
+          break;
+        case 11://SET GAMEPAD ASIX RY
+          _Gamepad_RY = Value;
+          break;
+        case 12://SET GAMEPAD ASIX RX
+          _Gamepad_RX = Value;
+          break;
+        default:
+          return -1;
+          break;}}
   private:
     formula(){
       int16_t MotorR = 0;
@@ -187,10 +244,10 @@ class Motion{
       _Motor[2] = MotorB;}
     int16_t _Gamepad_CY(){
       if (abs(_Gamepad_LY) >= abs(_Gamepad_RY))return _Gamepad_LY;
-      else if (abs(_Gamepad_LY) < abs(_Gamepad_RY))return _Gamepad_RY; }
+      else if (abs(_Gamepad_LY) < abs(_Gamepad_RY))return _Gamepad_RY;}
     double MegaMap(double Value, double MinIn, double MaxIn, double MinOut, double MaxOut){
       double Map = (Value - MinIn) * (MaxOut - MinOut) / (MaxIn - MinIn) + MinOut;
-      return Map; }
+      return Map;}
     //Value
     int16_t _Motor[2];
     double _GeneralSens;
@@ -207,8 +264,7 @@ class Motion{
     int16_t _Gamepad_LY;
     int16_t _Gamepad_LX;
     int16_t _Gamepad_RY;
-    int16_t _Gamepad_RX; 
-};
+    int16_t _Gamepad_RX;};
 class Gearbox{
   public:
     setup(double MaxSpeed, double MinSpeed, uint8_t MinPower, uint8_t MaxGear, uint8_t DefGear, uint16_t Delay){
@@ -217,44 +273,63 @@ class Gearbox{
       _MinPower = constrain(MinPower,0,255);
       _MaxGear  = constrain(MaxGear,0,255);
       _DutyGear = constrain(DefGear,0,255);
-      _Delay    = constrain(Delay,0,65535); }
+      _Delay    = constrain(Delay,0,65535);}
     gamepadPS2X(){
-      gamepadManual(PS2X.Button(PSB_L1), PS2X.Button(PSB_R1)); }
+      gamepadManual(PS2X.Button(PSB_L1), PS2X.Button(PSB_R1));}
     gamepadManual(bool KeyDOWN, bool KeyUP){
       if (KeyUP and KeyDOWN)BOOST();
       else if (KeyUP)UP();
-      else if (KeyDOWN)DOWN(); }
+      else if (KeyDOWN)DOWN();}
     UP(){
-      if (millis() - _Timer0 >= _Delay) {
+      if (millis() - _Timer0 >= _Delay){
         _Timer0 = millis();
         if (_DutyGear >= _MaxGear)_DutyGear = _MaxGear;
-        else _DutyGear++;
-      } }
+        else _DutyGear++;}}
     DOWN(){
-      if (millis() - _Timer0 >= _Delay) {
+      if (millis() - _Timer0 >= _Delay){
         _Timer0 = millis();
         if (_DutyGear <= 0)_DutyGear = 0;
-        else _DutyGear--;
-      } }
-    BOOST() {
-      _DutyGear = _MaxGear; }
-    FREEZE() {
-      _DutyGear = 0; }
+        else _DutyGear--;}}
+    BOOST(){
+      _DutyGear = _MaxGear;}
+    FREEZE(){
+      _DutyGear = 0;}
     int16_t GetSpeed(uint8_t Number, int16_t OriginalSpeed){
       int16_t Speed = OriginalSpeed * DutySpeed();
       Speed = constrain(Speed,-255,255);
       if (abs(Speed) >= _MinPower){
         _Brake[Number]=false;
-        return Speed;
-      }
-      else {
+        return Speed;}
+      else{
         _Brake[Number]=true;
-        return 0;
-      } }
+        return 0;}}
     int16_t GetBrake(uint8_t Number){
-      return _Brake[Number]; }
+      return _Brake[Number];}
+    SetData(uint8_t Number, double Value){
+      switch (Number){
+        case 0: //SET MAX SPEED
+          _MaxSpeed = Value;
+          break;
+        case 1: //SET MIN SPEED
+          _MinSpeed = Value;
+          break;
+        case 2: //SET MIN POWER
+          _MinPower = Value;
+          break;
+        case 3: //SET MAX GEAR
+          _MaxGear = Value;
+          break;
+        case 4: //SET DUTY GEAR
+          _DutyGear = Value;
+          break;
+        case 5: //SET DELAY
+          _Delay = Value;
+          break;
+        default:
+          return -1;
+          break;}}
     double GetData(uint8_t Number){
-      switch (Number) {
+      switch (Number){
         case 0: //GET MAX SPEED
           return _MaxSpeed;
           break;
@@ -277,14 +352,14 @@ class Gearbox{
           return DutySpeed();
           break;
         default:
-          return 0;
-          break; } }
+          return -1;
+          break;}}
   private:
     double DutySpeed(){
-      return MegaMap(_DutyGear,0,_MaxGear,_MinSpeed,_MaxSpeed); }
+      return MegaMap(_DutyGear,0,_MaxGear,_MinSpeed,_MaxSpeed);}
     double MegaMap(double Value, double MinIn, double MaxIn, double MinOut, double MaxOut){
       double Map = (Value - MinIn) * (MaxOut - MinOut) / (MaxIn - MinIn) + MinOut;
-      return Map; }
+      return Map;}
     //Values
     double _MaxSpeed;
     double _MinSpeed;
@@ -294,8 +369,7 @@ class Gearbox{
     uint16_t _Delay;
     bool _Brake[4];
     //Timers
-    uint32_t _Timer0;
-};
+    uint32_t _Timer0 = _Delay;};
 class Shockpanel{
   public:
     setup(uint8_t MinigunDelay, uint8_t SolinoidPin, uint8_t ShotSpeed, uint8_t HoldSpeed, uint8_t NormSpeed, double APIBoost, uint16_t Delay){
@@ -306,9 +380,9 @@ class Shockpanel{
     _NormSpeed    = constrain(NormSpeed,0,255);
     _APIBoost     = constrain(APIBoost,0,255);
     _Delay        = constrain(Delay,0,65535);
-    pinMode(_SolinoidPin, OUTPUT); }
+    pinMode(_SolinoidPin, OUTPUT);}
     gamepadPS2X(){
-      gamepadManual(PS2X.Button(PSB_L2), PS2X.Button(PSB_R2), PS2X.Button(PSB_SELECT)); }
+      gamepadManual(PS2X.Button(PSB_L2), PS2X.Button(PSB_R2), PS2X.Button(PSB_SELECT));}
     gamepadManual(bool keyHold, bool keySHOT, bool keyMODE){
       if (keyMODE)MODE();
       if (keyHold and keySHOT)MINIGUN();
@@ -316,45 +390,106 @@ class Shockpanel{
       else if (keyHold)HOLD();
       else NORM();}
     MINIGUN(){
-      if (millis() - _Timer0 >= _MinigunDelay) {
+      if (millis() - _Timer0 >= _MinigunDelay){
           _flag0 = !_flag0;
           solinoid(_flag0);
           _DutySpeed = -255;
           _Timer0 =  millis();}}
     SHOT(){
-      if (millis() - _Timer1 >= _Delay) {
+      if (millis() - _Timer1 >= _Delay){
         solinoid(1);
         _DutySpeed = (_ShotSpeed *-1);
         _Timer1 =  millis();}}
     HOLD(){
-      if (millis() - _Timer1 >= _Delay) {
+      if (millis() - _Timer1 >= _Delay){
         solinoid(0);
         _DutySpeed = _HoldSpeed;
         _Timer1 =  millis();}}
     NORM(){
-      if (millis() - _Timer1 >= _Delay) {
+      if (millis() - _Timer1 >= _Delay){
         solinoid(0);
         if (_flag2)_DutySpeed = _NormSpeed;
-        else {
+        else{
           if (_flag1)_DutySpeed = (_APISpeed * _APIBoost);
-          else _DutySpeed = 0;
-        }
-        _Timer1 =  millis();
-      }}
+          else _DutySpeed = 0;}
+        _Timer1 =  millis();}}
     MODE(){
-      if (millis() - _Timer0 >= _Delay*2) {
+      if (millis() - _Timer0 >= _Delay*2){
         _flag2 = !_flag2;
         NORM();
         _Timer0 =  millis();}}
     solinoid(bool State){
-      digitalWrite(_SolinoidPin, State); }
+      digitalWrite(_SolinoidPin, State);}
     int16_t GetShaft(){
-      return _DutySpeed; }
+      return _DutySpeed;}
     API_IN_Motion(int16_t API1){
       _flag1 = true;
       _APISpeed = (API1 *-1);
-      _APISpeed = constrain(_APISpeed,-255,255);
-    }
+      _APISpeed = constrain(_APISpeed,-255,255);}
+    SetData(uint8_t Number, double Value){
+      switch (Number){
+        case 0: //SET MAX SPEED
+          _SolinoidPin = Value;
+          break;
+        case 1: //SET MINIGUN DELAY
+          _MinigunDelay = Value;
+          break;
+        case 2: //SET SHOT SPEED
+          _ShotSpeed = Value;
+          break;
+        case 3: //SET HOLD SPEED
+          _HoldSpeed = Value;
+          break;
+        case 4: //SET NORM SPEED
+          _NormSpeed = Value;
+          break;
+        case 5: //SET DUTY SPEED
+          _DutySpeed = Value;
+          break;
+        case 6: //SET API SPEED
+          _APISpeed = Value;
+          break;
+        case 7: //SET API BOOST
+          _APIBoost = Value;
+          break;
+        case 8: //SET DELAY
+          _Delay = Value;
+          break;
+        default:
+          return -1;
+          break;}}
+    double GetData(uint8_t Number){
+      switch (Number){
+        case 0: //GET MAX SPEED
+          return _SolinoidPin;
+          break;
+        case 1: //GET MINIGUN DELAY
+          return _MinigunDelay;
+          break;
+        case 2: //GET SHOT SPEED
+          return _ShotSpeed;
+          break;
+        case 3: //GET HOLD SPEED
+          return _HoldSpeed;
+          break;
+        case 4: //GET NORM SPEED
+          return _NormSpeed;
+          break;
+        case 5: //GET DUTY SPEED
+          return _DutySpeed;
+          break;
+        case 6: //GET API SPEED
+          return _APISpeed;
+          break;
+        case 7: //GET API BOOST
+          return _APIBoost;
+          break;
+        case 8: //GET DELAY
+          return _Delay;
+          break;
+        default:
+          return -1;
+          break;}}
   private:
     //Values
     uint8_t _SolinoidPin;
@@ -371,70 +506,58 @@ class Shockpanel{
     bool _flag1;  //API
     bool _flag2;  //MODE
     //Timers
-    uint32_t _Timer0;
-    uint32_t _Timer1;
-};
-Motion Motion;
-Gearbox Gearbox;
-Shockpanel Shockpanel;
-void setup() {
+    uint32_t _Timer0 = _MinigunDelay;
+    uint32_t _Timer1 = _Delay;};
+Motion Motion;//Creating an object
+Gearbox Gearbox;//Creating an object
+Shockpanel Shockpanel;//Creating an object
+void setup(){//Here the code is executed once
   //CODE
-  PWM();
-  pinMode(Motor_Standby, OUTPUT);
-  digitalWrite(Motor_Standby,HIGH);
+  WELCOME(); //Welcome text
+  pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
+  digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //LIBS
-  PS2X.config_gamepad(Gamepad_Clock, Gamepad_Command, Gamepad_Attention, Gamepad_Data, 0, 0);
-  Serial.begin(Monitor_Speed);
-  MotorR.reverse(MotorR_Reverse);
-  MotorL.reverse(MotorL_Reverse);
-  MotorB.reverse(MotorB_Reverse);
-  MotorF.reverse(MotorF_Reverse);
+  PS2X.config_gamepad(Gamepad_Clock,Gamepad_Command,Gamepad_Attention,Gamepad_Data,0,0);//Applying the settings
+  Serial.begin(Monitor_Speed);//Applying the settings
+  MotorR.reverse(MotorR_Reverse);//Applying the settings
+  MotorL.reverse(MotorL_Reverse);//Applying the settings
+  MotorB.reverse(MotorB_Reverse);//Applying the settings
+  MotorF.reverse(MotorF_Reverse);//Applying the settings
   //CLASES
-  Gearbox.setup(Gearbox_MaxSpeed, Gearbox_MinSpeed, Gearbox_MinPower, Gearbox_MaxGear, Gearbox_DefGear, Gearbox_Delay);
-  Shockpanel.setup(Shockpanel_MinigunDelay, Solinoid_Pin, Shockpanel_ShotSpeed, Shockpanel_HoldSpeed, Shockpanel_NormSpeed, Shockpanel_APIBoost, Shockpanel_Delay);
-  Motion.setup(Motion_ControlSens, Motion_ControlRSens, Motion_ControlLSens, Motion_ControlBSens, Motion_DriftSens, Motion_DriftRFactor, Motion_DriftLFactor, Motion_DriftBFactor);
-  Serial.println("SoccerRobotPro Firmware: It Works!");
+  Gearbox.setup(Gearbox_MaxSpeed,Gearbox_MinSpeed,Gearbox_MinPower,Gearbox_MaxGear,Gearbox_DefGear,Gearbox_Delay);//Applying the settings
+  Shockpanel.setup(Shockpanel_MinigunDelay,Solinoid_Pin,Shockpanel_ShotSpeed,Shockpanel_HoldSpeed,Shockpanel_NormSpeed,Shockpanel_APIBoost,Shockpanel_Delay);//Applying the settings
+  Motion.setup(Motion_ControlSens,Motion_ControlRSens,Motion_ControlLSens,Motion_ControlBSens,Motion_DriftSens,Motion_DriftRFactor,Motion_DriftLFactor,Motion_DriftBFactor);//Applying the settings
+  }
+void loop(){//Here the code is executed in an infinite loop
+  PS2X.read_gamepad(0,0);//Communication with the gamepad
+  Motion.gamepadPS2X();//Receiving then processing gamepad data
+  Gearbox.gamepadPS2X();//Receiving then processing gamepad data
+  Shockpanel.gamepadPS2X();//Receiving then processing gamepad data
+  Shockpanel.API_IN_Motion(Motion.API_OUT_SHOCKPANEL());//Automatic Shaft API
+  MotorR.setSpeed(Gearbox.GetSpeed(0,Motion.GetMotor(0)));//Receiving then setting the speed of the right motor
+  MotorL.setSpeed(Gearbox.GetSpeed(1,Motion.GetMotor(1)));//Receiving then setting the speed of the left motor
+  MotorB.setSpeed(Gearbox.GetSpeed(2,Motion.GetMotor(2)));//Receiving then setting the speed of the back motor
+  MotorF.setSpeed(Shockpanel.GetShaft());//Receiving then setting the speed of the front motor
+  if(Gearbox.GetBrake(0))MotorR.brake();//Automatic brake on the right hand motor
+  if(Gearbox.GetBrake(1))MotorL.brake();//Automatic brake on the left hand motor
+  if(Gearbox.GetBrake(2))MotorB.brake();//Automatic brake on the back hand motor
+}
+
+
+
+//FUNCTIONS
+void WELCOME(){//Important text when starting the program
+  Serial.println("SoccerRobotPro Firmware. It Works!");
   Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
   Serial.println("Dev @THEBIGMISHA");
-}
-void loop() {
-  PS2X.read_gamepad(0, 0);
-  Motion.gamepadPS2X();
-  Gearbox.gamepadPS2X();
-  Shockpanel.gamepadPS2X();
-  Shockpanel.API_IN_Motion(Motion.API_OUT_SHOCKPANEL());
-  MotorR.setSpeed(Gearbox.GetSpeed(0,Motion.GetMotor(0)));
-  MotorL.setSpeed(Gearbox.GetSpeed(1,Motion.GetMotor(1)));
-  MotorB.setSpeed(Gearbox.GetSpeed(2,Motion.GetMotor(2)));
-  MotorF.setSpeed(Shockpanel.GetShaft());
-  if(Gearbox.GetBrake(0))MotorR.brake();
-  if(Gearbox.GetBrake(1))MotorL.brake();
-  if(Gearbox.GetBrake(2))MotorB.brake();
-}
-
-
-
-//FUNC
-void PWM(){
-  //D5 & D6
-  //TCCR0B = 0b00000001;  // x1
-  //TCCR0A = 0b00000011;  // fast pwm
+  }
+void PWM(){//Changing the parameters of the (variable) PWM frequency
+  //D5 & D6 DON'T TOUCH!
+  //TCCR0B = 0b00000001;
+  //TCCR0A = 0b00000011;
   //D9 & D10
-  TCCR1A = 0b00000001;  // 8bit
-  TCCR1B = 0b00001001;  // x1 fast pwm
+  TCCR1A = 0b00000001;
+  TCCR1B = 0b00001001;
   //D3 & D11
-  TCCR2B = 0b00000111;  // x1024
-  TCCR2A = 0b00000001;  // phase correct
-}
-void PWM_underclock(){
-  //FOR FUNNY
-  //D5 & D6
-  //TCCR0B = 0b00000101;  // x1024
-  //TCCR0A = 0b00000001;  // phase correct
-  //D9 & D10
-  TCCR1A = 0b00000001;  // 8bit
-  TCCR1B = 0b00000100;  // x256 phase correct
-  //D3 & D11
-  TCCR2B = 0b00000111;  // x1024
-  TCCR2A = 0b00000001;  // phase correct
-}
+  TCCR2B = 0b00000111;
+  TCCR2A = 0b00000001;}
