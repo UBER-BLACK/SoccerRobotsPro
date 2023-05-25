@@ -22,9 +22,9 @@
 //
 #define Gearbox_Monitor           false      //--
 #define Gearbox_MonitorDelay      2000       //--
-#define Gearbox_MaxSpeed          1          //--
-#define Gearbox_MinSpeed          0.3        //--
-#define Gearbox_MinPower          25         //--
+#define Gearbox_MaxSpeed          0.9        //--
+#define Gearbox_MinSpeed          0.4        //--
+#define Gearbox_MinPower          20         //--
 #define Gearbox_DefGear           0          //--
 #define Gearbox_MaxGear           5          //--
 #define Gearbox_Delay             250        //--
@@ -41,11 +41,11 @@
 #define Shockpanel_MinigunDelay   20         //--
 #define Shockpanel_ShotSpeed      255        //--
 #define Shockpanel_HoldSpeed      255        //--
-#define Shockpanel_NormSpeed      100        //--
+#define Shockpanel_NormSpeed      50        //--
 #define Shockpanel_APIBoost       0.5        //--
 #define Shockpanel_Delay          150        //--
 //
-#define Motion_ControlSens        0.45       //--
+#define Motion_ControlSens        0.40       //--
 #define Motion_ControlRSens       1.00       //--
 #define Motion_ControlLSens       1.00       //--
 #define Motion_ControlBSens       1.00       //--
@@ -408,10 +408,11 @@ class Shockpanel{
     NORM(){
       if (millis() - _Timer1 >= _Delay){
         solinoid(0);
-        if (_flag2)_DutySpeed = _NormSpeed;
-        else{
-          if (_flag1)_DutySpeed = (_APISpeed * _APIBoost);
-          else _DutySpeed = 0;}
+        if (!_flag2){
+          if (_flag1)_DutySpeed = _NormSpeed+(_APISpeed * _APIBoost);
+          else _DutySpeed = _NormSpeed;
+        }
+        else _DutySpeed = 0;
         _Timer1 =  millis();}}
     MODE(){
       if (millis() - _Timer0 >= _Delay*2){
@@ -514,6 +515,7 @@ Shockpanel Shockpanel;//Creating an object
 void setup(){//Here the code is executed once
   //CODE
   WELCOME(); //Welcome text
+  PWM();
   pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
   digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //LIBS
