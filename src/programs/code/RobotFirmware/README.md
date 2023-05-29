@@ -2,4 +2,4 @@
 [![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-444?style=flat-square)](RU_README.md)
 # Robot Firmware
 This firmware is made for our soccer robot
-## Installing
+# Installing
