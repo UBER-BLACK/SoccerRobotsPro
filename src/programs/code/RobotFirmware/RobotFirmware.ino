@@ -515,7 +515,7 @@ Shockpanel Shockpanel;//Creating an object
 void setup(){//Here the code is executed once
   //CODE
   WELCOME(); //Welcome text
-  PWM();
+  //PWM();//SOON
   pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
   digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //LIBS
