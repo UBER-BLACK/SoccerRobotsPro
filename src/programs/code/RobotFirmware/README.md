@@ -9,3 +9,5 @@ This firmware is made for our soccer robot
 1. Install the **![driver](https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/drivers/ch340)** for the Arduino with **chip ch340**
 1. Specify the board and port
 1. Press the flash button
+# Customizing
+soon
