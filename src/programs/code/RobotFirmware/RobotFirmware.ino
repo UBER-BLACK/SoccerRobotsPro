@@ -15,35 +15,35 @@
 //SETTINGS
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //            NAME              //   VALUE   //                   DESCRIPTION                //
-#define Monitor_Speed             9600       //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#001
+#define Monitor_Speed             9600       //
 //
-#define Gamepad_Monitor           false      //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#002
-#define Gamepad_MonitorDelay      2000       //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#003
+#define Gamepad_Monitor           false      //SOON
+#define Gamepad_MonitorDelay      2000       //SOON
 //
-#define Gearbox_Monitor           false      //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#004
-#define Gearbox_MonitorDelay      2000       //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#005
-#define Gearbox_MaxSpeed          0.9        //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#006
-#define Gearbox_MinSpeed          0.4        //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#007
-#define Gearbox_MinPower          20         //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#008
-#define Gearbox_DefGear           0          //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#009
-#define Gearbox_MaxGear           5          //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#010
-#define Gearbox_Delay             250        //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#011
+#define Gearbox_Monitor           false      //SOON
+#define Gearbox_MonitorDelay      2000       //SOON
+#define Gearbox_MaxSpeed          0.9        //
+#define Gearbox_MinSpeed          0.4        //
+#define Gearbox_MinPower          20         //
+#define Gearbox_DefGear           0          //
+#define Gearbox_MaxGear           5          //
+#define Gearbox_Delay             250        //
 //
-#define Motor_Monitor             false      //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#012
-#define Motor_MonitorDelay        2000       //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#013
-#define MotorR_Reverse            false      //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#014
-#define MotorL_Reverse            false      //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#015
-#define MotorB_Reverse            false      //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#016
-#define MotorF_Reverse            false      //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#017
+#define Motor_Monitor             false      //SOON
+#define Motor_MonitorDelay        2000       //SOON
+#define MotorR_Reverse            false      //
+#define MotorL_Reverse            false      //
+#define MotorB_Reverse            false      //
+#define MotorF_Reverse            false      //
 //
-#define Shockpanel_Monitor        false      //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#018
-#define Shockpanel_MonitorDelay   2000       //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#019
-#define Shockpanel_MinigunDelay   20         //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#020
-#define Shockpanel_ShotSpeed      255        //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#021
-#define Shockpanel_HoldSpeed      255        //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#022
-#define Shockpanel_NormSpeed      50         //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#023
-#define Shockpanel_APIBoost       0.5        //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#024
-#define Shockpanel_Delay          150        //http://GitHub.com/UBER-BLACK/SoccerRobotsPro/src/programs/code#025
+#define Shockpanel_Monitor        false      //SOON
+#define Shockpanel_MonitorDelay   2000       //SOON
+#define Shockpanel_MinigunDelay   20         //
+#define Shockpanel_ShotSpeed      255        //
+#define Shockpanel_HoldSpeed      255        //
+#define Shockpanel_NormSpeed      50         //
+#define Shockpanel_APIBoost       0.5        //
+#define Shockpanel_Delay          150        //
 //
 #define Motion_ControlSens        0.40       //--
 #define Motion_ControlRSens       1.00       //--
@@ -529,7 +529,7 @@ void setup(){//Here the code is executed once
   Gearbox.setup(Gearbox_MaxSpeed,Gearbox_MinSpeed,Gearbox_MinPower,Gearbox_MaxGear,Gearbox_DefGear,Gearbox_Delay);//Applying the settings
   Shockpanel.setup(Shockpanel_MinigunDelay,Solinoid_Pin,Shockpanel_ShotSpeed,Shockpanel_HoldSpeed,Shockpanel_NormSpeed,Shockpanel_APIBoost,Shockpanel_Delay);//Applying the settings
   Motion.setup(Motion_ControlSens,Motion_ControlRSens,Motion_ControlLSens,Motion_ControlBSens,Motion_DriftSens,Motion_DriftRFactor,Motion_DriftLFactor,Motion_DriftBFactor);//Applying the settings
-  }
+}
 void loop(){//Here the code is executed in an infinite loop
   PS2X.read_gamepad(0,0);//Communication with the gamepad
   Motion.gamepadPS2X();//Receiving then processing gamepad data
@@ -548,10 +548,6 @@ void loop(){//Here the code is executed in an infinite loop
 
 
 //FUNCTIONS
-void MONITORS(){
-#if
-#endif 
-}
 void WELCOME(){//Important text when starting the program
   Serial.println("SoccerRobotPro Firmware. It Works!");
   Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
