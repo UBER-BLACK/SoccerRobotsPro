@@ -62,26 +62,26 @@
 //PINS I/O
 /////////////////////////////////////////////
 //            NAME              //   PIN   //
-#define Gamepad_Data              2
-#define Gamepad_Command           3
-#define Gamepad_Clock             4
-#define Gamepad_Attention         5
+#define Gamepad_Data              2        //NOT RECOMMENDED TO CHANGE
+#define Gamepad_Command           3        //NOT RECOMMENDED TO CHANGE
+#define Gamepad_Clock             4        //NOT RECOMMENDED TO CHANGE
+#define Gamepad_Attention         5        //NOT RECOMMENDED TO CHANGE
 //
-#define Solinoid_Pin              7
+#define Solinoid_Pin              7        //NOT RECOMMENDED TO CHANGE
 //
-#define Motor_Standby             8
-#define MotorR_Power              6
-#define MotorR_Plus               A0
-#define MotorR_Minus              A1
-#define MotorL_Power              9
-#define MotorL_Plus               A2
-#define MotorL_Minus              A3
-#define MotorB_Power              10
-#define MotorB_Plus               A4
-#define MotorB_Minus              A5
-#define MotorF_Power              11
-#define MotorF_Plus               12
-#define MotorF_Minus              13
+#define Motor_Standby             8        //NOT RECOMMENDED TO CHANGE
+#define MotorR_Power              6        //NOT RECOMMENDED TO CHANGE
+#define MotorR_Plus               A0       //NOT RECOMMENDED TO CHANGE
+#define MotorR_Minus              A1       //NOT RECOMMENDED TO CHANGE
+#define MotorL_Power              9        //NOT RECOMMENDED TO CHANGE
+#define MotorL_Plus               A2       //NOT RECOMMENDED TO CHANGE
+#define MotorL_Minus              A3       //NOT RECOMMENDED TO CHANGE
+#define MotorB_Power              10       //NOT RECOMMENDED TO CHANGE
+#define MotorB_Plus               A4       //NOT RECOMMENDED TO CHANGE
+#define MotorB_Minus              A5       //NOT RECOMMENDED TO CHANGE
+#define MotorF_Power              11       //NOT RECOMMENDED TO CHANGE
+#define MotorF_Plus               12       //NOT RECOMMENDED TO CHANGE
+#define MotorF_Minus              13       //NOT RECOMMENDED TO CHANGE
 
 
 
