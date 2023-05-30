@@ -29,47 +29,14 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Default: **``9600``**
   - This parameter is responsible for the speed of USB data exchange with the computer (don't forget to change this parameter in the port monitor)
 
-### Gamepad_Monitor
+### (Name)_Monitor
 
   - May have a value of: **``false``** or **``true``**
   - Default: **``false``**
   - This parameter is responsible for turning on this monitor
 
-### Gamepad_MonitorDelay
+### (Name)_MonitorDelay
 
-  - May have a value of: **``0 - 5000``**
-  - Default: **``2000``**
-  - This parameter is responsible for the monitor output delay in ms
-
-### Gearbox_Monitor
-
-  - May have a value of: **``false``** or **``true``**
-  - Default: **``false``**
-  - This parameter is responsible for turning on this monitor
-
-### Gearbox_MonitorDelay
-  - May have a value of: **``0 - 5000``**
-  - Default: **``2000``**
-  - This parameter is responsible for the monitor output delay in ms
-
-### Motor_Monitor
-
-  - May have a value of: **``false``** or **``true``**
-  - Default: **``false``**
-  - This parameter is responsible for turning on this monitor
-
-### Motor_MonitorDelay
-  - May have a value of: **``0 - 5000``**
-  - Default: **``2000``**
-  - This parameter is responsible for the monitor output delay in ms
-
-### Motion_Monitor
-
-  - May have a value of: **``false``** or **``true``**
-  - Default: **``false``**
-  - This parameter is responsible for turning on this monitor
-
-### Motion_MonitorDelay
   - May have a value of: **``0 - 5000``**
   - Default: **``2000``**
   - This parameter is responsible for the monitor output delay in ms
