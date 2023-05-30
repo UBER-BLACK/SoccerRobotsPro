@@ -26,19 +26,19 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 ### Monitor_Speed
 
   - May have a value of: **``...9600, 19200, 31250, 38400, 57600, 74880, 115200, 230400, 250000, 460800, 500000...``**
-  - Default: **``9600``**
+  - Recommended: **``9600``**
   - This parameter is responsible for the speed of USB data exchange with the computer (don't forget to change this parameter in the port monitor)
 
 ### (Name)_Monitor
 
   - May have a value of: **``false``** or **``true``**
-  - Default: **``false``**
+  - Recommended: **``false``**
   - This parameter is responsible for turning on this monitor
 
 ### (Name)_MonitorDelay
 
   - May have a value of: **``0 - 5000``**
-  - Default: **``2000``**
+  - Recommended: **``2000``**
   - This parameter is responsible for the monitor output delay in ms
 
 ## Gearbox
@@ -46,41 +46,41 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 ### Gearbox_MaxSpeed
 
   - May have a value of: **``0.0 - 1.0``**
-  - Default: **``0.9``**
+  - Recommended: **``0.9``**
   - This parameter is responsible for the division factor in the last gear
 
 ### Gearbox_MinSpeed
 
   - May have a value of: **``0.0 - 1.0``**
-  - Default: **``0.4``**
+  - Recommended: **``0.4``**
   - This parameter is responsible for the division ratio in the first gear
 
 ### Gearbox_MinPower
 
   - May have a value of: **``0 - 255``**
-  - Default: **``20``**
+  - Recommended: **``20``**
   - This parameter is responsible for the minimum speed of the motor
 
 ### Gearbox_DefGear
 
   - May have a value of: **``0 - 255``** and <= **![Gearbox_MaxGear](README.md#Gearbox_MaxGear)**
-  - Default: **``0``**
+  - Recommended: **``0``**
   - This parameter is responsible for the default transmission (this transmission will be when the robot is turned on)
 
 ### Gearbox_MaxGear
 
   - May have a value of: **``2 - 255``**
-  - Default: **``2``**
+  - Recommended: **``2``**
   - This parameter is responsible for the maximum number of gears
 
 ### Gearbox_AutoBrake
 
   - May have a value of: **``false``** or **``true``**
-  - Default: **``true``**
+  - Recommended: **``true``**
   - This parameter is responsible for automatic engine braking
 
 ### Gearbox_Delay
 
   - May have a value of: **``0 - 1000``**
-  - Default: **``250``**
+  - Recommended: **``250``**
   - This parameter is responsible for the delay of gear shift requests
