@@ -72,3 +72,9 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - May have a value of: **``2 - 255``**
   - Default: **``2``**
   - This parameter is responsible for the maximum number of gears
+
+### Gearbox_Delay
+
+  - May have a value of: **``0 - 1000``**
+  - Default: **``250``**
+  - This parameter is responsible for the delay of gear shift requests
