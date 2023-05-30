@@ -73,6 +73,12 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Default: **``2``**
   - This parameter is responsible for the maximum number of gears
 
+### Gearbox_AutoBrake
+
+  - May have a value of: **``false``** or **``true``**
+  - Default: **``true``**
+  - This parameter is responsible for automatic engine braking
+
 ### Gearbox_Delay
 
   - May have a value of: **``0 - 1000``**
