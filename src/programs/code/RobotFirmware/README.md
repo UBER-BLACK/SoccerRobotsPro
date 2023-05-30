@@ -36,6 +36,7 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - This parameter is responsible for turning on this monitor
 
 ### Gamepad_MonitorDelay
+
   - May have a value of: **``0 - 5000``**
   - Default: **``2000``**
   - This parameter is responsible for the monitor output delay in ms
