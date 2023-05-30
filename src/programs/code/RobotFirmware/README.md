@@ -22,7 +22,7 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 ```
 
 
-## Monitor Speed
+### Monitor Speed
 
   - May have a value of: **``...9600, 19200, 31250, 38400, 57600, 74880, 115200, 230400, 250000, 460800, 500000...``**
   - Default: **``9600``**
