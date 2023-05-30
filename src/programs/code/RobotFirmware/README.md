@@ -1,8 +1,7 @@
 [![ENGLISH SHIELD](https://img.shields.io/badge/-English-08f?style=flat-square)]()
 [![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-444?style=flat-square)](RU_README.md)
-
+[![DOWNLOAD SHIELD](https://img.shields.io/badge/-Download-F00?style=flat-square)](https://raw.githubusercontent.com/UBER-BLACK/SoccerRobotsPro/main/src/programs/code/RobotFirmware/RobotFirmware.ino)
 # Robot Firmware
-
 This firmware is made for our soccer robot
 
 # Installing
