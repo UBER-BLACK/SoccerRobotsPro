@@ -63,7 +63,7 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 
 ### Gearbox_DefGear
 
-  - May have a value of: **``0 - Gearbox_MaxGear``**
+  - May have a value of: **``0 - 255``** and <= **![Gearbox_MaxGear](#Gearbox_MaxGear)**
   - Default: **``0``**
   - This parameter is responsible for the default transmission (this transmission will be when the robot is turned on)
 
