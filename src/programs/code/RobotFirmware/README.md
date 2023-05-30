@@ -45,13 +45,13 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 
 ### Gearbox_MaxSpeed
 
-  - May have a value of: **``0.0 - 1.0``**
+  - May have a value of: **``0.1 - 1.0``**
   - Recommended: **``0.9``**
   - This parameter is responsible for the division factor in the last gear
 
 ### Gearbox_MinSpeed
 
-  - May have a value of: **``0.0 - 1.0``**
+  - May have a value of: **``0.1 - 1.0``**
   - Recommended: **``0.4``**
   - This parameter is responsible for the division ratio in the first gear
 
