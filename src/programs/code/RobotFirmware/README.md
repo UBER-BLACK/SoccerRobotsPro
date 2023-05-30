@@ -21,9 +21,16 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 #define Name Value //URL to the guide
 ```
 
+## Monitors
 
 ### Monitor Speed
 
   - May have a value of: **``...9600, 19200, 31250, 38400, 57600, 74880, 115200, 230400, 250000, 460800, 500000...``**
   - Default: **``9600``**
   - This parameter is responsible for the speed of USB data exchange with the computer (don't forget to change this parameter in the port monitor)
+
+### Gamepad_Monitor
+
+  - May have a value of: **``false``** or **``true``**
+  - Default: **``false``**
+  - This parameter is responsible for the monitor output delay
