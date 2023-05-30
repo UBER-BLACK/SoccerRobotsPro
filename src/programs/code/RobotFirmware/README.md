@@ -40,3 +40,5 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - May have a value of: **``0 - 5000``**
   - Default: **``2000``**
   - This parameter is responsible for the monitor output delay in ms
+
+## Gearbox
