@@ -13,15 +13,15 @@
 
 
 //SETTINGS
-///////////////////////////////////////////////////////////////////////////////////////////////
-//            NAME              //   VALUE   //                   DESCRIPTION                //
-#define Monitor_Speed             9600       //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
+#define Monitor_Speed             9600       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/programs/code/RobotFirmware#monitor_speed
 //
-#define Gamepad_Monitor           false      //SOON
-#define Gamepad_MonitorDelay      2000       //SOON
+#define Gamepad_Monitor           false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitor
+#define Gamepad_MonitorDelay      2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitordelay
 //
-#define Gearbox_Monitor           false      //SOON
-#define Gearbox_MonitorDelay      2000       //SOON
+#define Gearbox_Monitor           false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitor
+#define Gearbox_MonitorDelay      2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitordelay
 #define Gearbox_MaxSpeed          0.9        //
 #define Gearbox_MinSpeed          0.4        //
 #define Gearbox_MinPower          20         //
@@ -29,15 +29,15 @@
 #define Gearbox_MaxGear           5          //
 #define Gearbox_Delay             250        //
 //
-#define Motor_Monitor             false      //SOON
-#define Motor_MonitorDelay        2000       //SOON
+#define Motor_Monitor             false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitor
+#define Motor_MonitorDelay        2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitordelay
 #define MotorR_Reverse            false      //
 #define MotorL_Reverse            false      //
 #define MotorB_Reverse            false      //
 #define MotorF_Reverse            false      //
 //
-#define Shockpanel_Monitor        false      //SOON
-#define Shockpanel_MonitorDelay   2000       //SOON
+#define Shockpanel_Monitor        false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitor
+#define Shockpanel_MonitorDelay   2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitordelay
 #define Shockpanel_MinigunDelay   20         //
 #define Shockpanel_ShotSpeed      255        //
 #define Shockpanel_HoldSpeed      255        //
@@ -45,6 +45,8 @@
 #define Shockpanel_APIBoost       0.5        //
 #define Shockpanel_Delay          150        //
 //
+#define Motion_Monitor            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitor
+#define Motion_MonitorDelay       2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitordelay
 #define Motion_ControlSens        0.40       //--
 #define Motion_ControlRSens       1.00       //--
 #define Motion_ControlLSens       1.00       //--
