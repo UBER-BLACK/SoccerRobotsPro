@@ -27,6 +27,7 @@
 #define Gearbox_MinPower          20         //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_minpower
 #define Gearbox_DefGear           0          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_defgear
 #define Gearbox_MaxGear           5          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_maxgear
+#define Gearbox_AutoBrake         true       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_autobrake
 #define Gearbox_Delay             250        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_delay
 //
 #define Motor_Monitor             false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitor
@@ -542,9 +543,9 @@ void loop(){//Here the code is executed in an infinite loop
   MotorL.setSpeed(Gearbox.GetSpeed(1,Motion.GetMotor(1)));//Receiving then setting the speed of the left motor
   MotorB.setSpeed(Gearbox.GetSpeed(2,Motion.GetMotor(2)));//Receiving then setting the speed of the back motor
   MotorF.setSpeed(Shockpanel.GetShaft());//Receiving then setting the speed of the front motor
-  if(Gearbox.GetBrake(0))MotorR.brake();//Automatic brake on the right hand motor
-  if(Gearbox.GetBrake(1))MotorL.brake();//Automatic brake on the left hand motor
-  if(Gearbox.GetBrake(2))MotorB.brake();//Automatic brake on the back hand motor
+  if(Gearbox.GetBrake(0) and Gearbox_AutoBrake)MotorR.brake();//Automatic brake on the right hand motor
+  if(Gearbox.GetBrake(1) and Gearbox_AutoBrake)MotorL.brake();//Automatic brake on the left hand motor
+  if(Gearbox.GetBrake(2) and Gearbox_AutoBrake)MotorB.brake();//Automatic brake on the back hand motor
 }
 
 
