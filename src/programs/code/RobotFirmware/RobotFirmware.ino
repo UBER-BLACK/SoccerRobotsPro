@@ -22,12 +22,12 @@
 //
 #define Gearbox_Monitor           false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitor
 #define Gearbox_MonitorDelay      2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitordelay
-#define Gearbox_MaxSpeed          0.9        //
-#define Gearbox_MinSpeed          0.4        //
-#define Gearbox_MinPower          20         //
-#define Gearbox_DefGear           0          //
-#define Gearbox_MaxGear           5          //
-#define Gearbox_Delay             250        //
+#define Gearbox_MaxSpeed          0.9        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_maxspeed
+#define Gearbox_MinSpeed          0.4        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_minspeed
+#define Gearbox_MinPower          20         //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_minpower
+#define Gearbox_DefGear           0          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_defgear
+#define Gearbox_MaxGear           5          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_maxgear
+#define Gearbox_Delay             250        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#gearbox_delay
 //
 #define Motor_Monitor             false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitor
 #define Motor_MonitorDelay        2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/programs/code/RobotFirmware#name_monitordelay
