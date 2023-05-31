@@ -124,6 +124,12 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Recommended: **``0.5``**
   - This parameter is responsible for enhancing the effect of the API (when moving forward the roller will push, and if backward it will suck)
 
+### Shockpanel_Delay
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``150``**
+  - This parameter is responsible for the delay of requests to the shockpanel
+
 ## Motion
 
 ### Motion_ControlSens
