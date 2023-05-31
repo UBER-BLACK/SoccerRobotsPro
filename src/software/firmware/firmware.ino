@@ -32,10 +32,10 @@
 //
 #define Motor_Monitor             false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
 #define Motor_MonitorDelay        2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
-#define MotorR_Reverse            false      //
-#define MotorL_Reverse            false      //
-#define MotorB_Reverse            false      //
-#define MotorF_Reverse            false      //
+#define MotorR_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
+#define MotorL_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
+#define MotorB_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
+#define MotorF_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
 //
 #define Shockpanel_Monitor        false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
 #define Shockpanel_MonitorDelay   2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
