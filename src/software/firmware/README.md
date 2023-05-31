@@ -118,6 +118,12 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Recommended: **``50``**
   - This parameter is responsible for the speed at which the roller will suck when idle
 
+### Shockpanel_APIBoost
+
+  - May have a value of: **``0.1 - 1.0``**
+  - Recommended: **``0.5``**
+  - This parameter is responsible for increasing the effect of the underbelly from the API (when moving forward the roller will push, and if backward it will suck)
+
 ## Motion
 
 ### Motion_ControlSens
