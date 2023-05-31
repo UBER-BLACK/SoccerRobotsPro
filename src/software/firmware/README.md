@@ -92,7 +92,7 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Recommended: **``false``**
   - This parameter is responsible for inverting the direction of motor movement
 
-## Shockpanel
+## Motion
 
 ### Motion_ControlSens
 
