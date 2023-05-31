@@ -6,5 +6,5 @@
 ### Choose your system ⌄⌄⌄
 
 [![WINDOWS SHIELD](https://img.shields.io/badge/Windows-7+-04D?style=for-the-badge&logo=windows11&logoColor=0BF)](windows)
-[![MACOS SHIELD](https://img.shields.io/badge/MacOS-10.4+-04D?style=for-the-badge&logo=apple&logoColor=FFF)](macos)
+[![MACOS SHIELD](https://img.shields.io/badge/MacOS-10.6+-04D?style=for-the-badge&logo=apple&logoColor=FFF)](macos)
 [![LINUX SHIELD](https://img.shields.io/badge/Linux-SOON-04D?style=for-the-badge&logo=linux&logoColor=0F0)](linux)
