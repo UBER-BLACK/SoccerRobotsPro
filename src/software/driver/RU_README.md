@@ -3,7 +3,7 @@
 ## ДРАЙВЕР ДЛЯ ПРОШИВКИ ARDUINO
 ### Выберите свою систему
 - ![Windows](windows/RU_README.md)
-- ![MacOS X](macosx/RU_README.md)
+- ![MacOS](macos/RU_README.md)
 
 
 извините, но linux **не поддерживается**.

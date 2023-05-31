@@ -3,7 +3,7 @@
 # DRIVER FOR ARDUINO FIRMWARE
 ### Choose your system
 - ![Windows](windows)
-- ![MacOS X](macosx)
+- ![MacOS](macos)
 
 
 sorry but linux is **not supported**

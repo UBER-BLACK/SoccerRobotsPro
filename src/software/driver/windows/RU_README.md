@@ -6,7 +6,7 @@
 - Не следует устанавливать его не по порядку
 - Этот драйвер необходим для прошивки копий плат Arduino с **чипом ch340**
 ## Установка
-1. Скачайте "**![Driver.exe](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/programs/drivers/ch340/windows/Driver.exe)**" (НЕ ЗАПУСКАЯ ЕГО)
+1. Скачайте "**![Driver.exe](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/software/driver/windows/driver.exe)**" (НЕ ЗАПУСКАЯ ЕГО)
 1. Отключите все USB и ch340 устройства 
-1. Запустите "**![Driver.exe](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/programs/drivers/ch340/windows/Driver.exe)**"
+1. Запустите "**![Driver.exe](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/NewPath/src/software/driver/windows/driver.exe)**"
 1. Перезагрузите систему
