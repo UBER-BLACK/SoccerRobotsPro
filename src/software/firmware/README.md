@@ -92,6 +92,14 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Recommended: **``false``**
   - This parameter is responsible for inverting the direction of motor movement
 
+## Shockpanel
+
+### Shockpanel_MinigunDelay
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``20``**
+  - This parameter is responsible for the rate of fire in minigun mode
+
 ## Motion
 
 ### Motion_ControlSens
