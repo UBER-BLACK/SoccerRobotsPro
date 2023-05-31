@@ -2,7 +2,7 @@
 [![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-08f?style=flat-square)](RU_README.md)
 ## ДРАЙВЕР ДЛЯ ПРОШИВКИ ARDUINO
 
-### Выберите операционную систему ⌄⌄⌄
+### Выберите свою систему ⌄⌄⌄
 
 [![WINDOWS SHIELD](https://img.shields.io/badge/Windows-7+-04D?style=for-the-badge&logo=windows11&logoColor=0BF)](windows/RU_README.md)
 [![MACOS SHIELD](https://img.shields.io/badge/MacOS-10.4+-04D?style=for-the-badge&logo=apple&logoColor=FFF)](macos/RU_README.md)
