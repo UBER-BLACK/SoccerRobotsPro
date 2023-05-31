@@ -15,30 +15,30 @@
 //SETTINGS
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
-#define Monitor_Speed             9600       //--
+#define Monitor_Speed             9600       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
 //
-#define Gamepad_Monitor           false      //--
-#define Gamepad_MonitorDelay      2000       //--
+#define Gamepad_Monitor           false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
+#define Gamepad_MonitorDelay      2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 //
-#define Gearbox_Monitor           false      //--
-#define Gearbox_MonitorDelay      2000       //--
-#define Gearbox_MaxSpeed          0.9        //--
-#define Gearbox_MinSpeed          0.4        //--
-#define Gearbox_MinPower          20         //--
-#define Gearbox_DefGear           0          //--
-#define Gearbox_MaxGear           5          //--
-#define Gearbox_AutoBrake         true       //--
-#define Gearbox_Delay             250        //--
+#define Gearbox_Monitor           false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
+#define Gearbox_MonitorDelay      2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
+#define Gearbox_MaxSpeed          0.9        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_maxspeed
+#define Gearbox_MinSpeed          0.4        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_minspeed
+#define Gearbox_MinPower          20         //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_minpower
+#define Gearbox_DefGear           0          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_defgear
+#define Gearbox_MaxGear           5          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_maxgear
+#define Gearbox_AutoBrake         true       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_autobrake
+#define Gearbox_Delay             250        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_delay
 //
-#define Motor_Monitor             false      //--
-#define Motor_MonitorDelay        2000       //--
+#define Motor_Monitor             false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
+#define Motor_MonitorDelay        2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define MotorR_Reverse            false      //
 #define MotorL_Reverse            false      //
 #define MotorB_Reverse            false      //
 #define MotorF_Reverse            false      //
 //
-#define Shockpanel_Monitor        false      //--
-#define Shockpanel_MonitorDelay   2000       //--
+#define Shockpanel_Monitor        false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
+#define Shockpanel_MonitorDelay   2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define Shockpanel_MinigunDelay   20         //
 #define Shockpanel_ShotSpeed      255        //
 #define Shockpanel_HoldSpeed      255        //
@@ -46,8 +46,8 @@
 #define Shockpanel_APIBoost       0.5        //
 #define Shockpanel_Delay          150        //
 //
-#define Motion_Monitor            false      //--
-#define Motion_MonitorDelay       2000       //--
+#define Motion_Monitor            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
+#define Motion_MonitorDelay       2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define Motion_ControlSens        0.40       //--
 #define Motion_ControlRSens       1.00       //--
 #define Motion_ControlLSens       1.00       //--
