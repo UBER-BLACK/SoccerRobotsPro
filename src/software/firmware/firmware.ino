@@ -48,7 +48,7 @@
 //
 #define Motion_Monitor            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
 #define Motion_MonitorDelay       2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
-#define Motion_ControlSens        0.40       //--
+#define Motion_ControlSens        0.40       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware/README.md#motion_controlsens
 #define Motion_ControlRSens       1.00       //--
 #define Motion_ControlLSens       1.00       //--
 #define Motion_ControlBSens       1.00       //--
