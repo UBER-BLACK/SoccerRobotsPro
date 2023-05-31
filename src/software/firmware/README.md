@@ -20,7 +20,7 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 #define Name Value //URL to the guide
 ```
 
-## Monitors
+## Monitor
 
 ### Monitor_Speed
 
@@ -83,3 +83,11 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - May have a value of: **``0 - 1000``**
   - Recommended: **``250``**
   - This parameter is responsible for the delay of gear shift requests
+
+## Motor
+
+### Motor(Side)_Reverse
+
+  - May have a value of: **``false``** or **``true``**
+  - Recommended: **``false``**
+  - This parameter is responsible for inverting the direction of motor movement
