@@ -92,6 +92,44 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Recommended: **``false``**
   - This parameter is responsible for inverting the direction of motor movement
 
+## Shockpanel
+
+### Shockpanel_MinigunDelay
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``20``**
+  - This parameter is responsible for the rate of fire in minigun mode
+
+### Shockpanel_ShotSpeed
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``255``**
+  - This parameter is responsible for the speed at which the roller will be pushed back on impact
+
+### Shockpanel_HoldSpeed
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``255``**
+  - This parameter is responsible for the speed at which the roller will be sucked in when held down
+
+### Shockpanel_NormSpeed
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``50``**
+  - This parameter is responsible for the speed at which the roller will suck when idle
+
+### Shockpanel_APIBoost
+
+  - May have a value of: **``0.1 - 1.0``**
+  - Recommended: **``0.5``**
+  - This parameter is responsible for enhancing the effect of the API (when moving forward the roller will push, and if backward it will suck)
+
+### Shockpanel_Delay
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``150``**
+  - This parameter is responsible for the delay of requests to the shockpanel
+
 ## Motion
 
 ### Motion_ControlSens
