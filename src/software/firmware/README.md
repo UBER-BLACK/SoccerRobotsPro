@@ -100,6 +100,12 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Recommended: **``20``**
   - This parameter is responsible for the rate of fire in minigun mode
 
+### Shockpanel_ShotSpeed
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``255``**
+  - This parameter is responsible for the speed at which the roller will rotate when fired
+
 ## Motion
 
 ### Motion_ControlSens
