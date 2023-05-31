@@ -112,6 +112,12 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - Recommended: **``255``**
   - This parameter is responsible for the speed at which the roller will be sucked in when held down
 
+### Shockpanel_NormSpeed
+
+  - May have a value of: **``0 - 255``**
+  - Recommended: **``<=50``**
+  - This parameter is responsible for the speed at which the roller will suck when idle
+
 ## Motion
 
 ### Motion_ControlSens
