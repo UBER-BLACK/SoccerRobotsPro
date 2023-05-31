@@ -39,12 +39,12 @@
 //
 #define Shockpanel_Monitor        false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
 #define Shockpanel_MonitorDelay   2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
-#define Shockpanel_MinigunDelay   20         //
-#define Shockpanel_ShotSpeed      255        //
-#define Shockpanel_HoldSpeed      255        //
-#define Shockpanel_NormSpeed      50         //
-#define Shockpanel_APIBoost       0.5        //
-#define Shockpanel_Delay          150        //
+#define Shockpanel_MinigunDelay   20         //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_minigundelay
+#define Shockpanel_ShotSpeed      255        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_shotspeed
+#define Shockpanel_HoldSpeed      255        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_holdspeed
+#define Shockpanel_NormSpeed      50         //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_normspeed
+#define Shockpanel_APIBoost       0.5        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_apiboost
+#define Shockpanel_Delay          150        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_delay
 //
 #define Motion_Monitor            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
 #define Motion_MonitorDelay       2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
