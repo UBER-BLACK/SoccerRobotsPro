@@ -122,7 +122,7 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 
   - May have a value of: **``0.1 - 1.0``**
   - Recommended: **``0.5``**
-  - This parameter is responsible for increasing the effect of the underbelly from the API (when moving forward the roller will push, and if backward it will suck)
+  - This parameter is responsible for enhancing the effect of the API (when moving forward the roller will push, and if backward it will suck)
 
 ## Motion
 
