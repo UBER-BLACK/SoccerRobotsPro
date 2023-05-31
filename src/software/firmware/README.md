@@ -115,7 +115,7 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 ### Shockpanel_NormSpeed
 
   - May have a value of: **``0 - 255``**
-  - Recommended: **``<=50``**
+  - Recommended: **``50``**
   - This parameter is responsible for the speed at which the roller will suck when idle
 
 ## Motion
