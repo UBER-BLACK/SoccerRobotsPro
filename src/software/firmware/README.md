@@ -104,7 +104,7 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 
   - May have a value of: **``0 - 255``**
   - Recommended: **``255``**
-  - This parameter is responsible for the speed at which the roller will be pushed back when fired
+  - This parameter is responsible for the speed at which the roller will be pushed back on impact
 
 ### Shockpanel_HoldSpeed
 
