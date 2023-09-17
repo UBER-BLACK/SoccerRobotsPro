@@ -137,3 +137,9 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
   - May have a value of: **``0.1 - 1.0``**
   - Recommended: **``0.4``**
   - This parameter is responsible for the overall sensitivity when turning
+
+### Motion_Control(Side)Sens
+
+  - May have a value of: **``0.1 - 1.0``**
+  - Recommended: **``1``**
+  - This parameter is responsible for the correct sensitivity of the motor when turning.
