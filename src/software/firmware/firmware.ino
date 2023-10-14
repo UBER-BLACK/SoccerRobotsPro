@@ -43,15 +43,14 @@
 #define Shockpanel_ShotSpeed      255        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_shotspeed
 #define Shockpanel_HoldSpeed      255        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_holdspeed
 #define Shockpanel_NormSpeed      50         //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_normspeed
-#define Shockpanel_APIBoost       0.5        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_apiboost
 #define Shockpanel_Delay          150        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_delay
 //
 #define Motion_Monitor            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
 #define Motion_MonitorDelay       2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define Motion_ControlSens        0.40       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsens
 #define Motion_ControlRSens       1.00       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
-#define Motion_ControlLSens       1.00       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
-#define Motion_ControlBSens       1.00       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
+#define Motion_ControlLSens       0.90       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
+#define Motion_ControlBSens       0.90       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
 #define Motion_DriftSens          1.00       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_driftsens
 #define Motion_DriftRFactor       0.58       //--
 #define Motion_DriftLFactor       0.58       //--
@@ -135,8 +134,6 @@ class Motion{
       _Gamepad_LX = constrain(MegaMap(LX, MinIn, MaxIn, _Gamepad_Max, _Gamepad_Min), _Gamepad_Min, _Gamepad_Max);
       _Gamepad_RY = constrain(MegaMap(RY, MinIn, MaxIn, _Gamepad_Min, _Gamepad_Max), _Gamepad_Min, _Gamepad_Max);
       _Gamepad_RX = constrain(MegaMap(RX, MinIn, MaxIn, _Gamepad_Max, _Gamepad_Min), _Gamepad_Min, _Gamepad_Max);}
-    int16_t API_OUT_SHOCKPANEL(){
-      return _Gamepad_CY();}
     int16_t GetMotor(uint8_t Number){
       formula();
       return _Motor[Number];}
@@ -375,19 +372,17 @@ class Gearbox{
     uint32_t _Timer0 = _Delay;};
 class Shockpanel{
   public:
-    setup(uint8_t MinigunDelay, uint8_t SolinoidPin, uint8_t ShotSpeed, uint8_t HoldSpeed, uint8_t NormSpeed, double APIBoost, uint16_t Delay){
+    setup(uint8_t MinigunDelay, uint8_t SolinoidPin, uint8_t ShotSpeed, uint8_t HoldSpeed, uint8_t NormSpeed, uint16_t Delay){
     _MinigunDelay = constrain(MinigunDelay,0,255);
     _SolinoidPin  = constrain(SolinoidPin,0,255);
     _ShotSpeed    = constrain(ShotSpeed,0,255);
     _HoldSpeed    = constrain(HoldSpeed,0,255);
     _NormSpeed    = constrain(NormSpeed,0,255);
-    _APIBoost     = constrain(APIBoost,0,255);
     _Delay        = constrain(Delay,0,65535);
     pinMode(_SolinoidPin, OUTPUT);}
     gamepadPS2X(){
-      gamepadManual(PS2X.Button(PSB_L2), PS2X.Button(PSB_R2), PS2X.Button(PSB_SELECT));}
-    gamepadManual(bool keyHold, bool keySHOT, bool keyMODE){
-      if (keyMODE)MODE();
+      gamepadManual(PS2X.Button(PSB_L2), PS2X.Button(PSB_R2));}
+    gamepadManual(bool keyHold, bool keySHOT){
       if (keyHold and keySHOT)MINIGUN();
       else if (keySHOT)SHOT();
       else if (keyHold)HOLD();
@@ -411,25 +406,19 @@ class Shockpanel{
     NORM(){
       if (millis() - _Timer1 >= _Delay){
         solinoid(0);
-        if (!_flag2){
-          if (_flag1)_DutySpeed = _NormSpeed+(_APISpeed * _APIBoost);
-          else _DutySpeed = _NormSpeed;
-        }
+        if (!_flag1){
+          _DutySpeed = _NormSpeed;}
         else _DutySpeed = 0;
         _Timer1 =  millis();}}
     MODE(){
       if (millis() - _Timer0 >= _Delay*2){
-        _flag2 = !_flag2;
+        _flag1 = !_flag1;
         NORM();
         _Timer0 =  millis();}}
     solinoid(bool State){
       digitalWrite(_SolinoidPin, State);}
     int16_t GetShaft(){
       return _DutySpeed;}
-    API_IN_Motion(int16_t API1){
-      _flag1 = true;
-      _APISpeed = (API1 *-1);
-      _APISpeed = constrain(_APISpeed,-255,255);}
     SetData(uint8_t Number, double Value){
       switch (Number){
         case 0: //SET MAX SPEED
@@ -450,13 +439,7 @@ class Shockpanel{
         case 5: //SET DUTY SPEED
           _DutySpeed = Value;
           break;
-        case 6: //SET API SPEED
-          _APISpeed = Value;
-          break;
-        case 7: //SET API BOOST
-          _APIBoost = Value;
-          break;
-        case 8: //SET DELAY
+        case 6: //SET DELAY
           _Delay = Value;
           break;
         default:
@@ -482,13 +465,7 @@ class Shockpanel{
         case 5: //GET DUTY SPEED
           return _DutySpeed;
           break;
-        case 6: //GET API SPEED
-          return _APISpeed;
-          break;
-        case 7: //GET API BOOST
-          return _APIBoost;
-          break;
-        case 8: //GET DELAY
+        case 6: //GET DELAY
           return _Delay;
           break;
         default:
@@ -502,13 +479,10 @@ class Shockpanel{
     uint8_t _HoldSpeed;
     uint8_t _NormSpeed;
     int16_t _DutySpeed;
-    int16_t _APISpeed;
-    double _APIBoost;
     uint16_t _Delay;
     //Flags
     bool _flag0;  //MINIGUN
-    bool _flag1;  //API
-    bool _flag2;  //MODE
+    bool _flag1;  //MODE
     //Timers
     uint32_t _Timer0 = _MinigunDelay;
     uint32_t _Timer1 = _Delay;};
@@ -518,7 +492,6 @@ Shockpanel Shockpanel;//Creating an object
 void setup(){//Here the code is executed once
   //CODE
   WELCOME(); //Welcome text
-  //PWM();//SOON
   pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
   digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //LIBS
@@ -530,7 +503,7 @@ void setup(){//Here the code is executed once
   MotorF.reverse(MotorF_Reverse);//Applying the settings
   //CLASES
   Gearbox.setup(Gearbox_MaxSpeed,Gearbox_MinSpeed,Gearbox_MinPower,Gearbox_MaxGear,Gearbox_DefGear,Gearbox_Delay);//Applying the settings
-  Shockpanel.setup(Shockpanel_MinigunDelay,Solinoid_Pin,Shockpanel_ShotSpeed,Shockpanel_HoldSpeed,Shockpanel_NormSpeed,Shockpanel_APIBoost,Shockpanel_Delay);//Applying the settings
+  Shockpanel.setup(Shockpanel_MinigunDelay,Solinoid_Pin,Shockpanel_ShotSpeed,Shockpanel_HoldSpeed,Shockpanel_NormSpeed,Shockpanel_Delay);//Applying the settings
   Motion.setup(Motion_ControlSens,Motion_ControlRSens,Motion_ControlLSens,Motion_ControlBSens,Motion_DriftSens,Motion_DriftRFactor,Motion_DriftLFactor,Motion_DriftBFactor);//Applying the settings
 }
 void loop(){//Here the code is executed in an infinite loop
@@ -538,7 +511,6 @@ void loop(){//Here the code is executed in an infinite loop
   Motion.gamepadPS2X();//Receiving then processing gamepad data
   Gearbox.gamepadPS2X();//Receiving then processing gamepad data
   Shockpanel.gamepadPS2X();//Receiving then processing gamepad data
-  Shockpanel.API_IN_Motion(Motion.API_OUT_SHOCKPANEL());//Automatic Shaft API
   MotorR.setSpeed(Gearbox.GetSpeed(0,Motion.GetMotor(0)));//Receiving then setting the speed of the right motor
   MotorL.setSpeed(Gearbox.GetSpeed(1,Motion.GetMotor(1)));//Receiving then setting the speed of the left motor
   MotorB.setSpeed(Gearbox.GetSpeed(2,Motion.GetMotor(2)));//Receiving then setting the speed of the back motor
@@ -556,13 +528,3 @@ void WELCOME(){//Important text when starting the program
   Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
   Serial.println("Dev @THEBIGMISHA");
   }
-void PWM(){//Changing the parameters of the (variable) PWM frequency
-  //D5 & D6 DON'T TOUCH!
-  //TCCR0B = 0b00000001;
-  //TCCR0A = 0b00000011;
-  //D9 & D10
-  TCCR1A = 0b00000001;
-  TCCR1B = 0b00001001;
-  //D3 & D11
-  TCCR2B = 0b00000111;
-  TCCR2A = 0b00000001;}
