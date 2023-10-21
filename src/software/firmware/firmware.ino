@@ -490,10 +490,6 @@ Motion Motion;//Creating an object
 Gearbox Gearbox;//Creating an object
 Shockpanel Shockpanel;//Creating an object
 void setup(){//Here the code is executed once
-  //CODE
-  WELCOME(); //Welcome text
-  pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
-  digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //LIBS
   PS2X.config_gamepad(Gamepad_Clock,Gamepad_Command,Gamepad_Attention,Gamepad_Data,0,0);//Applying the settings
   Serial.begin(Monitor_Speed);//Applying the settings
@@ -501,6 +497,10 @@ void setup(){//Here the code is executed once
   MotorL.reverse(MotorL_Reverse);//Applying the settings
   MotorB.reverse(MotorB_Reverse);//Applying the settings
   MotorF.reverse(MotorF_Reverse);//Applying the settings
+  //CODE
+  WELCOME(); //Welcome text
+  pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
+  digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //CLASES
   Gearbox.setup(Gearbox_MaxSpeed,Gearbox_MinSpeed,Gearbox_MinPower,Gearbox_MaxGear,Gearbox_DefGear,Gearbox_Delay);//Applying the settings
   Shockpanel.setup(Shockpanel_MinigunDelay,Solinoid_Pin,Shockpanel_ShotSpeed,Shockpanel_HoldSpeed,Shockpanel_NormSpeed,Shockpanel_Delay);//Applying the settings
