@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
 #define MonitorSpeed              115200     //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
-#define MonitorDelay              1000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
+#define MonitorDelay              100        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define MonitorMode               2          //--
 #define MonitorScreen             0          //--
 //
