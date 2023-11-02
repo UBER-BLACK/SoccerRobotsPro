@@ -18,7 +18,7 @@
 //            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
 #define MonitorSpeed              115200     //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
 #define MonitorDelay              1000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
-#define MonitorMode               2          //--
+#define MonitorMode               0          //--
 #define MonitorScreen             0          //--
 //
 #define Gearbox_Monitor           1          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
@@ -521,10 +521,6 @@ void MONITOR(bool SETUPMODE){
   }
   else{
     #if (MonitorMode == 0)
-    if (millis() - MonitorTimer0 >= 10000){
-      MonitorTimer0 = millis();
-      Serial.println("PING");
-    }
     #elif (MonitorMode == 1)
     if (millis() - MonitorTimer0 >= MonitorDelay){
       MonitorTimer0 = millis();
@@ -572,8 +568,11 @@ void MONITOR(bool SETUPMODE){
       #elif (MonitorMode == 2)
       if (millis() - MonitorTimer0 >= MonitorDelay){
         MonitorTimer0 = millis();
-        Serial.println("#--------------------------------+");
-        Serial.println("DEBUG GRAPH MODE");
+        Serial.print("Gamepad_LY:"); Serial.print(Motion.GetData(8));  Serial.print(",");
+        Serial.print("Gamepad_LX:"); Serial.print(Motion.GetData(9));  Serial.print(",");
+        Serial.print("Gamepad_RY:"); Serial.print(Motion.GetData(10)); Serial.print(",");
+        Serial.print("Gamepad_RX:"); Serial.print(Motion.GetData(11)); Serial.print(",");
+        Serial.print("Gamepad_CY:"); Serial.print(Motion.GetData(12)); Serial.println(",");
       }
       #else
       if (millis() - MonitorTimer0 >= MonitorDelay){
