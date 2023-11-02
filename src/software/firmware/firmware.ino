@@ -475,8 +475,7 @@ class Monitor{
       _Screen = constrain(Screen,0,4);
       Serial.println();}
     space(){
-      Serial.println("#--------------------------------+");
-    }
+      Serial.println("#--------------------------------+");}
     logo(){
       space();
       Serial.println("SoccerRobotPro Firmware. It Works!");
