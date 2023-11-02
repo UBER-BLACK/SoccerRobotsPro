@@ -92,6 +92,7 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Plus,MotorF_Minus,MotorF_Power);
 
 
 
+//OPTIMIZATION
 #if (MonitorMode > 0)
 uint32_t MonitorTimer0 = MonitorDelay;
 #endif
@@ -475,6 +476,9 @@ class Shockpanel{
 Motion Motion;//Creating an object
 Gearbox Gearbox;//Creating an object
 Shockpanel Shockpanel;//Creating an object
+
+
+//MAIN
 void setup(){//Here the code is executed once
   //LIBS
   PS2X.config_gamepad(Gamepad_Clock,Gamepad_Command,Gamepad_Attention,Gamepad_Data,0,0);//Applying the settings
@@ -483,15 +487,13 @@ void setup(){//Here the code is executed once
   MotorL.reverse(MotorL_Reverse);//Applying the settings
   MotorB.reverse(MotorB_Reverse);//Applying the settings
   MotorF.reverse(MotorF_Reverse);//Applying the settings
-  //CODE
-  MONITOR(1);
-  pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
-  digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //CLASES
   Gearbox.setup(Gearbox_MaxSpeed,Gearbox_MinSpeed,Gearbox_MinPower,Gearbox_MaxGear,Gearbox_DefGear,Gearbox_Delay);//Applying the settings
   Shockpanel.setup(Shockpanel_MinigunDelay,Solinoid_Pin,Shockpanel_ShotSpeed,Shockpanel_HoldSpeed,Shockpanel_NormSpeed,Shockpanel_Delay);//Applying the settings
   Motion.setup(Motion_ControlSens,Motion_ControlRSens,Motion_ControlLSens,Motion_ControlBSens,Motion_DriftSens,Motion_DriftRFactor,Motion_DriftLFactor,Motion_DriftBFactor);//Applying the settings
-}
+  //CODE
+  MONITOR(1);//Monitor for debug
+  SHILD();//For work motor driver}
 void loop(){//Here the code is executed in an infinite loop
   PS2X.read_gamepad(0,0);//Communication with the gamepad
   Motion.gamepadPS2X();//Receiving then processing gamepad data
@@ -504,8 +506,7 @@ void loop(){//Here the code is executed in an infinite loop
   if(Gearbox.GetBrake(0) and Gearbox_AutoBrake)MotorR.brake();//Automatic brake on the right hand motor
   if(Gearbox.GetBrake(1) and Gearbox_AutoBrake)MotorL.brake();//Automatic brake on the left hand motor
   if(Gearbox.GetBrake(2) and Gearbox_AutoBrake)MotorB.brake();//Automatic brake on the back hand motor
-  MONITOR(0);
-}
+  MONITOR(0);//Monitor for debug}
 
 
 
@@ -586,5 +587,7 @@ void MONITOR(bool SETUPMODE){
         Serial.println("2 - DEBUG GRAPH MODE");
       }
       #endif
-  }
-}
+  }}
+void SHILD(){
+  pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
+  digitalWrite(Motor_Standby,HIGH); //Activating the driver}
