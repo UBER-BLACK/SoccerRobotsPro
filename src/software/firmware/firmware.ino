@@ -509,21 +509,6 @@ void loop(){//Here the code is executed in an infinite loop
 
 
 
-/*
-  #if (MonitorMode == 0)
-  #elif (MonitorMode == 1)
-    
-      
-  #else
-    if (millis() - MonitorTimer0 >= MonitorDelay){
-      MonitorTimer0 = millis();
-      Serial.println("ERROR: SETTINGS/MonitorMode");
-      Serial.println("0 - WELCOME (OFF)");    
-      Serial.println("1 - MANUAL DEBUG");
-      Serial.println("2 - GRAPH DEBUG");
-    }
-  #endif
-}*/
 void MONITOR(bool SETUPMODE){
   if(SETUPMODE){
   Serial.println("");
@@ -536,6 +521,10 @@ void MONITOR(bool SETUPMODE){
   }
   else{
     #if (MonitorMode == 0)
+    if (millis() - MonitorTimer0 >= 10000){
+      MonitorTimer0 = millis();
+      Serial.println("PING");
+    }
     #elif (MonitorMode == 1)
     if (millis() - MonitorTimer0 >= MonitorDelay){
       MonitorTimer0 = millis();
