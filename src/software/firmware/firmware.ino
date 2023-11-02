@@ -484,6 +484,7 @@ void setup(){//Here the code is executed once
   MotorB.reverse(MotorB_Reverse);//Applying the settings
   MotorF.reverse(MotorF_Reverse);//Applying the settings
   //CODE
+  MONITOR(true);
   pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
   digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //CLASES
@@ -503,6 +504,7 @@ void loop(){//Here the code is executed in an infinite loop
   if(Gearbox.GetBrake(0) and Gearbox_AutoBrake)MotorR.brake();//Automatic brake on the right hand motor
   if(Gearbox.GetBrake(1) and Gearbox_AutoBrake)MotorL.brake();//Automatic brake on the left hand motor
   if(Gearbox.GetBrake(2) and Gearbox_AutoBrake)MotorB.brake();//Automatic brake on the back hand motor
+  MONITOR(false);
 }
 
 
