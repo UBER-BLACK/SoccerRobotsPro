@@ -1,6 +1,7 @@
 //GitHub: http://GitHub.com/UBER-BLACK/SoccerRobotsPro/
 //LICENSE: http://raw.githubusercontent.com/UBER-BLACK/SoccerRobotsPro/main/LICENSE
 //SoccerRobotPro Firmware By UBER-BLACK
+//
 //██╗░░░██╗██████╗░███████╗██████╗░░░░░░░██████╗░██╗░░░░░░█████╗░░█████╗░██╗░░██╗
 //██║░░░██║██╔══██╗██╔════╝██╔══██╗░░░░░░██╔══██╗██║░░░░░██╔══██╗██╔══██╗██║░██╔╝
 //██║░░░██║██████╦╝█████╗░░██████╔╝█████╗██████╦╝██║░░░░░███████║██║░░╚═╝█████═╝░
@@ -88,13 +89,6 @@ GMotor2<DRIVER3WIRE>MotorR(MotorR_Plus,MotorR_Minus,MotorR_Power);
 GMotor2<DRIVER3WIRE>MotorL(MotorL_Plus,MotorL_Minus,MotorL_Power);
 GMotor2<DRIVER3WIRE>MotorB(MotorB_Plus,MotorB_Minus,MotorB_Power);
 GMotor2<DRIVER3WIRE>MotorF(MotorF_Plus,MotorF_Minus,MotorF_Power);
-
-
-
-//MONITOR OPTIMIZATION
-#if (MonitorMode > 0)//Creating a delay variable
-uint32_t MonitorTimer0 = MonitorDelay;
-#endif
 
 
 
@@ -473,9 +467,31 @@ class Shockpanel{
     //Timers
     uint32_t _Timer0 = _MinigunDelay;
     uint32_t _Timer1 = _Delay;};
+class Monitor{
+  public:
+    setup(uint8_t Mode, uint16_t Delay, uint8_t Screen){
+      _Mode = constrain(Mode,0,2);
+      _Delay = constrain(Delay,0,65535);
+      _Screen = constrain(Screen,0,4);
+      Serial.println();}
+    space(){
+      Serial.println("#--------------------------------+");
+    }
+    logo(){
+      space();
+      Serial.println("SoccerRobotPro Firmware. It Works!");
+      Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
+      Serial.println("Dev @THEBIGMISHA");}
+  private:
+    uint8_t _Mode;
+    uint8_t _Screen;
+    uint16_t _Delay;
+    uint32_t _Timer0 = _Delay;
+};
 Motion Motion;//Creating an object
 Gearbox Gearbox;//Creating an object
 Shockpanel Shockpanel;//Creating an object
+Monitor Monitor;//Creating an object
 void setup(){//Here the code is executed once
   //LIBS
   PS2X.config_gamepad(Gamepad_Clock,Gamepad_Command,Gamepad_Attention,Gamepad_Data,0,0);//Applying the settings
@@ -485,7 +501,6 @@ void setup(){//Here the code is executed once
   MotorB.reverse(MotorB_Reverse);//Applying the settings
   MotorF.reverse(MotorF_Reverse);//Applying the settings
   //CODE
-  MONITORS(1);//Debug
   pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
   digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //CLASES
@@ -505,7 +520,6 @@ void loop(){//Here the code is executed in an infinite loop
   if(Gearbox.GetBrake(0) and Gearbox_AutoBrake)MotorR.brake();//Automatic brake on the right hand motor
   if(Gearbox.GetBrake(1) and Gearbox_AutoBrake)MotorL.brake();//Automatic brake on the left hand motor
   if(Gearbox.GetBrake(2) and Gearbox_AutoBrake)MotorB.brake();//Automatic brake on the back hand motor
-  MONITORS(0);//Debug
 }
 
 
@@ -578,6 +592,8 @@ void loop(){//Here the code is executed in an infinite loop
     }
   #endif
 }*/
-void MONITORS(bool _SETUP){
+void MONITORS(bool SETUPMODE){
+  if(SETUPMODE){
 
+  }
 }
