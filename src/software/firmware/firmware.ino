@@ -593,6 +593,7 @@ void MONITOR(bool SETUPMODE){
         Serial.println("0 - LOGO (OFF)");    
         Serial.println("1 - DEBUG CONSOLE MODE");
         Serial.println("2 - DEBUG GRAPH MODE");
+      }
       #endif
   }
 }
