@@ -566,14 +566,17 @@ void MONITOR(bool SETUPMODE){
       #endif
     }
       #elif (MonitorMode == 2)
-      Serial.print("Gamepad_LX:");  Serial.print(Motion.GetData(9));                      Serial.print(",");
-      Serial.print("Gamepad_RX:");  Serial.print(Motion.GetData(11));                     Serial.print(",");
-      Serial.print("Gamepad_CY:");  Serial.print(Motion.GetData(12));                     Serial.print(",");
-      Serial.print("Gear:");        Serial.print(Gearbox.GetData(5));                     Serial.print(",");
-      Serial.print("ShaftSpeed:");  Serial.print(Shockpanel.GetData(5));                  Serial.println(",");
-      Serial.print("MotorR:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
-      Serial.print("MotorL:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
-      Serial.print("MotorB:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
+      if (millis() - MonitorTimer0 >= MonitorDelay){
+        MonitorTimer0 = millis();
+        Serial.print("Gamepad_LX:");  Serial.print(Motion.GetData(9));  Serial.print(",");
+        Serial.print("Gamepad_RX:");  Serial.print(Motion.GetData(11)); Serial.print(",");
+        Serial.print("Gamepad_CY:");  Serial.print(Motion.GetData(12)); Serial.print(",");
+        Serial.print("ShaftSpeed:");  Serial.print(Shockpanel.GetData(5)); Serial.print(",");
+        Serial.print("Gear:");        Serial.print(Gearbox.GetData(5)); Serial.print(",");
+        Serial.print("MotorR:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
+        Serial.print("MotorL:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
+        Serial.print("MotorB:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.println(",");
+      }
       #else
       if (millis() - MonitorTimer0 >= MonitorDelay){
         MonitorTimer0 = millis();
