@@ -535,11 +535,11 @@ void MONITOR(bool SETUPMODE){
   #endif
   }
   else{
-    #if (MonitorMode == 1)
     if (millis() - MonitorTimer0 >= MonitorDelay){
       MonitorTimer0 = millis();
       Serial.println("#--------------------------------+");
-      #if (MonitorScreen == 1)
+      #if (MonitorMode == 1)
+      #if (MonitorScreen == 0)
       Serial.println("#M O T I O N");
       Serial.print("ControlSens:       "); Serial.println(Motion.GetData(0));
       Serial.print("ControlSensRight:  "); Serial.println(Motion.GetData(1));
@@ -554,7 +554,7 @@ void MONITOR(bool SETUPMODE){
       Serial.print("Gamepad_RY:        "); Serial.println(Motion.GetData(10));
       Serial.print("Gamepad_RX:        "); Serial.println(Motion.GetData(11));
       Serial.print("Gamepad_CY:        "); Serial.println(Motion.GetData(12));
-      #elif (MonitorScreen == 2)
+      #elif (MonitorScreen == 1)
       Serial.println("#G E A R B O X");
       Serial.print("MaxSpeed:   "); Serial.println(Gearbox.GetData(0));
       Serial.print("MinSpeed:   "); Serial.println(Gearbox.GetData(1));
@@ -563,7 +563,7 @@ void MONITOR(bool SETUPMODE){
       Serial.print("MaxGear:    "); Serial.println(Gearbox.GetData(4));
       Serial.print("DutyGear:   "); Serial.println(Gearbox.GetData(5));
       Serial.print("Delay:      "); Serial.println(Gearbox.GetData(6));
-      #elif (MonitorScreen == 3)
+      #elif (MonitorScreen == 2)
       Serial.println("#S H O C K   P A N E L");
       Serial.print("SolinoidPin:  "); Serial.println(Shockpanel.GetData(0));
       Serial.print("MinigunDelay: "); Serial.println(Shockpanel.GetData(1));
@@ -574,11 +574,18 @@ void MONITOR(bool SETUPMODE){
       Serial.print("Delay         "); Serial.println(Shockpanel.GetData(6));
       #else
       Serial.println("ERROR: SETTINGS/MonitorScreen");
-      Serial.println("1 - MOTION");    
-      Serial.println("2 - GEARBOX");
-      Serial.println("3 - SHOCKPANEL");
+      Serial.println("0 - MOTION");    
+      Serial.println("1 - GEARBOX");
+      Serial.println("2 - SHOCKPANEL");
+      #endif
+      #elif (MonitorMode == 2)
+      Serial.println("DEBUG GRAPH MODE");
+      #else
+      Serial.println("ERROR: SETTINGS/MonitorMode");
+      Serial.println("0 - LOGO (OFF)");    
+      Serial.println("1 - DEBUG CONSOLE MODE");
+      Serial.println("2 - DEBUG GRAPH MODE");
       #endif
     }
-    #endif
   }
 }
