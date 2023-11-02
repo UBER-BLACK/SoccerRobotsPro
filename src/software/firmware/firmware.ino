@@ -18,7 +18,7 @@
 //            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
 #define MonitorSpeed              115200     //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
 #define MonitorDelay              1000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
-#define MonitorMode               1          //--
+#define MonitorMode               0          //--
 #define MonitorScreen             1          //--
 //
 #define Gearbox_Monitor           1          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
@@ -535,10 +535,10 @@ void MONITOR(bool SETUPMODE){
   #endif
   }
   else{
+    #if (MonitorMode == 1)
     if (millis() - MonitorTimer0 >= MonitorDelay){
       MonitorTimer0 = millis();
       Serial.println("#--------------------------------+");
-      #if (MonitorMode == 1)
       #if (MonitorScreen == 0)
       Serial.println("#M O T I O N");
       Serial.print("ControlSens:       "); Serial.println(Motion.GetData(0));
@@ -578,6 +578,7 @@ void MONITOR(bool SETUPMODE){
       Serial.println("1 - GEARBOX");
       Serial.println("2 - SHOCKPANEL");
       #endif
+    }
       #elif (MonitorMode == 2)
       Serial.println("DEBUG GRAPH MODE");
       #else
@@ -586,6 +587,5 @@ void MONITOR(bool SETUPMODE){
       Serial.println("1 - DEBUG CONSOLE MODE");
       Serial.println("2 - DEBUG GRAPH MODE");
       #endif
-    }
   }
 }
