@@ -15,13 +15,12 @@
 //SETTINGS
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
-#define Monitor_Speed             9600       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
+#define MonitorSpeed              115200     //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
+#define MonitorDelay              1000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
+#define MonitorMode               2          //--
+#define MonitorScreen             3          //--
 //
-#define Gamepad_Monitor           false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
-#define Gamepad_MonitorDelay      2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
-//
-#define Gearbox_Monitor           false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
-#define Gearbox_MonitorDelay      2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
+#define Gearbox_Monitor           1          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define Gearbox_MaxSpeed          0.9        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_maxspeed
 #define Gearbox_MinSpeed          0.4        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_minspeed
 #define Gearbox_MinPower          20         //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_minpower
@@ -30,23 +29,20 @@
 #define Gearbox_AutoBrake         true       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_autobrake
 #define Gearbox_Delay             250        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_delay
 //
-#define Motor_Monitor             false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
-#define Motor_MonitorDelay        2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
+#define Motor_Monitor             0          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define MotorR_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
 #define MotorL_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
 #define MotorB_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
 #define MotorF_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
 //
-#define Shockpanel_Monitor        false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
-#define Shockpanel_MonitorDelay   2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
+#define Shockpanel_Monitor        0          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define Shockpanel_MinigunDelay   20         //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_minigundelay
 #define Shockpanel_ShotSpeed      255        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_shotspeed
 #define Shockpanel_HoldSpeed      255        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_holdspeed
 #define Shockpanel_NormSpeed      50         //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_normspeed
 #define Shockpanel_Delay          150        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_delay
 //
-#define Motion_Monitor            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitor
-#define Motion_MonitorDelay       2000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
+#define Motion_Monitor            0          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define Motion_ControlSens        0.40       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsens
 #define Motion_ControlRSens       1.00       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
 #define Motion_ControlLSens       0.90       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
@@ -96,17 +92,8 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Plus,MotorF_Minus,MotorF_Power);
 
 
 //MONITOR OPTIMIZATION
-#if (Gearbox_Monitor)//Creating a delay variable
-uint32_t Timer0 = Gearbox_MonitorDelay;
-#endif
-#if (Gamepad_Monitor)//Creating a delay variable
-uint32_t Timer1 = Gamepad_MonitorDelay;
-#endif
-#if (Motor_Monitor)//Creating a delay variable
-uint32_t Timer2 = Motor_MonitorDelay;
-#endif
-#if (Shockpanel_Monitor)//Creating a delay variable
-uint32_t Timer3 = Shockpanel_MonitorDelay;
+#if (MonitorMode > 0)//Creating a delay variable
+uint32_t MonitorTimer0 = MonitorDelay;
 #endif
 
 
@@ -139,43 +126,43 @@ class Motion{
       return _Motor[Number];}
     double GetData(uint8_t Number){
       switch (Number) {
-        case 1: //GET CONTROL SENS
+        case 0: //GET CONTROL SENS
           return _ControlSens;
           break;
-        case 2: //GET CONTROL SENS (RIGHT)
+        case 1: //GET CONTROL SENS (RIGHT)
           return _ControlRSens;
           break;
-        case 3: //GET CONTROL SENS (LEFT)
+        case 2: //GET CONTROL SENS (LEFT)
           return _ControlLSens;
           break;
-        case 4: //GET CONTROL SENS (BACK)
+        case 3: //GET CONTROL SENS (BACK)
           return _ControlBSens;
           break;
-        case 5: //GET DRIFT SENS
+        case 4: //GET DRIFT SENS
           return _DriftSens;
           break;
-        case 6: //GET DRIFT FACTOR (RIGHT)
+        case 5: //GET DRIFT FACTOR (RIGHT)
           return _DriftRFactor;
           break;
-        case 7: //GET DRIFT FACTOR (LEFT)
+        case 6: //GET DRIFT FACTOR (LEFT)
           return _DriftLFactor;
           break;
-        case 8: //GET DRIFT FACTOR (BACK)
+        case 7: //GET DRIFT FACTOR (BACK)
           return _DriftBFactor;
           break;
-        case 9: //GET GAMEPAD ASIX LY
+        case 8: //GET GAMEPAD ASIX LY
           return _Gamepad_LY;
           break;
-        case 10://GET GAMEPAD ASIX LX
+        case 9: //GET GAMEPAD ASIX LX
           return _Gamepad_LX;
           break;
-        case 11://GET GAMEPAD ASIX RY
+        case 10://GET GAMEPAD ASIX RY
           return _Gamepad_RY;
           break;
-        case 12://GET GAMEPAD ASIX RX
+        case 11://GET GAMEPAD ASIX RX
           return _Gamepad_RX;
           break;
-        case 13://GET GAMEPAD ASIX CY
+        case 12://GET GAMEPAD ASIX CY
           return _Gamepad_CY();
           break;
         default:
@@ -336,20 +323,20 @@ class Gearbox{
         case 1: //GET MIN SPEED
           return _MinSpeed;
           break;
-        case 2: //GET MIN POWER
+        case 2: //GET DUTY SPEED
+          return DutySpeed();
+          break;
+        case 3: //GET MIN POWER
           return _MinPower;
           break;
-        case 3: //GET MAX GEAR
+        case 4: //GET MAX GEAR
           return _MaxGear;
           break;
-        case 4: //GET DUTY GEAR
+        case 5: //GET DUTY GEAR
           return _DutyGear;
           break;
-        case 5: //GET DELAY
+        case 6: //GET DELAY
           return _Delay;
-          break;
-        case 6: //GET DUTY SPEED
-          return DutySpeed();
           break;
         default:
           return -1;
@@ -447,7 +434,7 @@ class Shockpanel{
           break;}}
     double GetData(uint8_t Number){
       switch (Number){
-        case 0: //GET MAX SPEED
+        case 0: //GET SOLINOID PIN
           return _SolinoidPin;
           break;
         case 1: //GET MINIGUN DELAY
@@ -492,13 +479,13 @@ Shockpanel Shockpanel;//Creating an object
 void setup(){//Here the code is executed once
   //LIBS
   PS2X.config_gamepad(Gamepad_Clock,Gamepad_Command,Gamepad_Attention,Gamepad_Data,0,0);//Applying the settings
-  Serial.begin(Monitor_Speed);//Applying the settings
+  Serial.begin(MonitorSpeed);//Applying the settings
   MotorR.reverse(MotorR_Reverse);//Applying the settings
   MotorL.reverse(MotorL_Reverse);//Applying the settings
   MotorB.reverse(MotorB_Reverse);//Applying the settings
   MotorF.reverse(MotorF_Reverse);//Applying the settings
   //CODE
-  WELCOME(); //Welcome text
+  MONITORS(1);//Debug
   pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
   digitalWrite(Motor_Standby,HIGH); //Activating the driver
   //CLASES
@@ -518,13 +505,79 @@ void loop(){//Here the code is executed in an infinite loop
   if(Gearbox.GetBrake(0) and Gearbox_AutoBrake)MotorR.brake();//Automatic brake on the right hand motor
   if(Gearbox.GetBrake(1) and Gearbox_AutoBrake)MotorL.brake();//Automatic brake on the left hand motor
   if(Gearbox.GetBrake(2) and Gearbox_AutoBrake)MotorB.brake();//Automatic brake on the back hand motor
+  MONITORS(0);//Debug
 }
 
 
 
-//FUNCTIONS
-void WELCOME(){//Important text when starting the program
-  Serial.println("SoccerRobotPro Firmware. It Works!");
-  Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
-  Serial.println("Dev @THEBIGMISHA");
+/*void MONITORS(bool Setup){
+  if (Setup == 1){
+    Serial.println("");
+    Serial.println("#--------------------------------+");
+    #if (MonitorMode == 0)
+      Serial.println("SoccerRobotPro Firmware. It Works!");
+      Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
+      Serial.println("Dev @THEBIGMISHA");
+    #elif (MonitorMode == 1)
+      Serial.println("MANUAL DEBUG MODE");
+    #elif (MonitorMode == 1)
+      Serial.println("GRAPH DEBUG MODE");
+    #endif
   }
+  #if (MonitorMode == 0)
+  #elif (MonitorMode == 1)
+    if (millis() - MonitorTimer0 >= MonitorDelay){
+      MonitorTimer0 = millis();
+      Serial.println("#--------------------------------+");
+      #if (MonitorScreen == 1)
+        Serial.println("#M O T I O N");
+        Serial.print("ControlSens:       "); Serial.println(Motion.GetData(0));
+        Serial.print("ControlSensRight:  "); Serial.println(Motion.GetData(1));
+        Serial.print("ControlSensLeft:   "); Serial.println(Motion.GetData(2));
+        Serial.print("ControlSensBack:   "); Serial.println(Motion.GetData(3));
+        Serial.print("DriftFactor:       "); Serial.println(Motion.GetData(4));
+        Serial.print("DriftFactorRight:  "); Serial.println(Motion.GetData(5));
+        Serial.print("DriftFactorLeft:   "); Serial.println(Motion.GetData(6));
+        Serial.print("DriftFactorBack:   "); Serial.println(Motion.GetData(7));
+        Serial.print("Gamepad_LY:        "); Serial.println(Motion.GetData(8));
+        Serial.print("Gamepad_LX:        "); Serial.println(Motion.GetData(9));
+        Serial.print("Gamepad_RY:        "); Serial.println(Motion.GetData(10));
+        Serial.print("Gamepad_RX:        "); Serial.println(Motion.GetData(11));
+        Serial.print("Gamepad_CY:        "); Serial.println(Motion.GetData(12));
+      #elif (MonitorScreen == 2)
+        Serial.println("#G E A R B O X");
+        Serial.print("MaxSpeed:   "); Serial.println(Gearbox.GetData(0));
+        Serial.print("MinSpeed:   "); Serial.println(Gearbox.GetData(1));
+        Serial.print("DutySpeed:  "); Serial.println(Gearbox.GetData(2));
+        Serial.print("MinPower:   "); Serial.println(Gearbox.GetData(3));
+        Serial.print("MaxGear:    "); Serial.println(Gearbox.GetData(4));
+        Serial.print("DutyGear:   "); Serial.println(Gearbox.GetData(5));
+        Serial.print("Delay:      "); Serial.println(Gearbox.GetData(6));
+      #elif (MonitorScreen == 3)
+        Serial.println("#S H O C K   P A N E L");
+        Serial.print("SolinoidPin:  "); Serial.println(Shockpanel.GetData(0));
+        Serial.print("MinigunDelay: "); Serial.println(Shockpanel.GetData(1));
+        Serial.print("ShotSpeed:    "); Serial.println(Shockpanel.GetData(2));
+        Serial.print("HoldSpeed:    "); Serial.println(Shockpanel.GetData(3));
+        Serial.print("NormSpeed:    "); Serial.println(Shockpanel.GetData(4));
+        Serial.print("DutySpeed:    "); Serial.println(Shockpanel.GetData(5));
+        Serial.print("Delay         "); Serial.println(Shockpanel.GetData(6));
+      #else
+        Serial.println("ERROR: SETTINGS/MonitorScreen");
+        Serial.println("1 - MOTION");    
+        Serial.println("2 - GEARBOX");
+        Serial.println("3 - SHOCKPANEL");
+      #endif
+  #else
+    if (millis() - MonitorTimer0 >= MonitorDelay){
+      MonitorTimer0 = millis();
+      Serial.println("ERROR: SETTINGS/MonitorMode");
+      Serial.println("0 - WELCOME (OFF)");    
+      Serial.println("1 - MANUAL DEBUG");
+      Serial.println("2 - GRAPH DEBUG");
+    }
+  #endif
+}*/
+void MONITORS(bool _SETUP){
+
+}
