@@ -581,7 +581,11 @@ void MONITOR(bool SETUPMODE){
       #endif
     }
       #elif (MonitorMode == 2)
-      Serial.println("DEBUG GRAPH MODE");
+      if (millis() - MonitorTimer0 >= MonitorDelay){
+        MonitorTimer0 = millis();
+        Serial.println("#--------------------------------+");
+        Serial.println("DEBUG GRAPH MODE")
+      }
       #else
       Serial.println("ERROR: SETTINGS/MonitorMode");
       Serial.println("0 - LOGO (OFF)");    
