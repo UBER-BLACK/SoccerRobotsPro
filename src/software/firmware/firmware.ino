@@ -18,7 +18,7 @@
 //            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
 #define MonitorSpeed              115200     //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
 #define MonitorDelay              1000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
-#define MonitorMode               2          //--
+#define MonitorMode               1          //--
 #define MonitorScreen             1          //--
 //
 #define Gearbox_Monitor           1          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
@@ -92,7 +92,7 @@ GMotor2<DRIVER3WIRE>MotorF(MotorF_Plus,MotorF_Minus,MotorF_Power);
 
 
 
-#if (MonitorMode == 0)
+#if (MonitorMode > 0)
 uint32_t MonitorTimer0 = MonitorDelay;
 #endif
 
