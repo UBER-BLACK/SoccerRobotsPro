@@ -19,6 +19,7 @@
 #define MonitorSpeed              115200     //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
 #define MonitorDelay              1000       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define MonitorMode               2          //--
+#define MonitorScreen             1          //--
 //
 #define Gearbox_Monitor           1          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
 #define Gearbox_MaxSpeed          0.9        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_maxspeed
@@ -89,6 +90,11 @@ GMotor2<DRIVER3WIRE>MotorL(MotorL_Plus,MotorL_Minus,MotorL_Power);
 GMotor2<DRIVER3WIRE>MotorB(MotorB_Plus,MotorB_Minus,MotorB_Power);
 GMotor2<DRIVER3WIRE>MotorF(MotorF_Plus,MotorF_Minus,MotorF_Power);
 
+
+
+#if (MonitorMode == 0)
+uint32_t MonitorTimer0 = MonitorDelay;
+#endif
 
 
 //CLASES
@@ -466,30 +472,9 @@ class Shockpanel{
     //Timers
     uint32_t _Timer0 = _MinigunDelay;
     uint32_t _Timer1 = _Delay;};
-class Monitor{
-  public:
-    setup(uint8_t Mode, uint16_t Delay, uint8_t Screen){
-      _Mode = constrain(Mode,0,2);
-      _Delay = constrain(Delay,0,65535);
-      _Screen = constrain(Screen,0,4);
-      Serial.println();}
-    space(){
-      Serial.println("#--------------------------------+");}
-    logo(){
-      space();
-      Serial.println("SoccerRobotPro Firmware. It Works!");
-      Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
-      Serial.println("Dev @THEBIGMISHA");}
-  private:
-    uint8_t _Mode;
-    uint8_t _Screen;
-    uint16_t _Delay;
-    uint32_t _Timer0 = _Delay;
-};
 Motion Motion;//Creating an object
 Gearbox Gearbox;//Creating an object
 Shockpanel Shockpanel;//Creating an object
-Monitor Monitor;//Creating an object
 void setup(){//Here the code is executed once
   //LIBS
   PS2X.config_gamepad(Gamepad_Clock,Gamepad_Command,Gamepad_Attention,Gamepad_Data,0,0);//Applying the settings
@@ -522,64 +507,11 @@ void loop(){//Here the code is executed in an infinite loop
 
 
 
-/*void MONITORS(bool Setup){
-  if (Setup == 1){
-    Serial.println("");
-    Serial.println("#--------------------------------+");
-    #if (MonitorMode == 0)
-      Serial.println("SoccerRobotPro Firmware. It Works!");
-      Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
-      Serial.println("Dev @THEBIGMISHA");
-    #elif (MonitorMode == 1)
-      Serial.println("MANUAL DEBUG MODE");
-    #elif (MonitorMode == 1)
-      Serial.println("GRAPH DEBUG MODE");
-    #endif
-  }
+/*
   #if (MonitorMode == 0)
   #elif (MonitorMode == 1)
-    if (millis() - MonitorTimer0 >= MonitorDelay){
-      MonitorTimer0 = millis();
-      Serial.println("#--------------------------------+");
-      #if (MonitorScreen == 1)
-        Serial.println("#M O T I O N");
-        Serial.print("ControlSens:       "); Serial.println(Motion.GetData(0));
-        Serial.print("ControlSensRight:  "); Serial.println(Motion.GetData(1));
-        Serial.print("ControlSensLeft:   "); Serial.println(Motion.GetData(2));
-        Serial.print("ControlSensBack:   "); Serial.println(Motion.GetData(3));
-        Serial.print("DriftFactor:       "); Serial.println(Motion.GetData(4));
-        Serial.print("DriftFactorRight:  "); Serial.println(Motion.GetData(5));
-        Serial.print("DriftFactorLeft:   "); Serial.println(Motion.GetData(6));
-        Serial.print("DriftFactorBack:   "); Serial.println(Motion.GetData(7));
-        Serial.print("Gamepad_LY:        "); Serial.println(Motion.GetData(8));
-        Serial.print("Gamepad_LX:        "); Serial.println(Motion.GetData(9));
-        Serial.print("Gamepad_RY:        "); Serial.println(Motion.GetData(10));
-        Serial.print("Gamepad_RX:        "); Serial.println(Motion.GetData(11));
-        Serial.print("Gamepad_CY:        "); Serial.println(Motion.GetData(12));
-      #elif (MonitorScreen == 2)
-        Serial.println("#G E A R B O X");
-        Serial.print("MaxSpeed:   "); Serial.println(Gearbox.GetData(0));
-        Serial.print("MinSpeed:   "); Serial.println(Gearbox.GetData(1));
-        Serial.print("DutySpeed:  "); Serial.println(Gearbox.GetData(2));
-        Serial.print("MinPower:   "); Serial.println(Gearbox.GetData(3));
-        Serial.print("MaxGear:    "); Serial.println(Gearbox.GetData(4));
-        Serial.print("DutyGear:   "); Serial.println(Gearbox.GetData(5));
-        Serial.print("Delay:      "); Serial.println(Gearbox.GetData(6));
-      #elif (MonitorScreen == 3)
-        Serial.println("#S H O C K   P A N E L");
-        Serial.print("SolinoidPin:  "); Serial.println(Shockpanel.GetData(0));
-        Serial.print("MinigunDelay: "); Serial.println(Shockpanel.GetData(1));
-        Serial.print("ShotSpeed:    "); Serial.println(Shockpanel.GetData(2));
-        Serial.print("HoldSpeed:    "); Serial.println(Shockpanel.GetData(3));
-        Serial.print("NormSpeed:    "); Serial.println(Shockpanel.GetData(4));
-        Serial.print("DutySpeed:    "); Serial.println(Shockpanel.GetData(5));
-        Serial.print("Delay         "); Serial.println(Shockpanel.GetData(6));
-      #else
-        Serial.println("ERROR: SETTINGS/MonitorScreen");
-        Serial.println("1 - MOTION");    
-        Serial.println("2 - GEARBOX");
-        Serial.println("3 - SHOCKPANEL");
-      #endif
+    
+      
   #else
     if (millis() - MonitorTimer0 >= MonitorDelay){
       MonitorTimer0 = millis();
@@ -590,8 +522,61 @@ void loop(){//Here the code is executed in an infinite loop
     }
   #endif
 }*/
-void MONITORS(bool SETUPMODE){
+void MONITOR(bool SETUPMODE){
   if(SETUPMODE){
-
+  Serial.println("");
+  Serial.println("#--------------------------------+");
+  #if (MonitorMode == 0)
+  Serial.println("SoccerRobotPro Firmware. It Works!");
+  Serial.println("Copyright © UBER-BLACK. 2023. All rights reserved.");
+  Serial.println("Dev @THEBIGMISHA");
+  #endif
+  }
+  else{
+    #if (MonitorMode == 1)
+    if (millis() - MonitorTimer0 >= MonitorDelay){
+      MonitorTimer0 = millis();
+      Serial.println("#--------------------------------+");
+      #if (MonitorScreen == 1)
+      Serial.println("#M O T I O N");
+      Serial.print("ControlSens:       "); Serial.println(Motion.GetData(0));
+      Serial.print("ControlSensRight:  "); Serial.println(Motion.GetData(1));
+      Serial.print("ControlSensLeft:   "); Serial.println(Motion.GetData(2));
+      Serial.print("ControlSensBack:   "); Serial.println(Motion.GetData(3));
+      Serial.print("DriftFactor:       "); Serial.println(Motion.GetData(4));
+      Serial.print("DriftFactorRight:  "); Serial.println(Motion.GetData(5));
+      Serial.print("DriftFactorLeft:   "); Serial.println(Motion.GetData(6));
+      Serial.print("DriftFactorBack:   "); Serial.println(Motion.GetData(7));
+      Serial.print("Gamepad_LY:        "); Serial.println(Motion.GetData(8));
+      Serial.print("Gamepad_LX:        "); Serial.println(Motion.GetData(9));
+      Serial.print("Gamepad_RY:        "); Serial.println(Motion.GetData(10));
+      Serial.print("Gamepad_RX:        "); Serial.println(Motion.GetData(11));
+      Serial.print("Gamepad_CY:        "); Serial.println(Motion.GetData(12));
+      #elif (MonitorScreen == 2)
+      Serial.println("#G E A R B O X");
+      Serial.print("MaxSpeed:   "); Serial.println(Gearbox.GetData(0));
+      Serial.print("MinSpeed:   "); Serial.println(Gearbox.GetData(1));
+      Serial.print("DutySpeed:  "); Serial.println(Gearbox.GetData(2));
+      Serial.print("MinPower:   "); Serial.println(Gearbox.GetData(3));
+      Serial.print("MaxGear:    "); Serial.println(Gearbox.GetData(4));
+      Serial.print("DutyGear:   "); Serial.println(Gearbox.GetData(5));
+      Serial.print("Delay:      "); Serial.println(Gearbox.GetData(6));
+      #elif (MonitorScreen == 3)
+      Serial.println("#S H O C K   P A N E L");
+      Serial.print("SolinoidPin:  "); Serial.println(Shockpanel.GetData(0));
+      Serial.print("MinigunDelay: "); Serial.println(Shockpanel.GetData(1));
+      Serial.print("ShotSpeed:    "); Serial.println(Shockpanel.GetData(2));
+      Serial.print("HoldSpeed:    "); Serial.println(Shockpanel.GetData(3));
+      Serial.print("NormSpeed:    "); Serial.println(Shockpanel.GetData(4));
+      Serial.print("DutySpeed:    "); Serial.println(Shockpanel.GetData(5));
+      Serial.print("Delay         "); Serial.println(Shockpanel.GetData(6));
+      #else
+      Serial.println("ERROR: SETTINGS/MonitorScreen");
+      Serial.println("1 - MOTION");    
+      Serial.println("2 - GEARBOX");
+      Serial.println("3 - SHOCKPANEL");
+      #endif
+    }
+    #endif
   }
 }
