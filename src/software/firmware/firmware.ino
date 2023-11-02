@@ -535,6 +535,7 @@ void MONITOR(bool SETUPMODE){
   #endif
   }
   else{
+    #if (MonitorMode == 1)
     if (millis() - MonitorTimer0 >= MonitorDelay){
       MonitorTimer0 = millis();
       Serial.println("#--------------------------------+");
@@ -578,5 +579,6 @@ void MONITOR(bool SETUPMODE){
       Serial.println("3 - SHOCKPANEL");
       #endif
     }
+    #endif
   }
 }
