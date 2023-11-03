@@ -493,7 +493,8 @@ void setup(){//Here the code is executed once
   Motion.setup(Motion_ControlSens,Motion_ControlRSens,Motion_ControlLSens,Motion_ControlBSens,Motion_DriftSens,Motion_DriftRFactor,Motion_DriftLFactor,Motion_DriftBFactor);//Applying the settings
   //CODE
   MONITOR(1);//Monitor for debug
-  SHILD();//For work motor driver}
+  SHILD();//For work motor driver
+}
 void loop(){//Here the code is executed in an infinite loop
   PS2X.read_gamepad(0,0);//Communication with the gamepad
   Motion.gamepadPS2X();//Receiving then processing gamepad data
@@ -506,7 +507,8 @@ void loop(){//Here the code is executed in an infinite loop
   if(Gearbox.GetBrake(0) and Gearbox_AutoBrake)MotorR.brake();//Automatic brake on the right hand motor
   if(Gearbox.GetBrake(1) and Gearbox_AutoBrake)MotorL.brake();//Automatic brake on the left hand motor
   if(Gearbox.GetBrake(2) and Gearbox_AutoBrake)MotorB.brake();//Automatic brake on the back hand motor
-  MONITOR(0);//Monitor for debug}
+  MONITOR(0);//Monitor for debug
+}
 
 
 
@@ -575,8 +577,8 @@ void MONITOR(bool SETUPMODE){
         Serial.print("ShaftSpeed:");  Serial.print(Shockpanel.GetData(5)); Serial.print(",");
         Serial.print("Gear:");        Serial.print(Gearbox.GetData(5)); Serial.print(",");
         Serial.print("MotorR:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
-        Serial.print("MotorL:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(1))); Serial.print(",");
-        Serial.print("MotorB:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(2))); Serial.println(",");
+        Serial.print("MotorL:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
+        Serial.print("MotorB:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.println(",");
       }
       #else
       if (millis() - MonitorTimer0 >= MonitorDelay){
@@ -590,4 +592,5 @@ void MONITOR(bool SETUPMODE){
   }}
 void SHILD(){
   pinMode(Motor_Standby, OUTPUT); //Setting the driver activation output
-  digitalWrite(Motor_Standby,HIGH); //Activating the driver}
+  digitalWrite(Motor_Standby,HIGH); //Activating the driver
+}
