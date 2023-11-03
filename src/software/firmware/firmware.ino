@@ -577,8 +577,8 @@ void MONITOR(bool SETUPMODE){
         Serial.print("ShaftSpeed:");  Serial.print(Shockpanel.GetData(5)); Serial.print(",");
         Serial.print("Gear:");        Serial.print(Gearbox.GetData(5)); Serial.print(",");
         Serial.print("MotorR:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
-        Serial.print("MotorL:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.print(",");
-        Serial.print("MotorB:");      Serial.print(Gearbox.GetSpeed(0,Motion.GetMotor(0))); Serial.println(",");
+        Serial.print("MotorL:");      Serial.print(Gearbox.GetSpeed(1,Motion.GetMotor(1))); Serial.print(",");
+        Serial.print("MotorB:");      Serial.print(Gearbox.GetSpeed(2,Motion.GetMotor(2))); Serial.println(",");
       }
       #else
       if (millis() - MonitorTimer0 >= MonitorDelay){
