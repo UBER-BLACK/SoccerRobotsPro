@@ -8,6 +8,7 @@
 //██║░░░██║██╔══██╗██╔══╝░░██╔══██╗╚════╝██╔══██╗██║░░░░░██╔══██║██║░░██╗██╔═██╗░
 //╚██████╔╝██████╦╝███████╗██║░░██║░░░░░░██████╦╝███████╗██║░░██║╚█████╔╝██║░╚██╗
 //░╚═════╝░╚═════╝░╚══════╝╚═╝░░╚═╝░░░░░░╚═════╝░╚══════╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝
+//
 //Copyright © UBER-BLACK Teem. 2023. All rights reserved.
 //Dev THEBIGMISHA <http://GitHub.com/THEBIGMISHA>
 
@@ -18,7 +19,7 @@
 //            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
 #define MonitorSpeed              115200     //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
 #define MonitorDelay              100        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
-#define MonitorMode               2          //--
+#define MonitorMode               0          //--
 #define MonitorScreen             0          //--
 //
 #define Gearbox_Monitor           1          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
