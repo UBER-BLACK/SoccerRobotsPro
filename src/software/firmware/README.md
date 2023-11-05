@@ -13,9 +13,11 @@ This firmware is made for our soccer robot
 1. Specify the board and port
 1. Press the flash button
 
-# Customizing
+# Settings
 
 Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" and find the settings part (very easy to find)
 ```C++
 #define Name Value //URL to the guide
 ```
+
+#
