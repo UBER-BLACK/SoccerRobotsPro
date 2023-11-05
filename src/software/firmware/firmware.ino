@@ -17,35 +17,35 @@
 //SETTINGS
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //            NAME              //   VALUE   //                                             LINK TO THE GUIDE                                               //
-#define MonitorSpeed              115200     //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#monitor_speed
-#define MonitorDelay              100        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#name_monitordelay
+#define MonitorSpeed              115200     //--
+#define MonitorDelay              100        //--
 #define MonitorMode               0          //--
 #define MonitorScreen             0          //--
 //
-#define Gearbox_MaxSpeed          0.9        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_maxspeed
-#define Gearbox_MinSpeed          0.4        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_minspeed
-#define Gearbox_MinPower          20         //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_minpower
-#define Gearbox_DefGear           0          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_defgear
-#define Gearbox_MaxGear           5          //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_maxgear
-#define Gearbox_AutoBrake         true       //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_autobrake
-#define Gearbox_Delay             250        //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#gearbox_delay
+#define Gearbox_MaxSpeed          0.9        //--
+#define Gearbox_MinSpeed          0.4        //--
+#define Gearbox_MinPower          20         //--
+#define Gearbox_DefGear           0          //--
+#define Gearbox_MaxGear           5          //--
+#define Gearbox_AutoBrake         true       //--
+#define Gearbox_Delay             250        //--
 //
-#define MotorR_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
-#define MotorL_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
-#define MotorB_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
-#define MotorF_Reverse            false      //https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/firmware#motorside_reverse
+#define MotorR_Reverse            false      //--
+#define MotorL_Reverse            false      //--
+#define MotorB_Reverse            false      //--
+#define MotorF_Reverse            false      //--
 //
-#define Shockpanel_MinigunDelay   20         //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_minigundelay
-#define Shockpanel_ShotSpeed      255        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_shotspeed
-#define Shockpanel_HoldSpeed      255        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_holdspeed
-#define Shockpanel_NormSpeed      50         //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_normspeed
-#define Shockpanel_Delay          150        //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#shockpanel_delay
+#define Shockpanel_MinigunDelay   20         //--
+#define Shockpanel_ShotSpeed      255        //--
+#define Shockpanel_HoldSpeed      255        //--
+#define Shockpanel_NormSpeed      50         //--
+#define Shockpanel_Delay          150        //--
 //
-#define Motion_ControlSens        0.40       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsens
-#define Motion_ControlRSens       1.00       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
-#define Motion_ControlLSens       0.90       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
-#define Motion_ControlBSens       0.90       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_controlsidesens
-#define Motion_DriftSens          1.00       //https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/src/software/firmware#motion_driftsens
+#define Motion_ControlSens        0.40       //--
+#define Motion_ControlRSens       1.00       //--
+#define Motion_ControlLSens       0.90       //--
+#define Motion_ControlBSens       0.90       //--
+#define Motion_DriftSens          1.00       //--
 #define Motion_DriftRFactor       0.58       //--
 #define Motion_DriftLFactor       0.58       //--
 #define Motion_DriftBFactor       0.98       //--
