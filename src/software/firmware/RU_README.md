@@ -9,8 +9,8 @@
 
 1. Скачайте "**![firmware.ino](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/software/firmware/firmware.ino)**"
 1. Откройте этот файл в "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**"
-1. Установите все **![библиотеки](https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/libraries)** в это IDE
-1. Установите **![драйвер](https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/driver)** для Arduino с **чипом ch340**
+1. Установите все **![библиотеки](https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/libraries/RU_README.md)** в это IDE
+1. Установите **![драйвер](https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/driver/RU_README.md)** для Arduino с **чипом ch340**
 1. Укажите плату и порт
 1. Нажмите кнопку прошивки
 
