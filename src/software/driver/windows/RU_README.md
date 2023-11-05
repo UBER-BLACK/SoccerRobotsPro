@@ -1,5 +1,5 @@
 [![BACK SHIELD](https://img.shields.io/badge/..%2F-Назад-444?style=flat-square)](../RU_README.md)
-[![GOTO SHIELD](https://img.shields.io/badge/..%2Ffirmware-Вернутся-444?style=flat-square)](../../firmware/RU_README.md)
+[![GOTO SHIELD](https://img.shields.io/badge/..%2Ffirmware-Перейти-444?style=flat-square)](../../firmware/RU_README.md)
 [![ENGLISH SHIELD](https://img.shields.io/badge/-English-444?style=flat-square)]()
 [![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-08f?style=flat-square)](RU_README.md)
 [![DOWNLOAD SHIELD](https://img.shields.io/badge/-Скачать_Драйвер-F00?style=flat-square)](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/software/driver/windows/driver.exe)
