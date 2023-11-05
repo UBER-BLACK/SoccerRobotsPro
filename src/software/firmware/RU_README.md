@@ -7,7 +7,7 @@
 
 # Установка
 
-1. Скачайте "**![firmware.ino](/src/software/firmware/firmware.ino)**"
+1. Скачайте **![firmware.ino](/src/software/firmware/firmware.ino)**
 1. Откройте этот файл в "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**"
 1. Установите все **![библиотеки](/src/software/libraries/RU_README.md)** в это IDE
 1. Установите **![драйвер](/src/software/driver/RU_README.md)** для Arduino с **чипом ch340**
