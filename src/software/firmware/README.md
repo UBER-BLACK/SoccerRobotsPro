@@ -7,7 +7,7 @@ This firmware is made for our soccer robot
 
 # Installing
 
-1. Download "**![firmware.ino](/src/software/firmware/firmware.ino)**"
+1. Download **![firmware.ino](/src/software/firmware/firmware.ino)**
 1. Open this file in the "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**"
 1. Install all **![libraries](/src/software/libraries)** in the IDE
 1. Install the **![driver](/src/software/driver)** for the Arduino with **chip ch340**
