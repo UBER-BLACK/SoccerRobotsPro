@@ -1,6 +1,6 @@
 [![ENGLISH SHIELD](https://img.shields.io/badge/-English-444?style=flat-square)]()
 [![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-08f?style=flat-square)](RU_README.md)
-[![DOWNLOAD SHIELD](https://img.shields.io/badge/-Скачать-F00?style=flat-square)](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/software/firmware/firmware.ino)
+[![DOWNLOAD SHIELD](https://img.shields.io/badge/-Скачать_Программу-F00?style=flat-square)](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/software/firmware/firmware.ino)
 # Краткое Руководство Прошивки Робота
 Эта прошивка сделана для футбольного робота
 
