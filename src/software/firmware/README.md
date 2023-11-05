@@ -21,4 +21,4 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 ```
 # Other
 
-Check **[![/documentation/software/README.md]()](https://github.com/UBER-BLACK/SoccerRobotsPro/)**
+Check **[![/documentation/software/README.md]()](https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/documentation/software/)**
