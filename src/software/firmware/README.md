@@ -7,10 +7,10 @@ This firmware is made for our soccer robot
 
 # Installing
 
-1. Download "**![firmware.ino](https://github.com/UBER-BLACK/SoccerRobotsPro/raw/main/src/software/firmware/firmware.ino)**"
+1. Download "**![firmware.ino](/src/software/firmware/firmware.ino)**"
 1. Open this file in the "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**"
-1. Install all **![libraries](https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/libraries)** in the IDE
-1. Install the **![driver](https://github.com/UBER-BLACK/SoccerRobotsPro/tree/main/src/software/driver)** for the Arduino with **chip ch340**
+1. Install all **![libraries](/src/software/libraries)** in the IDE
+1. Install the **![driver](/src/software/driver)** for the Arduino with **chip ch340**
 1. Specify the board and port
 1. Press the flash button
 
@@ -22,4 +22,4 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 ```
 # Other
 
-Check **[![/documentation/software/README.md]()](https://github.com/UBER-BLACK/SoccerRobotsPro/blob/main/documentation/software/)**
+Check **[![/documentation/software/README.md]()](/documentation/software/)**
