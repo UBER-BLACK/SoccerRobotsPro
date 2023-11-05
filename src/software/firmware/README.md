@@ -19,5 +19,6 @@ Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" an
 ```C++
 #define Name Value //URL to the guide
 ```
+# Other
 
-#
+Check **[![/documentation/software/documentation]()](https://github.com/UBER-BLACK/SoccerRobotsPro/)**
