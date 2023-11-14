@@ -5,6 +5,6 @@
 # ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ
 
 ### Выберите, куда отправиться дальше
-[![GOTO SHIELD 1](https://img.shields.io/badge/Прошивка-666?style=for-the-badge&logoColor=FFF)](firmware)
-[![GOTO SHIELD 2](https://img.shields.io/badge/Драйвер-666?style=for-the-badge&logoColor=FFF)](driver)
-[![GOTO SHIELD 3](https://img.shields.io/badge/Библиотеки-666?style=for-the-badge&logoColor=FFF)](libraries)
+[![GOTO SHIELD 1](https://img.shields.io/badge/Прошивка-666?style=for-the-badge&logoColor=FFF)](firmware/RU_README.md)
+[![GOTO SHIELD 2](https://img.shields.io/badge/Драйвер-666?style=for-the-badge&logoColor=FFF)](driver/RU_README.md)
+[![GOTO SHIELD 3](https://img.shields.io/badge/Библиотеки-666?style=for-the-badge&logoColor=FFF)](libraries/RU_README.md)
