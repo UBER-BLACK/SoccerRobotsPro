@@ -5,7 +5,7 @@
 # Краткое Руководство Прошивки Робота
 Эта прошивка сделана для футбольного робота
 
-# Установка
+## Установка
 
 1. Скачайте **![firmware.ino](/src/software/firmware/firmware.ino)**
 1. Откройте этот файл в "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**"
@@ -14,12 +14,12 @@
 1. Укажите плату и порт
 1. Нажмите кнопку прошивки
 
-# Настройка
+## Настройка
 
 Откройте файл в "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" и найдите часть кода с настройкой (очень легко найти)
 ```C++
 #define Name Value //URL to the guide
 ```
-# Остальное
+## Остальное
 
 Проверьте **[![/documentation/software/RU_README.md]()](/documentation/software/RU_README.md)** (докуметации/программноеобеспечение/RU_README.md)
