@@ -1,4 +1,4 @@
-[![BACK SHIELD](https://img.shields.io/badge/..%2F-Back-444?style=flat-square)](..)
+[![BACK SHIELD](https://img.shields.io/badge/..%2F-Назад-444?style=flat-square)](..)
 [![ENGLISH SHIELD](https://img.shields.io/badge/-English-444?style=flat-square)]()
 [![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-08f?style=flat-square)](RU_README.md)
 
