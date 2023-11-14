@@ -5,7 +5,7 @@
 # Robot Firmware Quick Guide
 This firmware is made for our soccer robot
 
-# Installing
+## Installing
 
 1. Download **![firmware.ino](/src/software/firmware/firmware.ino)**
 1. Open this file in the "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**"
@@ -14,12 +14,12 @@ This firmware is made for our soccer robot
 1. Specify the board and port
 1. Press the flash button
 
-# Settings
+## Settings
 
 Open the file in "**[![Arduino IDE]()](https://www.arduino.cc/en/software)**" and find the settings part (very easy to find)
 ```C++
 #define Name Value //URL to the guide
 ```
-# Other
+## Other
 
 Check **[![/documentation/software/README.md]()](/documentation/software/)**
