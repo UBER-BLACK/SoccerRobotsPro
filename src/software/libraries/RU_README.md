@@ -1,5 +1,5 @@
-[![BACK SHIELD](https://img.shields.io/badge/..%2F-Back-444?style=flat-square)](..)
-[![GOTO SHIELD](https://img.shields.io/badge/..%2Ffirmware-Go-444?style=flat-square)](../firmware/)
+[![BACK SHIELD](https://img.shields.io/badge/..%2F-Назад-444?style=flat-square)](..)
+[![GOTO SHIELD](https://img.shields.io/badge/..%2Ffirmware-Перейти-444?style=flat-square)](../firmware/RU_README.md)
 [![ENGLISH SHIELD](https://img.shields.io/badge/-English-444?style=flat-square)]()
 [![RUSSIAN SHIELD](https://img.shields.io/badge/-Русский-08f?style=flat-square)](RU_README.md)
 [![DOWNLOAD DRIVER 1](https://img.shields.io/badge/-Скачать_Драйвер_1-F00?style=flat-square)](https://github.com/GyverLibs/GyverMotor/releases/download/4.0/GyverMotor.zip)
