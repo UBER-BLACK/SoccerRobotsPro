@@ -22,7 +22,7 @@
 #define MonitorMode               0          //--
 #define MonitorScreen             0          //--
 //
-#define Gearbox_MaxSpeed          0.9        //--
+#define Gearbox_MaxSpeed          0.8        //--
 #define Gearbox_MinSpeed          0.4        //--
 #define Gearbox_MinPower          20         //--
 #define Gearbox_DefGear           0          //--
